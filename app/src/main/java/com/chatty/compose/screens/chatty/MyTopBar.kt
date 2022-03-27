@@ -1,4 +1,4 @@
-package com.chatty.compose.ui.components
+package com.chatty.compose.screens.chatty
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +41,6 @@ fun MyTopBar() {
             }
         },
         backgroundColor = Color.White,
-        elevation = 6.dp
+        elevation = 12.dp
     )
 }

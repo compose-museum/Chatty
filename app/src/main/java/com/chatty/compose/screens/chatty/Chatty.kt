@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
-import com.chatty.compose.ui.components.MyTopBar
 
 @Composable
 fun Chatty() {
