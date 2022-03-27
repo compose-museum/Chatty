@@ -33,7 +33,7 @@ fun FriendItem(
         color = Color(0xFFF8F8F8)
     ) {
         CenterRow(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
         ) {
             CircleShapeImage(60.dp, painter = painterResource(id = avatarRes))
             Spacer(Modifier.padding(horizontal = 10.dp))
