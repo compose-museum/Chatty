@@ -1,4 +1,4 @@
-package com.chatty.compose.ui.components
+package com.chatty.compose.ui.pages
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.Chatty
+import com.chatty.compose.ui.components.MyBottomNavigationBar
+import com.chatty.compose.ui.components.Screens
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -15,7 +17,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun AppScaffold() {
+fun Home() {
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     var selectedScreens by remember { mutableStateOf(0) }
