@@ -73,4 +73,7 @@ dependencies {
     // coil
     implementation "io.coil-kt:coil-compose:1.4.0"
 
+    // ConstraintLayout
+    def constraintlayout_version = "1.0.0"
+    implementation "androidx.constraintlayout:constraintlayout-compose:$constraintlayout_version"
 }
