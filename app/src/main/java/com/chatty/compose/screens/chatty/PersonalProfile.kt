@@ -26,9 +26,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.chatty.compose.R
+import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.utils.LocalNavController
 
 @Preview
 @Composable
@@ -116,12 +118,8 @@ fun PersonalProfileHeader() {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PersonalProfileDetail() {
-    var genderEditable by remember { mutableStateOf(false) }
-    var ageEditable by remember { mutableStateOf(false) }
-    var phoneEditable by remember { mutableStateOf(false) }
-    var emailEditable by remember { mutableStateOf(false) }
 
-
+    val navController = LocalNavController.current
     Column(modifier = Modifier
         .fillMaxWidth()
     ) {
@@ -134,19 +132,19 @@ fun PersonalProfileDetail() {
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             ProfileDetailRowItem(label = "性别", content = "男") {
-
+                navController.navigate("${AppScreen.profileEdit}/gender")
             }
             ProfileDetailRowItem(label = "年龄", content = "20") {
-
+                navController.navigate("${AppScreen.profileEdit}/age")
             }
             ProfileDetailRowItem(label = "手机号", content = "10086") {
-
+                navController.navigate("${AppScreen.profileEdit}/phone")
             }
             ProfileDetailRowItem(label = "电子邮箱", content = "zinger_burger@gmail.com") {
-
+                navController.navigate("${AppScreen.profileEdit}/email")
             }
             ProfileDetailRowItem(label = "二维码", isQrCode = true) {
-
+                navController.navigate("${AppScreen.profileEdit}/qrcode")
             }
         }
     }
