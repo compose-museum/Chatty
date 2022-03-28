@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 CompositionLocalProvider(LocalNavController provides navController) {
-                    NavHost(navController, AppScreen.splash) {
+                    NavHost(navController, AppScreen.main) {
                         composable(AppScreen.splash) { Splash() }
                         composable(AppScreen.login) { Login() }
                         composable(AppScreen.register) { Register() }

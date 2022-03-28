@@ -7,12 +7,14 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 
 @Composable
 fun CircleShapeImage(
     size: Dp,
-    painter: Painter
+    painter: Painter,
+    contentScale: ContentScale = ContentScale.Fit
 ) {
     Surface(
         modifier = Modifier
@@ -21,7 +23,8 @@ fun CircleShapeImage(
     ) {
         Image(
             painter = painter,
-            contentDescription = null
+            contentDescription = null,
+            contentScale = contentScale
         )
     }
 }
