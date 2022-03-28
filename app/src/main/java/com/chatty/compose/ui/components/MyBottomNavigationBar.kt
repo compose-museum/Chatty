@@ -36,3 +36,10 @@ data class Screens(
     val resId: Int,
     val content: @Composable () -> Unit
 )
+
+object AppScreen {
+    const val login = "login"
+    const val main = "main"
+    const val register = "register"
+    const val splash = "splash"
+}

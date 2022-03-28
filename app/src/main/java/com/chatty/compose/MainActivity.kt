@@ -3,26 +3,22 @@ package com.chatty.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.chatty.compose.screens.login.Login
+import com.chatty.compose.screens.register.Register
+import com.chatty.compose.screens.splash.Splash
 import com.chatty.compose.ui.components.AppScaffold
-import com.chatty.compose.ui.components.MyBottomNavigationBar
+import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.theme.ChattyTheme
-import com.google.accompanist.pager.rememberPagerState
+import com.chatty.compose.ui.utils.LocalNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 WindowCompat.setDecorFitsSystemWindows(window, false)
                 val systemUiController = rememberSystemUiController()
                 val useDarkIcons = MaterialTheme.colors.isLight
+
                 SideEffect {
                     systemUiController.setSystemBarsColor(
                         color = Color.Transparent,
@@ -40,7 +37,17 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                AppScaffold()
+
+                val navController = rememberNavController()
+
+                CompositionLocalProvider(LocalNavController provides navController) {
+                    NavHost(navController, AppScreen.splash) {
+                        composable(AppScreen.splash) { Splash() }
+                        composable(AppScreen.login) { Login() }
+                        composable(AppScreen.register) { Register() }
+                        composable(AppScreen.main) { AppScaffold() }
+                    }
+                }
 
             }
         }
