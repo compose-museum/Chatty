@@ -127,7 +127,8 @@ fun UserProfileDetail() {
         )
         Divider(modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 5.dp))
+            .padding(top = 5.dp)
+        )
         HeightSpacer(value = 10.dp)
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
             val (genderTitleRef, ageTitleRef, phoneTitleRef, emailTitleRef) = createRefs()
