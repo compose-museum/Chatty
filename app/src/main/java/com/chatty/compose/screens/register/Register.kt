@@ -57,7 +57,6 @@ fun Register() {
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
             imageUri = it
-            //registerViewModel.createLocalAvatar(it, context)
         }
     }
 
@@ -236,8 +235,8 @@ fun Register() {
             Button(
                 onClick = {
                     navController.navigate(AppScreen.main) {
-                        popUpTo(AppScreen.login) { inclusive = true }
                         popUpTo(AppScreen.register) { inclusive = true }
+                        popUpTo(AppScreen.login) { inclusive = true }
                     }
                 },
                 enabled = (password == repeatPassword && password.isNotEmpty()),

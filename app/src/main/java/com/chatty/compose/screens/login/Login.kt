@@ -24,12 +24,11 @@ import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.utils.LocalNavController
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun Login() {
-    val scope = rememberCoroutineScope()
+
     val navController = LocalNavController.current
     val keyboardController = LocalSoftwareKeyboardController.current
     var openDropMenu by remember { mutableStateOf(false) }
@@ -138,10 +137,8 @@ fun Login() {
             HeightSpacer(value = 20.dp)
             Button(
                 onClick = {
-                    scope.launch {
-                        navController.navigate(AppScreen.main) {
-                            popUpTo(AppScreen.login) { inclusive = true }
-                        }
+                    navController.navigate(AppScreen.main) {
+                        popUpTo(AppScreen.login) { inclusive = true }
                     }
                 },
                 modifier = Modifier
