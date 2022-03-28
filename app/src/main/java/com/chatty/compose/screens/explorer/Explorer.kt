@@ -5,7 +5,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -125,10 +124,11 @@ fun SocialItem(
                     text = name,
                     style = MaterialTheme.typography.h6
                 )
-                HeightSpacer(value = 4.dp)
+                HeightSpacer(value = 2.dp)
                 Text(
                     text = time,
-                    style = MaterialTheme.typography.body2
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.alpha(0.5f)
                 )
             }
             IconButton(onClick = { /*TODO*/ }) {
@@ -142,10 +142,10 @@ fun SocialItem(
         HeightSpacer(value = 4.dp)
         CenterRow {
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Rounded.Favorite, null)
+                Icon(painterResource(R.drawable.heart), null, modifier = Modifier.size(24.dp))
             }
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(painterResource(id = R.drawable.chat), null, modifier = Modifier.size(24.dp))
+                Icon(painterResource(id = R.drawable.comment), null, modifier = Modifier.size(24.dp))
             }
         }
     }

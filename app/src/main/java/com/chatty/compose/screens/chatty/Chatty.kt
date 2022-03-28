@@ -30,7 +30,7 @@ fun Chatty() {
             FriendItemData(R.drawable.ava6, "01x", "逝者如斯夫，不舍昼夜", 4),
             FriendItemData(R.drawable.ava7, "Horizon", "对韭当割，人生几何。", 99),
             FriendItemData(R.drawable.ava8, "鲤鱼", "未曾谋面的也终将会相遇的，慢慢来吧，慢慢约会吧\uD83D\uDC31"),
-            FriendItemData(R.drawable.ava9, "小太阳", "这个人很懒，什么都没留下。"),
+            FriendItemData(R.drawable.ava9, "小太阳", "这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。"),
             FriendItemData(R.drawable.ava10, "时光", "回到过去")
         )
 
