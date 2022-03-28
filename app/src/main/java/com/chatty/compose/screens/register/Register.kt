@@ -36,6 +36,7 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.theme.ok
 import com.chatty.compose.ui.utils.LocalNavController
+import com.chatty.compose.ui.utils.popUpAllBackStackEntry
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -235,8 +236,7 @@ fun Register() {
             Button(
                 onClick = {
                     navController.navigate(AppScreen.main) {
-                        popUpTo(AppScreen.register) { inclusive = true }
-                        popUpTo(AppScreen.login) { inclusive = true }
+                        popUpAllBackStackEntry(navController)
                     }
                 },
                 enabled = (password == repeatPassword && password.isNotEmpty()),
