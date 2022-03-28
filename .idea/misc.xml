@@ -13,12 +13,21 @@
         <entry key="../../../../../../layout/compose-model-1648456121090.xml" value="0.375" />
         <entry key="../../../../../../layout/compose-model-1648459816624.xml" value="0.3425925925925926" />
         <entry key="../../../../../../layout/compose-model-1648466398411.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1648474729881.xml" value="0.15244932432432431" />
+        <entry key="../../../../../../layout/compose-model-1648474824926.xml" value="1.0" />
+        <entry key="../../../../../../layout/compose-model-1648474841941.xml" value="0.45" />
+        <entry key="../../../../../../layout/compose-model-1648475792371.xml" value="0.28631756756756754" />
+        <entry key="../../../../../../layout/compose-model-1648477279246.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1648477354883.xml" value="0.1" />
+        <entry key="../../../../../../layout/compose-model-1648477406123.xml" value="0.28631756756756754" />
         <entry key="app/src/main/res/drawable/error.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/expand.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/expand_right.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/login.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/logout.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/qr_code.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/settings.xml" value="0.185" />
         <entry key="app/src/main/res/drawable/visibility.xml" value="0.185" />
       </map>
     </option>
