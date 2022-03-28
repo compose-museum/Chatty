@@ -16,24 +16,24 @@ import org.koin.core.logger.Level
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-class MainApplication: Application() {
-  override fun onCreate() {
-    super.onCreate()
-    startKoin {
-      androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
-      androidContext(this@MainApplication)
-      modules (
-        module {
-          factory(named("IO")) { CoroutineScope(Dispatchers.IO) }
-          single { IceDatabase.getDatabase(get()) }
-          single { UserRepository(get<IceDatabase>().userDao()) }
+class MainApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
+            androidContext(this@MainApplication)
+            modules(
+                module {
+                    factory(named("IO")) { CoroutineScope(Dispatchers.IO) }
+                    single { IceDatabase.getDatabase(get()) }
+                    single { UserRepository(get<IceDatabase>().userDao()) }
 //          viewModel { AppViewModel(get()) }
-          viewModel { RegisterViewModel(get()) }
+                    viewModel { RegisterViewModel(get()) }
 //          viewModel { HomeViewModel(get()) }
-          viewModel { LoginViewModel(get()) }
+                    viewModel { LoginViewModel(get()) }
 //          viewModel { SearchViewModel(get()) }
+                }
+            )
         }
-      )
     }
-  }
 }

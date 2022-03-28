@@ -29,81 +29,87 @@ import org.koin.androidx.compose.getViewModel
 fun App() {
 //  val appViewModel = getViewModel<AppViewModel>()
 //  val homeViewModel = getViewModel<HomeViewModel>()
-  val registerViewModel = getViewModel<RegisterViewModel>()
-  val loginViewModel = getViewModel<LoginViewModel>()
+    val registerViewModel = getViewModel<RegisterViewModel>()
+    val loginViewModel = getViewModel<LoginViewModel>()
 //  val searchViewModel = getViewModel<SearchViewModel>()
 
-  val navController = rememberAnimatedNavController()
-  val systemUiController = rememberSystemUiController()
-  val useDarkIcons = MaterialTheme.colors.isLight
+    val navController = rememberAnimatedNavController()
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
 
-  SideEffect {
-    systemUiController.setStatusBarColor(Color.Transparent, useDarkIcons)
-  }
-
-  AnimatedNavHost(
-    navController = navController,
-    startDestination = AppScreen.login.route,
-  ) {
-    composable(
-      route = AppScreen.login.route,
-      enterTransition = {
-        when(initialState.destination.route) {
-          else -> null
-        }
-      },
-      exitTransition = {
-        when(targetState.destination.route) {
-          AppScreen.register.route -> slideOutOfContainer(
-            towards = AnimatedContentScope.SlideDirection.Left,
-            animationSpec = tween(500)
-          )
-          AppScreen.home.route -> slideOutOfContainer(
-            towards = AnimatedContentScope.SlideDirection.Left,
-            animationSpec = tween(500)
-          )
-          else -> null
-        }
-      }
-    ) {
-      hideIME()
-      Login(navController, loginViewModel)
-    }
-    composable(
-      route = AppScreen.register.route,
-      enterTransition = {
-        when(initialState.destination.route) {
-          AppScreen.login.route -> slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(500))
-          else -> null
-        }
-      }
-    ) {
-      hideIME()
-      Register(navController, registerViewModel)
+    SideEffect {
+        systemUiController.setStatusBarColor(Color.Transparent, useDarkIcons)
     }
 
-    composable(
-      route = AppScreen.home.route,
-      enterTransition = {
-        when(initialState.destination.route) {
-          AppScreen.search.route -> slideIntoContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(500))
-          else -> null
-        }
-      },
-      exitTransition = {
-        when(targetState.destination.route) {
-          AppScreen.search.route ->
-            slideOutOfContainer(
-              AnimatedContentScope.SlideDirection.Left,
-              animationSpec = tween(500)
-            )
-          else -> null
-        }
-      }
+    AnimatedNavHost(
+        navController = navController,
+        startDestination = AppScreen.login.route,
     ) {
-      hideIME()
-      Home()
-    }
+        composable(
+            route = AppScreen.login.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    AppScreen.register.route -> slideOutOfContainer(
+                        towards = AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(500)
+                    )
+                    AppScreen.home.route -> slideOutOfContainer(
+                        towards = AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(500)
+                    )
+                    else -> null
+                }
+            }
+        ) {
+            hideIME()
+            Login(navController, loginViewModel)
+        }
+        composable(
+            route = AppScreen.register.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    AppScreen.login.route -> slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(500)
+                    )
+                    else -> null
+                }
+            }
+        ) {
+            hideIME()
+            Register(navController, registerViewModel)
+        }
+
+        composable(
+            route = AppScreen.home.route,
+            enterTransition = {
+                when (initialState.destination.route) {
+                    AppScreen.search.route -> slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(500)
+                    )
+                    else -> null
+                }
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    AppScreen.search.route ->
+                        slideOutOfContainer(
+                            AnimatedContentScope.SlideDirection.Left,
+                            animationSpec = tween(500)
+                        )
+                    else -> null
+                }
+            }
+        ) {
+            hideIME()
+            Home()
+        }
 
 //    composable(
 //      route = AppScreen.splash.route
@@ -137,14 +143,17 @@ fun App() {
 //      Search(navController, searchViewModel)
 //    }
 
-  }
+    }
 }
 
 @Composable
 fun hideIME() {
-  with(LocalContext.current) {
-    (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).run {
-      hideSoftInputFromWindow((this@with as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+    with(LocalContext.current) {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).run {
+            hideSoftInputFromWindow(
+                (this@with as Activity).currentFocus?.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
     }
-  }
 }
