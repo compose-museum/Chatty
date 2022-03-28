@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-
                 val navController = rememberNavController()
 
                 CompositionLocalProvider(LocalNavController provides navController) {

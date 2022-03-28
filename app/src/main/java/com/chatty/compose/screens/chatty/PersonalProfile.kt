@@ -1,30 +1,22 @@
 package com.chatty.compose.screens.chatty
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.FocusInteraction
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
-
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.chatty.compose.R
+import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
 
@@ -199,14 +192,14 @@ fun ProfileDetailRowItem(label: String, content: String = "", isQrCode: Boolean 
 
 @Composable
 fun BottomSettingIcons() {
-    Row(
+    CenterRow(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .height(80.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row() {
+        Row {
             IconButton(
                 onClick = {}
             ) {
@@ -216,6 +209,7 @@ fun BottomSettingIcons() {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(painter = painterResource(id = R.drawable.settings), contentDescription = null)
+                    HeightSpacer(value = 4.dp)
                     Text(text = "设置", fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 }
             }
@@ -229,6 +223,7 @@ fun BottomSettingIcons() {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Icon(painter = painterResource(id = R.drawable.dark_mode), contentDescription = null)
+                    HeightSpacer(value = 4.dp)
                     Text(text = "主题", fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 }
             }
@@ -243,6 +238,7 @@ fun BottomSettingIcons() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(painter = painterResource(id = R.drawable.logout), contentDescription = null)
+                HeightSpacer(value = 4.dp)
                 Text(text = "注销", fontSize = 15.sp, fontWeight = FontWeight.Bold)
             }
         }

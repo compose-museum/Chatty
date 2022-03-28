@@ -92,17 +92,16 @@ fun TopBar(
             .height(56.dp),
         color = Color(0xFFF8F8F8),
     ) {
-        Box(
+        CenterRow(
             modifier = Modifier.padding(12.dp)
         ) {
             CircleShapeImage(size = 30.dp, painter = painterResource(id = R.drawable.ava4), contentScale = ContentScale.Crop)
-            WidthSpacer(value = 6.dp)
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "探索新鲜事", style = MaterialTheme.typography.h6)
-            }
+        }
+        Box(
+            modifier = Modifier.fillMaxWidth(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6)
         }
     }
 }
@@ -141,7 +140,7 @@ fun SocialItem(
             text = content
         )
         HeightSpacer(value = 4.dp)
-        CenterRow() {
+        CenterRow {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(Icons.Rounded.Favorite, null)
             }
