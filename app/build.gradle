@@ -76,4 +76,9 @@ dependencies {
     // ConstraintLayout
     def constraintlayout_version = "1.0.0"
     implementation "androidx.constraintlayout:constraintlayout-compose:$constraintlayout_version"
+
+
+    // TinyPinyin
+    implementation 'com.github.promeg:tinypinyin:2.0.3'
+    implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
 }

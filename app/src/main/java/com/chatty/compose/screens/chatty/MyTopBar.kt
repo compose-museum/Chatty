@@ -18,7 +18,7 @@ import com.chatty.compose.R
 import com.chatty.compose.ui.components.CircleShapeImage
 
 @Composable
-fun MyTopBar() {
+fun ChattyTopBar() {
     TopAppBar(
         title = {
             Box(

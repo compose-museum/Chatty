@@ -86,7 +86,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun hideIME() {
+    private fun hideIME() {
         with(getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager) {
             hideSoftInputFromWindow((this@MainActivity as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }

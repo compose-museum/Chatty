@@ -22,7 +22,7 @@ import com.chatty.compose.ui.components.WidthSpacer
 import kotlin.random.Random
 
 @Composable
-fun FriendItem(
+fun FriendMessageItem(
     avatarRes: Int,
     friendName: String,
     lastMsg: String,
@@ -67,10 +67,3 @@ fun FriendItem(
         }
     }
 }
-
-data class FriendItemData(
-    val avatarRes: Int,
-    val friendName: String,
-    val lastMsg: String,
-    val unreadCount: Int = 0
-)
