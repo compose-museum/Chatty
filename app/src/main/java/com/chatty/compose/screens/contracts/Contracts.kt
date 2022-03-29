@@ -1,43 +1,31 @@
-package com.chatty.compose.screens.chatty
+package com.chatty.compose.screens.contracts
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
-import com.chatty.compose.bean.FriendMessageItemData
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
-import com.chatty.compose.ui.components.NumberChips
-import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.ok
 import com.github.promeg.pinyinhelper.Pinyin
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import okhttp3.CookieJar
-import kotlin.random.Random
 
 
 data class AlphaState(
@@ -77,8 +65,7 @@ fun Contracts() {
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 48.dp),
+                    .fillMaxSize(),
                 state = lazyListState
             ) {
                 sortedFriends.forEach { it ->
@@ -139,24 +126,23 @@ private fun binarySearch(preSum: List<Int>, target: Int): Int {
 @Composable
 fun ContractTopBar() {
     TopAppBar(
-        title = {
-            Box(
+        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
+        backgroundColor = Color.White
+    ) {
+        CenterRow {
+            Box (
                 modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
             ) {
-                Text("通讯录", modifier = Modifier)
+                Text("通讯录", modifier = Modifier.align(Alignment.Center))
+                IconButton(
+                    onClick = { /*TODO*/ },
+                    modifier=  Modifier.align(Alignment.BottomEnd)
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends")
+                }
             }
-        },
-        actions = {
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends")
-            }
-        },
-        backgroundColor = Color.White,
-        elevation = 12.dp
-    )
+        }
+    }
 }
 
 
