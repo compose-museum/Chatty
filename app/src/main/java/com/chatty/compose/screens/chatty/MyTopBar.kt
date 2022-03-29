@@ -17,7 +17,7 @@ import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 
 @Composable
-fun MyTopBar() {
+fun ChattyTopBar() {
     TopAppBar(
         contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
         backgroundColor = Color.White

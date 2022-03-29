@@ -6,6 +6,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.Chatty
+import com.chatty.compose.screens.chatty.Contracts
 import com.chatty.compose.screens.chatty.PersonalProfile
 import com.chatty.compose.screens.explorer.Explorer
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -24,7 +25,7 @@ fun AppScaffold() {
 
     val screens = listOf(
         Screens("Chatty", R.drawable.chat) { Chatty() },
-        Screens("通讯录", R.drawable.list) { },
+        Screens("通讯录", R.drawable.list) { Contracts() },
         Screens("发现", R.drawable.explore) { Explorer() },
         Screens("我", R.drawable.person) {  }
     )
