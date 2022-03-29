@@ -1,16 +1,12 @@
 package com.chatty.compose.ui.draw
 
-import androidx.compose.foundation.layout.displayCutoutPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.DrawModifier
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.ui.theme.ok
-
 
 fun Modifier.drawLoginStateRing() = this.then(
     object : DrawModifier {

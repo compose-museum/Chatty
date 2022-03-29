@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.chatty.compose.screens.chatty.PersonalProfile
 import com.chatty.compose.screens.chatty.PersonalProfileEditor
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
@@ -29,18 +28,14 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ChattyTheme {
-
-                WindowCompat.setDecorFitsSystemWindows(window, false)
                 val systemUiController = rememberSystemUiController()
                 val useDarkIcons = MaterialTheme.colors.isLight
 
                 SideEffect {
-                    systemUiController.setSystemBarsColor(
-                        color = Color.Transparent,
-                        darkIcons = useDarkIcons
-                    )
+                    systemUiController.setSystemBarsColor(Color.Transparent, useDarkIcons)
                 }
 
                 val navController = rememberNavController()
@@ -86,7 +81,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun hideIME() {
+    private fun hideIME() {
         with(getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager) {
             hideSoftInputFromWindow((this@MainActivity as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }

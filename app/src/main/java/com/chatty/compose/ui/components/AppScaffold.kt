@@ -1,11 +1,9 @@
 package com.chatty.compose.ui.components
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.Chatty
 import com.chatty.compose.screens.chatty.PersonalProfile
@@ -18,9 +16,11 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun AppScaffold() {
+    
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
     var selectedScreens by remember { mutableStateOf(0) }
+    val scaffoldState = rememberScaffoldState()
 
     val screens = listOf(
         Screens("Chatty", R.drawable.chat) { Chatty() },
@@ -44,15 +44,13 @@ fun AppScaffold() {
         drawerContent = {
            PersonalProfile()
         },
-        modifier = Modifier
-            .systemBarsPadding()
-            .navigationBarsPadding(),
+        scaffoldState = scaffoldState
     ) {
         HorizontalPager(
             count = screens.size,
-            modifier = Modifier.fillMaxSize(),
             state = pagerState,
-            userScrollEnabled = false
+            userScrollEnabled = false,
+            contentPadding = it
         ) { page ->
             screens.forEachIndexed { index, screens ->
                 when (page) {
@@ -67,4 +65,11 @@ fun AppScaffold() {
             selectedScreens = page
         }
     }
+    
+    BackHandler(scaffoldState.drawerState.isOpen) {
+        scope.launch {
+            scaffoldState.drawerState.close()
+        }
+    }
+    
 }

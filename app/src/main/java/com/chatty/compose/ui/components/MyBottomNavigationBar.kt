@@ -1,5 +1,6 @@
 package com.chatty.compose.ui.components
 
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -18,7 +19,8 @@ fun MyBottomNavigationBar(
     onClick: (targetIndex: Int) -> Unit
 ) {
     BottomNavigation(
-        backgroundColor = Color.White
+        backgroundColor = Color.White,
+        modifier = Modifier.navigationBarsPadding()
     ) {
         screens.forEachIndexed { index, screen ->
             BottomNavigationItem(
