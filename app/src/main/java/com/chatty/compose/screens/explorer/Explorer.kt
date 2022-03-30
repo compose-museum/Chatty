@@ -1,5 +1,6 @@
 package com.chatty.compose.screens.explorer
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,14 +8,10 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
@@ -22,15 +19,17 @@ import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Explorer() {
 
     val lazyState = rememberLazyListState()
-
+    val scope = rememberCoroutineScope()
     val firstItemSize by remember {
         derivedStateOf {
-            if (lazyState.layoutInfo.visibleItemsInfo.isNotEmpty() && lazyState.firstVisibleItemIndex == 0)
+            if (lazyState.layoutInfo.visibleItemsInfo.isNotEmpty())
                 lazyState.layoutInfo.visibleItemsInfo[0].size
             else null
         }
@@ -78,34 +77,16 @@ fun Explorer() {
                 SocialItem(R.drawable.ava5, name = "香辣鸡腿堡")
             }
         }
-        TopBar(topBarAlpha)
-    }
-}
-
-@Composable
-fun TopBar(
-    alpha: Float
-) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .alpha(alpha),
-        color = Color(0xFFF8F8F8),
-    ) {
-        CenterRow(
-            modifier = Modifier
-                .statusBarsPadding()
-                .padding(12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+        ExplorerTopBar(topBarAlpha)
+        ExplorerFab(
+            boxScope = this,
+            targetState = topBarAlpha,
+            editAction = { /*TODO*/ }
         ) {
-            CircleShapeImage(size = 30.dp, painter = painterResource(id = R.drawable.ava4), contentScale = ContentScale.Crop)
-            WidthSpacer(6.dp)
-            Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6)
+            scope.launch { lazyState.scrollToItem(0) }
         }
     }
 }
-
 
 @Composable
 fun SocialItem(
