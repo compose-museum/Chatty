@@ -1,6 +1,5 @@
 package com.chatty.compose.screens.contracts
 
-import android.os.Bundle
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,11 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavOptions
-import androidx.navigation.get
 import com.chatty.compose.R
-import com.chatty.compose.screens.chatty.UserProfile
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow

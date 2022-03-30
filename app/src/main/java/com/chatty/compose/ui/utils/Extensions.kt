@@ -1,5 +1,9 @@
-package com.chatty.compose.ui.draw
+package com.chatty.compose.ui.utils
 
+import android.app.Activity
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.ComponentActivity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.DrawModifier
 import androidx.compose.ui.geometry.Offset
@@ -7,6 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.ui.theme.ok
+
+fun Context.hideIME() {
+    (getSystemService(ComponentActivity.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow((this as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+}
 
 fun Modifier.drawLoginStateRing() = this.then(
     object : DrawModifier {

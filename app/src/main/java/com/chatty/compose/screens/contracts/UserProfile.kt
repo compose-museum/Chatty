@@ -24,7 +24,7 @@ import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
-import com.chatty.compose.ui.draw.drawLoginStateRing
+import com.chatty.compose.ui.utils.drawLoginStateRing
 
 
 @Composable
@@ -44,7 +44,7 @@ fun UserProfile(user: UserProfileData) {
         ) {
             Image(
                 painter = painterResource(id = user.avatarRes),
-                contentDescription = "avator",
+                contentDescription = "avatar",
                 modifier = Modifier
                     .size(150.dp)
                     .drawLoginStateRing()

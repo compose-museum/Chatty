@@ -6,7 +6,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.Chatty
-import com.chatty.compose.screens.chatty.PersonalProfile
+import com.chatty.compose.screens.drawer.PersonalProfile
 import com.chatty.compose.screens.contracts.Contracts
 import com.chatty.compose.screens.explorer.Explorer
 import com.chatty.compose.ui.utils.LocalScaffoldState

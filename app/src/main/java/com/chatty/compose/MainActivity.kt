@@ -1,9 +1,6 @@
 package com.chatty.compose
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
@@ -16,8 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.chatty.compose.bean.UserProfileData
-import com.chatty.compose.screens.chatty.PersonalProfileEditor
+import com.chatty.compose.screens.drawer.PersonalProfileEditor
 import com.chatty.compose.screens.chatty.UserProfile
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.screens.login.Login
@@ -27,6 +23,7 @@ import com.chatty.compose.ui.components.AppScaffold
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.theme.ChattyTheme
 import com.chatty.compose.ui.utils.LocalNavController
+import com.chatty.compose.ui.utils.hideIME
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
@@ -92,11 +89,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-fun Context.hideIME() {
-    (getSystemService(ComponentActivity.INPUT_METHOD_SERVICE) as InputMethodManager).let {
-        it.hideSoftInputFromWindow((this as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }

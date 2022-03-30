@@ -5,7 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
@@ -17,16 +20,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chatty.compose.R
-import com.chatty.compose.hideIME
 import com.chatty.compose.screens.chatty.mock.displayMessages
 import com.chatty.compose.screens.chatty.mock.recentMessages
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.utils.LocalScaffoldState
+import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.launch
 
 @Composable

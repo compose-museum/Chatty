@@ -1,4 +1,4 @@
-package com.chatty.compose.screens.chatty
+package com.chatty.compose.screens.drawer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
