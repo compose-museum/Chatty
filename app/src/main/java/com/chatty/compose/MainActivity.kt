@@ -1,6 +1,7 @@
 package com.chatty.compose
 
 import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
@@ -92,10 +93,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    private fun hideIME() {
-        with(getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager) {
-            hideSoftInputFromWindow((this@MainActivity as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        }
+fun Context.hideIME() {
+    (getSystemService(ComponentActivity.INPUT_METHOD_SERVICE) as InputMethodManager).let {
+        it.hideSoftInputFromWindow((this as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }

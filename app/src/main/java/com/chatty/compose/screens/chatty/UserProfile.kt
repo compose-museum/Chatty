@@ -182,7 +182,6 @@ fun UserProfileDetail(user: UserProfileData) {
                 modifier = Modifier.constrainAs(genderRef) {
                     top.linkTo(genderTitleRef.top)
                     start.linkTo(barrier, 30.dp)
-                    //end.linkTo(parent.end)
                 }
             )
 
