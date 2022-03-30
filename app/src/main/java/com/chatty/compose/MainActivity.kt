@@ -64,7 +64,6 @@ class MainActivity : ComponentActivity() {
                                 type = NavType.StringType
                             })
                         ) { backStackEntry ->
-                            hideIME()
                             var category = backStackEntry.arguments?.getString("category")
                             var title = when (category) {
                                 "gender" -> "选择性别"
