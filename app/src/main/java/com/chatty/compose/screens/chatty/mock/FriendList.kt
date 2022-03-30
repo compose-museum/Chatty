@@ -1,5 +1,9 @@
 package com.chatty.compose.screens.chatty.mock
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.chatty.compose.R
 import com.chatty.compose.bean.MessageItemData
 import com.chatty.compose.bean.UserProfileData
@@ -28,7 +32,7 @@ val friends = listOf(
     UserProfileData(R.drawable.ava10, "竹蜻蜓", "回到过去")
 )
 
-val recentMessages = listOf(
+val recentMessages = mutableStateListOf(
     MessageItemData(friends[0], "I miss you", 2),
     MessageItemData(friends[1], "冬至", 5),
     MessageItemData(friends[2], "“做最好的准备  也做最坏的打算”", 16),
@@ -43,3 +47,5 @@ val recentMessages = listOf(
     MessageItemData(friends[11], "冬至", 5),
     MessageItemData(friends[12], "“做最好的准备  也做最坏的打算”", 16)
 )
+
+var displayMessages by mutableStateOf( recentMessages.toMutableList() )

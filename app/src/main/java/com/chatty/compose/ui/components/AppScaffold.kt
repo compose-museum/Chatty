@@ -9,6 +9,7 @@ import com.chatty.compose.screens.chatty.Chatty
 import com.chatty.compose.screens.chatty.PersonalProfile
 import com.chatty.compose.screens.contracts.Contracts
 import com.chatty.compose.screens.explorer.Explorer
+import com.chatty.compose.ui.utils.LocalScaffoldState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -47,15 +48,17 @@ fun AppScaffold() {
         },
         scaffoldState = scaffoldState
     ) {
-        HorizontalPager(
-            count = screens.size,
-            state = pagerState,
-            userScrollEnabled = false,
-            contentPadding = it
-        ) { page ->
-            screens.forEachIndexed { index, screens ->
-                when (page) {
-                    index -> screens.content()
+        CompositionLocalProvider(LocalScaffoldState provides scaffoldState) {
+            HorizontalPager(
+                count = screens.size,
+                state = pagerState,
+                userScrollEnabled = false,
+                contentPadding = it
+            ) { page ->
+                screens.forEachIndexed { index, screens ->
+                    when (page) {
+                        index -> screens.content()
+                    }
                 }
             }
         }

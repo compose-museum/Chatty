@@ -100,13 +100,13 @@ fun Contracts() {
                     currentSelectedAlphaIndex = it
                     scope.launch {
                         lazyListState.scrollToItem(alphaCountPreSumList[currentSelectedAlphaIndex])
+                        currentSelectedAlphaIndex = binarySearch(alphaCountPreSumList, lazyListState.firstVisibleItemIndex)
                     }
                 }
             }
         }
         LaunchedEffect(lazyListState.firstVisibleItemIndex) {
-            var index = binarySearch(alphaCountPreSumList, lazyListState.firstVisibleItemIndex)
-            currentSelectedAlphaIndex = index
+            currentSelectedAlphaIndex = binarySearch(alphaCountPreSumList, lazyListState.firstVisibleItemIndex)
         }
 
         LaunchedEffect(currentSelectedAlphaIndex) {
