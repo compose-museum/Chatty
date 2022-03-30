@@ -4,5 +4,5 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.compositionLocalOf
 
 val LocalScaffoldState = compositionLocalOf<ScaffoldState> {
-    error("CompositionLocal LocalNavController not present")
+    error("CompositionLocal LocalScaffoldState not present")
 }
