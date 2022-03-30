@@ -1,4 +1,4 @@
-package com.chatty.compose.screens.chatty
+package com.chatty.compose.screens.contracts
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

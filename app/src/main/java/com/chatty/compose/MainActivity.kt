@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
-import com.chatty.compose.screens.chatty.UserProfile
+import com.chatty.compose.screens.contracts.UserProfile
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
