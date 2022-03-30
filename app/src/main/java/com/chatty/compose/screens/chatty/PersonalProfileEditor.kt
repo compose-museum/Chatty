@@ -6,6 +6,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -137,6 +139,9 @@ fun PersonalProfileEditor(title: String, isGender: Boolean = false, isQRCode: Bo
             var inputText by remember {
                 mutableStateOf("")
             }
+            var focusRequester = remember {
+                FocusRequester()
+            }
             OutlinedTextField(
                 value = inputText,
                 onValueChange = {
@@ -144,12 +149,16 @@ fun PersonalProfileEditor(title: String, isGender: Boolean = false, isQRCode: Bo
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
+                    .padding(horizontal = 20.dp)
+                    .focusRequester(focusRequester),
                 maxLines = 1,
                 textStyle = TextStyle(
                     fontSize = 20.sp
                 ),
             )
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
+            }
         }
     }
 }
