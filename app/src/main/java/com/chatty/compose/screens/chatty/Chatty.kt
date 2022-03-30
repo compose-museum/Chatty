@@ -8,10 +8,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.mock.displayMessages
-import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.screens.chatty.mock.recentMessages
 
 @Composable
 fun Chatty() {
@@ -21,12 +18,11 @@ fun Chatty() {
             .background(Color(0xFFF8F8F8))
     ) {
         ChattyTopBar()
-
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            itemsIndexed(displayMessages) { index, item ->
+            itemsIndexed(displayMessages) { _, item ->
                 FriendMessageItem(item.userProfile.avatarRes, item.userProfile.nickname, item.lastMsg, item.unreadCount)
             }
         }
