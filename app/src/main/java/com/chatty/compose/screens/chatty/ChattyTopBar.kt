@@ -72,8 +72,8 @@ fun ChattyTopBar() {
                     value = searchContent,
                     onValueChange = {
                         searchContent = it
-                        displayMessages = recentMessages.filter {
-                            it.lastMsg.contains(searchContent) || it.userProfile.nickname.contains(searchContent)
+                        displayMessages = recentMessages.filter { result ->
+                            result.lastMsg.contains(searchContent) || result.userProfile.nickname.contains(searchContent)
                         }.toMutableList()
                     },
                     modifier = Modifier
