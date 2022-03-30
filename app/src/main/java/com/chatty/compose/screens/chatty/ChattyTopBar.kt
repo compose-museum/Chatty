@@ -1,15 +1,13 @@
 package com.chatty.compose.screens.chatty
 
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -44,7 +42,9 @@ fun ChattyTopBar() {
         backgroundColor = Color.White
     ) {
         CenterRow(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
@@ -77,22 +77,28 @@ fun ChattyTopBar() {
                         }.toMutableList()
                     },
                     modifier = Modifier
-                        .width(270.dp)
-                        .height(36.dp)
-                        .border(1.dp, Color.Black, RoundedCornerShape(2.dp))
+                        .padding(horizontal = 4.dp)
                         .focusRequester(focusRequester),
                     textStyle = TextStyle(fontSize = 16.sp)
                 ) { innerText ->
-                    Box(contentAlignment = Alignment.CenterStart, modifier =  Modifier.padding(start = 10.dp)) {
-                        innerText()
+                    CenterRow(Modifier.fillMaxWidth()) {
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.CenterStart
+                        ) {
+                            innerText()
+                        }
+                        IconButton(
+                            onClick = {
+                                isSearching = false
+                                displayMessages = recentMessages
+                                searchContent = ""
+                            },
+                        ) {
+                            Icon(Icons.Filled.Close, null)
+                        }
                     }
                 }
-
-                Text("取消", Modifier.clickable {
-                    isSearching = false
-                    displayMessages = recentMessages
-                    searchContent = ""
-                })
             }
             LaunchedEffect(isSearching) {
                 if (isSearching) {
