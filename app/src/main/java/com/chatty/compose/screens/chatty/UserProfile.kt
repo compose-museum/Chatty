@@ -15,19 +15,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.chatty.compose.R
+import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.draw.drawLoginStateRing
 
 
-@Preview
 @Composable
-fun UserProfile() {
+fun UserProfile(user: UserProfileData) {
     val verticalScrollState = rememberScrollState()
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -38,30 +39,32 @@ fun UserProfile() {
     ) {
         Box(modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp),
+            .height(200.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ava2),
+                painter = painterResource(id = user.avatarRes),
                 contentDescription = "avator",
                 modifier = Modifier
-                    .size(250.dp)
+                    .size(150.dp)
                     .drawLoginStateRing()
                     .clip(CircleShape)
             )
         }
         Text(
-            text = "Zinger Burger",
+            text = user.nickname,
             fontSize = 40.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.Monospace,
         )
         HeightSpacer(value = 10.dp)
         Text(
-            text = "To be or not to be, that's a question",
+            text = user.motto,
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Companion.Gray
+            color = Color.Companion.Gray,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
         )
         HeightSpacer(value = 15.dp)
         Row(modifier = Modifier
@@ -110,14 +113,14 @@ fun UserProfile() {
             }
         }
         HeightSpacer(value = 10.dp)
-        UserProfileDetail()
+        UserProfileDetail(user)
         HeightSpacer(value = 20.dp)
         MoreFriendOptions()
     }
 }
 
 @Composable
-fun UserProfileDetail() {
+fun UserProfileDetail(user: UserProfileData) {
     Column(Modifier.fillMaxWidth()) {
         Text(
             text = "用户详情",
@@ -172,7 +175,7 @@ fun UserProfileDetail() {
             )
 
             Text(
-                text = "未知",
+                text = user.gender ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
@@ -184,7 +187,7 @@ fun UserProfileDetail() {
             )
 
             Text(
-                text = "20",
+                text = user.age?.toString() ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
@@ -194,7 +197,7 @@ fun UserProfileDetail() {
                 }
             )
             Text(
-                text = "10086",
+                text = user.phone ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
@@ -204,7 +207,7 @@ fun UserProfileDetail() {
                 }
             )
             Text(
-                text = "zinger_burger@gmail.com",
+                text = user.email ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,

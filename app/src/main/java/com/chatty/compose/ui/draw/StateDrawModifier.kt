@@ -11,7 +11,7 @@ import com.chatty.compose.ui.theme.ok
 fun Modifier.drawLoginStateRing() = this.then(
     object : DrawModifier {
         override fun ContentDrawScope.draw() {
-            val circleRadius = 30.dp.toPx()
+            val circleRadius = 20.dp.toPx()
             drawContent()
             drawCircle(
                 color = Color.White,

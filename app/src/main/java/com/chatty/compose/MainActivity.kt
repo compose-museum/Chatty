@@ -15,7 +15,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.screens.chatty.PersonalProfileEditor
+import com.chatty.compose.screens.chatty.UserProfile
+import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
 import com.chatty.compose.screens.splash.Splash
@@ -57,6 +60,16 @@ class MainActivity : ComponentActivity() {
                         composable(AppScreen.main) {
                             hideIME()
                             AppScaffold()
+                        }
+                        composable("${AppScreen.userProfile}/{uid}",
+                            arguments = listOf(navArgument("uid") {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            var uid = backStackEntry.arguments?.getString("uid")!!
+                            // 待改进
+                            var user = friends.find { it.uid == uid }!!
+                            UserProfile(user = user)
                         }
                         composable(
                             "${AppScreen.profileEdit}/{category}",

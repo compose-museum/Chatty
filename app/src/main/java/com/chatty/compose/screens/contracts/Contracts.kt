@@ -1,5 +1,6 @@
 package com.chatty.compose.screens.contracts
 
+import android.os.Bundle
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,11 +20,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavDestination
+import androidx.navigation.NavOptions
+import androidx.navigation.get
 import com.chatty.compose.R
+import com.chatty.compose.screens.chatty.UserProfile
 import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.theme.ok
+import com.chatty.compose.ui.utils.LocalNavController
 import com.github.promeg.pinyinhelper.Pinyin
 import kotlinx.coroutines.launch
 
@@ -37,6 +44,7 @@ data class AlphaState(
 @Preview
 @Composable
 fun Contracts() {
+    val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
     var currentSelectedAlphaIndex by remember { mutableStateOf(0) }
     Column(
@@ -46,7 +54,7 @@ fun Contracts() {
     ) {
         ContractTopBar()
         var sortedFriends = friends.groupBy {
-            Pinyin.toPinyin(it.friendName.first()).first()
+            Pinyin.toPinyin(it.nickname.first()).first()
         }.toSortedMap()
         val preSumIndexToStateMap = remember(sortedFriends) { mutableMapOf<Int, AlphaState>() }
         val alphaCountPreSumList = remember(sortedFriends) {
@@ -80,8 +88,10 @@ fun Contracts() {
                             color = Color(0xFF0079D3)
                         )
                     }
-                    itemsIndexed(it.value) { index, item ->
-                        FriendItem(item.avatarRes, item.friendName, item.lastMsg, item.unreadCount)
+                    itemsIndexed(it.value) { index, user ->
+                        FriendItem(user.avatarRes, user.nickname, user.motto) {
+                            navController.navigate("${AppScreen.userProfile}/${user.uid}")
+                        }
                     }
                 }
             }
@@ -152,15 +162,15 @@ private val friendItemHeight = 90.dp
 fun FriendItem(
     avatarRes: Int,
     friendName: String,
-    lastMsg: String,
-    unreadCount: Int = 0
+    motto: String,
+    onClick: () -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .height(friendItemHeight)
             .clickable {
-
+                onClick()
             },
         color = Color(0xFFF8F8F8)
     ) {
@@ -178,7 +188,7 @@ fun FriendItem(
                 )
                 Spacer(Modifier.padding(vertical = 3.dp))
                 Text(
-                    text = lastMsg,
+                    text = motto,
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis

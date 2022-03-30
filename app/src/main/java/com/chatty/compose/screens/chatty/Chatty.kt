@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.screens.chatty.mock.recentMessages
 
 @Composable
 fun Chatty() {
@@ -24,8 +25,8 @@ fun Chatty() {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            itemsIndexed(friends) { index, item ->
-                FriendMessageItem(item.avatarRes, item.friendName, item.lastMsg, item.unreadCount)
+            itemsIndexed(recentMessages) { index, item ->
+                FriendMessageItem(item.userProfile.avatarRes, item.userProfile.nickname, item.lastMsg, item.unreadCount)
             }
         }
     }

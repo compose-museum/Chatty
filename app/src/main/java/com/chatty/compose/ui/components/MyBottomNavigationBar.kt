@@ -44,5 +44,6 @@ object AppScreen {
     const val main = "main"
     const val register = "register"
     const val splash = "splash"
+    const val userProfile = "user_profile"
     const val profileEdit = "profile_edit"
 }
