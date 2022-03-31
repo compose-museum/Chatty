@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chatty.compose.R
@@ -28,6 +29,7 @@ import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.utils.LocalScaffoldState
 import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.launch
+import java.util.*
 
 @Composable
 fun ChattyTopBar() {
@@ -71,9 +73,9 @@ fun ChattyTopBar() {
                 BasicTextField(
                     value = searchContent,
                     onValueChange = {
-                        searchContent = it
+                        searchContent = it.lowercase(Locale.getDefault())
                         displayMessages = recentMessages.filter { result ->
-                            result.lastMsg.contains(searchContent) || result.userProfile.nickname.contains(searchContent)
+                            result.userProfile.nickname.lowercase(Locale.getDefault()).contains(searchContent)
                         }.toMutableList()
                     },
                     modifier = Modifier

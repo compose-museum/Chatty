@@ -1,6 +1,5 @@
 package com.chatty.compose.screens.contracts
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -25,7 +24,7 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.theme.ok
-import com.chatty.compose.ui.utils.LocalNavController
+import com.chatty.compose.ui.utils.*
 import com.github.promeg.pinyinhelper.Pinyin
 import kotlinx.coroutines.launch
 
@@ -35,7 +34,6 @@ data class AlphaState(
     var state: MutableState<Boolean>
 )
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview
 @Composable
 fun Contracts() {
@@ -95,13 +93,21 @@ fun Contracts() {
                     currentSelectedAlphaIndex = it
                     scope.launch {
                         lazyListState.scrollToItem(alphaCountPreSumList[currentSelectedAlphaIndex])
-                        currentSelectedAlphaIndex = binarySearch(alphaCountPreSumList, lazyListState.firstVisibleItemIndex)
+                        currentSelectedAlphaIndex = binarySearchLastElementIndex(alphaCountPreSumList, lazyListState.firstVisibleItemIndex, object: Comparator<Int> {
+                            override fun compare(midValue: Int, target: Int): Boolean {
+                                return midValue <= target
+                            }
+                        })
                     }
                 }
             }
         }
         LaunchedEffect(lazyListState.firstVisibleItemIndex) {
-            currentSelectedAlphaIndex = binarySearch(alphaCountPreSumList, lazyListState.firstVisibleItemIndex)
+            currentSelectedAlphaIndex = binarySearchLastElementIndex(alphaCountPreSumList, lazyListState.firstVisibleItemIndex,  object: Comparator<Int> {
+                override fun compare(midValue: Int, target: Int): Boolean {
+                    return midValue <= target
+                }
+            })
         }
 
         LaunchedEffect(currentSelectedAlphaIndex) {
@@ -112,20 +118,6 @@ fun Contracts() {
             alphaState.state.value = true
         }
     }
-}
-
-private fun binarySearch(preSum: List<Int>, target: Int): Int {
-    var l = -1
-    var r = preSum.size - 1
-    while (l < r) {
-        var mid = l - (l - r - 1) / 2
-        if (preSum[mid] <= target) {
-            l = mid
-        } else {
-            r = mid - 1
-        }
-    }
-    return l
 }
 
 @Composable
