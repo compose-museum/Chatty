@@ -15,10 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
-import com.chatty.compose.ui.components.CenterRow
-import com.chatty.compose.ui.components.CircleShapeImage
-import com.chatty.compose.ui.components.HeightSpacer
-import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.components.*
+import com.chatty.compose.ui.utils.LocalNavController
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -26,6 +24,7 @@ import kotlinx.coroutines.launch
 fun Explorer() {
 
     val lazyState = rememberLazyListState()
+    val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
     val firstItemSize by remember {
         derivedStateOf {
@@ -81,7 +80,7 @@ fun Explorer() {
         ExplorerFab(
             boxScope = this,
             targetState = topBarAlpha,
-            editAction = { /*TODO*/ }
+            editAction = { navController.navigate(AppScreen.createPost) }
         ) {
             scope.launch { lazyState.scrollToItem(0) }
         }
