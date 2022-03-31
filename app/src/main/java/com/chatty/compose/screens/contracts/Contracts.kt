@@ -132,6 +132,7 @@ fun Contracts() {
 
 @Composable
 fun ContractTopBar() {
+    val navController = LocalNavController.current
     TopAppBar(
         contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
         backgroundColor = Color.White
@@ -142,7 +143,9 @@ fun ContractTopBar() {
             ) {
                 Text("通讯录", modifier = Modifier.align(Alignment.Center))
                 IconButton(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+                        navController.navigate(AppScreen.addFriends)
+                    },
                     modifier=  Modifier.align(Alignment.BottomEnd)
                 ) {
                     Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends")
