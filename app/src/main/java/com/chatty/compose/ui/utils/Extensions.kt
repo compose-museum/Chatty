@@ -2,6 +2,7 @@ package com.chatty.compose.ui.utils
 
 import android.app.Activity
 import android.content.Context
+import android.os.Vibrator
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.Modifier
@@ -16,7 +17,10 @@ fun Context.hideIME() {
     (getSystemService(ComponentActivity.INPUT_METHOD_SERVICE) as InputMethodManager)
         .hideSoftInputFromWindow((this as Activity).currentFocus?.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 }
-
+fun Context.vibrate(time: Long) {
+    (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
+        .vibrate(time)
+}
 fun Modifier.drawLoginStateRing() = this.then(
     object : DrawModifier {
         override fun ContentDrawScope.draw() {
