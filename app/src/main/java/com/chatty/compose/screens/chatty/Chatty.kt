@@ -22,7 +22,9 @@ fun Chatty() {
             modifier = Modifier
                 .fillMaxSize(),
         ) {
-            itemsIndexed(displayMessages) { _, item ->
+            itemsIndexed(displayMessages, key = { _, item ->
+                item.mid
+            }) { _, item ->
                 FriendMessageItem(item.userProfile.avatarRes, item.userProfile.nickname, item.lastMsg, item.unreadCount)
             }
         }
