@@ -3,19 +3,20 @@ package com.chatty.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.chatty.compose.screens.drawer.PersonalProfileEditor
-import com.chatty.compose.screens.contracts.UserProfile
 import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.screens.contracts.UserProfile
+import com.chatty.compose.screens.drawer.PersonalProfileEditor
+import com.chatty.compose.screens.explorer.CreatePost
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
 import com.chatty.compose.screens.splash.Splash
@@ -24,9 +25,13 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.theme.ChattyTheme
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.hideIME
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -39,30 +44,56 @@ class MainActivity : ComponentActivity() {
                     systemUiController.setSystemBarsColor(Color.Transparent, useDarkIcons)
                 }
 
-                val navController = rememberNavController()
+                val navController = rememberAnimatedNavController()
 
                 CompositionLocalProvider(LocalNavController provides navController) {
-                    NavHost(navController, AppScreen.main) {
-                        composable(AppScreen.splash) {
+                    AnimatedNavHost(navController, AppScreen.main) {
+                        composable(
+                            AppScreen.splash,
+                            enterTransition = null,
+                            exitTransition = null
+                        ) {
                             hideIME()
                             Splash()
                         }
-                        composable(AppScreen.login) {
+                        composable(
+                            AppScreen.login,
+                            enterTransition = null,
+                            exitTransition = null
+                        ) {
                             hideIME()
                             Login()
                         }
-                        composable(AppScreen.register) {
+                        composable(
+                            AppScreen.register,
+                            enterTransition = null,
+                            exitTransition = null
+                        ) {
                             hideIME()
                             Register()
                         }
-                        composable(AppScreen.main) {
+                        composable(
+                            AppScreen.main,
+                            enterTransition = null,
+                            exitTransition = null,
+                        ) {
                             hideIME()
                             AppScaffold()
                         }
-                        composable("${AppScreen.userProfile}/{uid}",
+                        composable(
+                            AppScreen.createPost,
+                            enterTransition = { slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700)) },
+                            exitTransition = { slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700)) }
+                        ) {
+                            CreatePost()
+                        }
+                        composable(
+                            route = "${AppScreen.userProfile}/{uid}",
                             arguments = listOf(navArgument("uid") {
                                 type = NavType.StringType
-                            })
+                            }),
+                            enterTransition = null,
+                            exitTransition = null
                         ) { backStackEntry ->
                             var uid = backStackEntry.arguments?.getString("uid")!!
                             // 待改进
@@ -70,10 +101,12 @@ class MainActivity : ComponentActivity() {
                             UserProfile(user = user)
                         }
                         composable(
-                            "${AppScreen.profileEdit}/{category}",
+                            route = "${AppScreen.profileEdit}/{category}",
                             arguments = listOf(navArgument("category") {
                                 type = NavType.StringType
-                            })
+                            }),
+                            enterTransition = null,
+                            exitTransition = null
                         ) { backStackEntry ->
                             var category = backStackEntry.arguments?.getString("category")
                             var title = when (category) {
