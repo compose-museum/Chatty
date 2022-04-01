@@ -79,6 +79,11 @@ dependencies {
 
 
     // TinyPinyin
-    implementation 'com.github.promeg:tinypinyin:2.0.3'
-    implementation 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
+    def tinypinyin_version = "2.0.3"
+    implementation "com.github.promeg:tinypinyin:$tinypinyin_version"
+    implementation "com.github.promeg:tinypinyin-lexicons-android-cncity:$tinypinyin_version"
+
+    // Zxing
+    def zxing_version = "1.1.3-androidx"
+    implementation "com.king.zxing:zxing-lite:$zxing_version"
 }

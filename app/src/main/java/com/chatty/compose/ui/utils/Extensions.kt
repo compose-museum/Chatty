@@ -2,6 +2,7 @@ package com.chatty.compose.ui.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Vibrator
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.ComponentActivity
@@ -20,6 +21,9 @@ fun Context.hideIME() {
 fun Context.vibrate(time: Long) {
     (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
         .vibrate(time)
+}
+fun Context.hasTorch(): Boolean {
+    return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 }
 fun Modifier.drawLoginStateRing() = this.then(
     object : DrawModifier {

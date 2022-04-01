@@ -261,11 +261,14 @@ fun SubcompositionRow(modifier: Modifier, textField: @Composable () -> Unit, can
 @Composable
 fun AddFriendsOtherWay() {
     Column() {
+        val navController = LocalNavController.current
         AddFriendsOtherWay(
             R.drawable.qr_code,
             "扫一扫",
             "扫描二维码添加联系人"
-        )
+        ) {
+            navController.navigate(AppScreen.qr_scan)
+        }
     }
 }
 
@@ -273,13 +276,14 @@ fun AddFriendsOtherWay() {
 fun AddFriendsOtherWay(
     icon: Int,
     functionName: String,
-    description: String
+    description: String,
+    onClick: () -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-
+                onClick()
             },
         color = Color(0xFFF8F8F8)
     ) {

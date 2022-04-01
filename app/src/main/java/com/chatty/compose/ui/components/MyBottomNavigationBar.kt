@@ -48,4 +48,5 @@ object AppScreen {
     const val profileEdit = "profile_edit"
     const val addFriends = "add_friends"
     const val createPost = "create_post"
+    const val qr_scan = "qr_scan"
 }
