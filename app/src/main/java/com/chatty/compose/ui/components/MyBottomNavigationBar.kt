@@ -46,5 +46,6 @@ object AppScreen {
     const val splash = "splash"
     const val userProfile = "user_profile"
     const val profileEdit = "profile_edit"
+    const val addFriends = "add_friends"
     const val createPost = "create_post"
 }
