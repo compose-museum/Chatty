@@ -15,6 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.screens.contracts.AddFriends
+import com.chatty.compose.screens.contracts.QrCodeScan
 import com.chatty.compose.screens.contracts.UserProfile
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
 import com.chatty.compose.screens.explorer.CreatePost
@@ -122,6 +123,10 @@ class MainActivity : ComponentActivity() {
                         composable(AppScreen.addFriends) {
                             hideIME()
                             AddFriends()
+                        }
+                        composable(AppScreen.qr_scan) {
+                            hideIME()
+                            QrCodeScan()
                         }
                     }
                 }
