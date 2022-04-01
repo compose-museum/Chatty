@@ -110,7 +110,7 @@ fun AddFriends() {
 
 @Composable
 fun AddFriendTopBar() {
-    // val navController = LocalNavController.current
+    val navController = LocalNavController.current
     TopAppBar(
         contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
         backgroundColor = Color.White
@@ -122,7 +122,7 @@ fun AddFriendTopBar() {
                 Text("添加联系人", modifier = Modifier.align(Alignment.Center))
                 IconButton(
                     onClick = {
-                        // navController.popBackStack()
+                         navController.popBackStack()
                     },
                     modifier=  Modifier.align(Alignment.BottomStart)
                 ) {

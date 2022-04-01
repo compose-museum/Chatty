@@ -6,11 +6,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -32,6 +36,9 @@ import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.theme.ok
 import com.chatty.compose.ui.utils.*
 import com.github.promeg.pinyinhelper.Pinyin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -69,7 +76,7 @@ fun Contracts() {
             }
             result
         }
-        var lazyListState = rememberLazyListState()
+        val lazyListState = rememberLazyListState()
         Box(modifier = Modifier.fillMaxSize()) {
             LazyColumn(
                 modifier = Modifier
@@ -196,10 +203,7 @@ fun FriendItem(
 
 @Composable
 fun AlphaGuildBar(alphaStates: MutableCollection<AlphaState>, onClick: (Int) -> Unit) {
-    var currentIndex by remember { mutableStateOf(0) }
-    var offset by remember {
-        mutableStateOf(0f)
-    }
+    var currentIndex by remember { mutableStateOf(-1) }
     val alphaItemHeight = 28.dp
     val alphaItemHeightPx = with(LocalDensity.current) {
         alphaItemHeight.toPx()
@@ -222,7 +226,7 @@ fun AlphaGuildBar(alphaStates: MutableCollection<AlphaState>, onClick: (Int) -> 
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = boxStyleModifier.clickable {
-                    onClick(index)
+                    currentIndex = index
                 }
             ) {
                 Text(text = alphaState.alpha.toString(), color = if (alphaState.state.value) Color.White else Color.Black)
@@ -230,6 +234,9 @@ fun AlphaGuildBar(alphaStates: MutableCollection<AlphaState>, onClick: (Int) -> 
         }
     }
     LaunchedEffect(currentIndex) {
+        if (currentIndex == -1) {
+            return@LaunchedEffect
+        }
         onClick(currentIndex)
     }
 }
