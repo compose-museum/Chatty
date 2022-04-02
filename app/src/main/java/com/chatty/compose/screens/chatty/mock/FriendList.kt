@@ -10,7 +10,7 @@ import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.screens.chatty.FriendMessageItem
 
 val friends = listOf(
-    UserProfileData(R.drawable.ava1, "John", "I miss you", ),
+    UserProfileData(R.drawable.ava1, "John", "I miss you", gender = "男"),
     UserProfileData(R.drawable.ava2, "Tony", "冬至"),
     UserProfileData(R.drawable.ava3, "Meth", "“做最好的准备  也做最坏的打算”"),
     UserProfileData(R.drawable.ava4, "Beatriz", "水母只能在深海度过相对失败的一生"),

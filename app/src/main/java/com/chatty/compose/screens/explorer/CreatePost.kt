@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
+import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.utils.LocalModalBottomSheetState
 import com.chatty.compose.ui.utils.hideIME
@@ -62,15 +63,9 @@ fun CreatePostTopBar() {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    TopAppBar(
+    TopBar(
         backgroundColor = Color.White,
-        contentPadding = if (bottomSheetState.currentValue != ModalBottomSheetValue.Expanded) PaddingValues(0.dp)
-                        else WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues()
-    ) {
-        CenterRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+        start = { 
             IconButton(onClick = {
                 scope.launch {
                     context.hideIME()
@@ -79,7 +74,12 @@ fun CreatePostTopBar() {
             }) {
                 Icon(Icons.Rounded.ArrowBack, null)
             }
+        }
+    ) {
+        center = {
             Text("发表新鲜事")
+        },
+        end = {
             IconButton(onClick = {
                 scope.launch {
                     context.hideIME()
@@ -89,5 +89,5 @@ fun CreatePostTopBar() {
                 Icon(Icons.Rounded.Done, null)
             }
         }
-    }
+    )
 }
