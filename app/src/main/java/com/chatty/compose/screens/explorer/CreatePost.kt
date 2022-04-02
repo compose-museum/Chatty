@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
@@ -16,6 +17,9 @@ import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.utils.LocalModalBottomSheetState
+import com.chatty.compose.ui.utils.hideIME
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreatePost() {
@@ -42,7 +46,7 @@ fun CreatePost() {
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent
                 ),
-                modifier = Modifier.height(300.dp),
+                modifier = Modifier.fillMaxSize(),
                 placeholder = {
                     Text("最近发生了什么有意思的事情？")
                 }
@@ -51,20 +55,37 @@ fun CreatePost() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CreatePostTopBar() {
+
+    val bottomSheetState = LocalModalBottomSheetState.current
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     TopBar(
         backgroundColor = Color.White,
-        start = {
-            IconButton(onClick = { /*TODO*/ }) {
+        start = { 
+            IconButton(onClick = {
+                scope.launch {
+                    context.hideIME()
+                    bottomSheetState.hide()
+                }
+            }) {
                 Icon(Icons.Rounded.ArrowBack, null)
             }
-        },
+        }
+    ) {
         center = {
             Text("发表新鲜事")
         },
         end = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                scope.launch {
+                    context.hideIME()
+                    bottomSheetState.hide()
+                }
+            }) {
                 Icon(Icons.Rounded.Done, null)
             }
         }

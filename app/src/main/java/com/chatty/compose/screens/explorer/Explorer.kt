@@ -15,16 +15,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
-import com.chatty.compose.ui.components.*
-import com.chatty.compose.ui.utils.LocalNavController
+import com.chatty.compose.ui.components.CenterRow
+import com.chatty.compose.ui.components.CircleShapeImage
+import com.chatty.compose.ui.components.HeightSpacer
+import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.utils.LocalModalBottomSheetState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
 @Composable
 fun Explorer() {
 
     val lazyState = rememberLazyListState()
-    val navController = LocalNavController.current
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+
+
     val scope = rememberCoroutineScope()
     val firstItemSize by remember {
         derivedStateOf {
@@ -44,45 +49,52 @@ fun Explorer() {
         }
     }
 
-    println("value $topBarAlpha")
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            state = lazyState
+    CompositionLocalProvider(LocalModalBottomSheetState provides bottomSheetState) {
+        ModalBottomSheetLayout(
+            sheetContent = { CreatePost() },
+            sheetState = bottomSheetState
         ) {
-            item { Spacer(Modifier.statusBarsPadding()) }
-            item {
-                CenterRow(
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                LazyColumn(
                     modifier = Modifier
-                        .padding(14.dp)
-                        .alpha(1 - topBarAlpha)
+                        .fillMaxSize(),
+                    state = lazyState
                 ) {
-                    Text(
-                        text = "探索新鲜事",
-                        style = MaterialTheme.typography.h4
-                    )
-                    Spacer(Modifier.weight(1f))
-                    CircleShapeImage(size = 48.dp, painter = painterResource(id = R.drawable.ava4))
+                    item { Spacer(Modifier.statusBarsPadding()) }
+                    item {
+                        CenterRow(
+                            modifier = Modifier
+                                .padding(14.dp)
+                                .alpha(1 - topBarAlpha)
+                        ) {
+                            Text(
+                                text = "探索新鲜事",
+                                style = MaterialTheme.typography.h4
+                            )
+                            Spacer(Modifier.weight(1f))
+                            CircleShapeImage(size = 48.dp, painter = painterResource(id = R.drawable.ava4))
+                        }
+                        Divider(modifier = Modifier.fillMaxWidth())
+                    }
+                    items(20) {
+                        SocialItem(R.drawable.ava5, name = "香辣鸡腿堡")
+                    }
                 }
-                Divider(modifier = Modifier.fillMaxWidth())
+                ExplorerTopBar(topBarAlpha)
+                ExplorerFab(
+                    boxScope = this,
+                    targetState = topBarAlpha,
+                    editAction = {
+                        scope.launch { bottomSheetState.show() }
+                    }
+                ) {
+                    scope.launch { lazyState.scrollToItem(0) }
+                }
             }
-            items(20) {
-                SocialItem(R.drawable.ava5, name = "香辣鸡腿堡")
-            }
-        }
-        ExplorerTopBar(topBarAlpha)
-        ExplorerFab(
-            boxScope = this,
-            targetState = topBarAlpha,
-            editAction = { navController.navigate(AppScreen.createPost) }
-        ) {
-            scope.launch { lazyState.scrollToItem(0) }
         }
     }
 }
