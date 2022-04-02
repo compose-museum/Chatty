@@ -3,9 +3,7 @@ package com.chatty.compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
@@ -18,7 +16,6 @@ import com.chatty.compose.screens.contracts.AddFriends
 import com.chatty.compose.screens.contracts.QrCodeScan
 import com.chatty.compose.screens.contracts.UserProfile
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
-import com.chatty.compose.screens.explorer.CreatePost
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
 import com.chatty.compose.screens.splash.Splash
@@ -81,13 +78,6 @@ class MainActivity : ComponentActivity() {
                         ) {
                             hideIME()
                             AppScaffold()
-                        }
-                        composable(
-                            AppScreen.createPost,
-                            enterTransition = { slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = tween(700)) },
-                            exitTransition = { slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = tween(700)) }
-                        ) {
-                            CreatePost()
                         }
                         composable(
                             route = "${AppScreen.userProfile}/{uid}",
