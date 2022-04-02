@@ -14,9 +14,7 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.screens.contracts.AddFriends
-import com.chatty.compose.screens.contracts.QrCodeScan
-import com.chatty.compose.screens.contracts.UserProfile
+import com.chatty.compose.screens.contracts.*
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
 import com.chatty.compose.screens.explorer.CreatePost
 import com.chatty.compose.screens.login.Login
@@ -127,6 +125,23 @@ class MainActivity : ComponentActivity() {
                         composable(AppScreen.qr_scan) {
                             hideIME()
                             QrCodeScan()
+                        }
+                        composable(
+                            route = "${AppScreen.strangerProfile}/{uid}/{from_source}",
+                            arguments = listOf(
+                                navArgument("uid") { type = NavType.StringType },
+                                navArgument("from_source") { type = NavType.StringType },
+                            ),
+                            enterTransition = null,
+                            exitTransition = null
+                        ) { backStackEntry ->
+                            hideIME()
+                            var uid = backStackEntry.arguments?.getString("uid")!!
+                            // 待改进
+                            var user = friends.find { it.uid == uid }!!
+
+                            var fromSource = backStackEntry.arguments?.getString("from_source")!!
+                            StrangerProfile(user, fromSource)
                         }
                     }
                 }

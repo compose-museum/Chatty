@@ -76,6 +76,7 @@ suspend fun refreshFriendSearched(searchContent: String) {
 @Preview
 @Composable
 fun AddFriends() {
+    var naviController = LocalNavController.current
     var isSearchingState = remember { mutableStateOf(false) }
     var displaySearchUsers = displaySearchUsersFlow.collectAsState()
     Column(
@@ -90,7 +91,6 @@ fun AddFriends() {
         SearchFriendBar(isSearchingState)
         HeightSpacer(value = 10.dp)
         if(!isSearchingState.value) {
-            HeightSpacer(value = 10.dp)
             AddFriendsOtherWay()
         } else {
             if (isLoading) {
@@ -98,8 +98,10 @@ fun AddFriends() {
             }
             LazyColumn {
                 displaySearchUsers.value.forEach {
-                    item {
-                        FriendItem(avatarRes = it.avatarRes, friendName = it.nickname, motto = it.motto)
+                    item(it.uid) {
+                        FriendItem(avatarRes = it.avatarRes, friendName = it.nickname, motto = it.motto) {
+                            naviController.navigate("${AppScreen.strangerProfile}/${it.uid}/用户名搜索")
+                        }
                     }
                 }
             }
