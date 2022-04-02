@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Done
@@ -30,6 +29,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
+import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.USER_CODE_PREFIX
 import com.chatty.compose.ui.utils.hasTorch
@@ -120,21 +120,18 @@ fun QrCodeScan() {
 @Composable
 fun QrCodeScanTopBar() {
     var naviController = LocalNavController.current
-    TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
+    TopBar(
+        start = {
             IconButton(onClick = {
                 naviController.popBackStack()
-            }, modifier = Modifier.align(Alignment.CenterStart)) {
+            }) {
                 Icon(Icons.Rounded.ArrowBack, null, tint = Color.White)
             }
+        },
+        center = {
             Text("扫一扫", color = Color.White, fontWeight = FontWeight.Bold)
-        }
-    }
+        },
+        backgroundColor = Color.Transparent,
+        elevation = 0.dp
+    )
 }

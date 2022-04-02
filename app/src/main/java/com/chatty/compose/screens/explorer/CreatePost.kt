@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
+import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
 
 @Composable
@@ -52,21 +53,20 @@ fun CreatePost() {
 
 @Composable
 fun CreatePostTopBar() {
-    TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
-        backgroundColor = Color.White
-    ) {
-        CenterRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+    TopBar(
+        backgroundColor = Color.White,
+        start = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(Icons.Rounded.ArrowBack, null)
             }
+        },
+        center = {
             Text("发表新鲜事")
+        },
+        end = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(Icons.Rounded.Done, null)
             }
         }
-    }
+    )
 }

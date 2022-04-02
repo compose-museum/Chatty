@@ -6,7 +6,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.rounded.Search
@@ -22,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.toLowerCase
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chatty.compose.R
@@ -29,6 +29,7 @@ import com.chatty.compose.screens.chatty.mock.displayMessages
 import com.chatty.compose.screens.chatty.mock.recentMessages
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
+import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.utils.LocalScaffoldState
 import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.launch
@@ -42,16 +43,10 @@ fun ChattyTopBar() {
     val focusRequester = remember { FocusRequester() }
     var isSearching by remember { mutableStateOf(false) }
     var searchContent by remember { mutableStateOf("") }
-    TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
-        backgroundColor = Color.White
-    ) {
-        CenterRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+
+    TopBar(
+        backgroundColor = Color.White,
+        start =  {
             IconButton(
                 onClick = {
                     if (!isSearching) {
@@ -63,16 +58,9 @@ fun ChattyTopBar() {
             ) {
                 CircleShapeImage(size = 32.dp, painter = painterResource(id = R.drawable.ava4))
             }
-            if (!isSearching) {
-                Text("Chatty", modifier = Modifier)
-                IconButton(
-                    onClick = {
-                        isSearching = true
-                    }
-                ) {
-                    Icon(Icons.Rounded.Search, null)
-                }
-            } else {
+        },
+        center = {
+            if (isSearching) {
                 BasicTextField(
                     value = searchContent,
                     onValueChange = {
@@ -87,6 +75,7 @@ fun ChattyTopBar() {
                         imeAction = ImeAction.Search
                     ),
                     modifier = Modifier
+                        .width(300.dp)
                         .padding(horizontal = 4.dp)
                         .focusRequester(focusRequester),
                     textStyle = TextStyle(fontSize = 16.sp)
@@ -98,25 +87,39 @@ fun ChattyTopBar() {
                         ) {
                             innerText()
                         }
-                        IconButton(
-                            onClick = {
-                                isSearching = false
-                                displayMessages = recentMessages
-                                searchContent = ""
-                            },
-                        ) {
-                            Icon(Icons.Filled.Close, null)
-                        }
                     }
                 }
+            } else {
+                Text("Chatty", modifier = Modifier)
             }
-            LaunchedEffect(isSearching) {
-                if (isSearching) {
-                    focusRequester.requestFocus()
-                } else {
-                    context.hideIME()
+        },
+        end = {
+            if (isSearching) {
+                IconButton(
+                    onClick = {
+                        isSearching = false
+                        displayMessages = recentMessages
+                        searchContent = ""
+                    },
+                ) {
+                    Icon(Icons.Filled.Close, null)
+                }
+            } else {
+                IconButton(
+                    onClick = {
+                        isSearching = true
+                    }
+                ) {
+                    Icon(Icons.Rounded.Search, null)
                 }
             }
+        }
+    )
+    LaunchedEffect(isSearching) {
+        if (isSearching) {
+            focusRequester.requestFocus()
+        } else {
+            context.hideIME()
         }
     }
 }

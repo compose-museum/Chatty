@@ -33,6 +33,7 @@ import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
+import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.theme.ok
 import com.chatty.compose.ui.utils.*
 import com.github.promeg.pinyinhelper.Pinyin
@@ -140,26 +141,21 @@ fun Contracts() {
 @Composable
 fun ContractTopBar() {
     val navController = LocalNavController.current
-    TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
-        backgroundColor = Color.White
-    ) {
-        CenterRow {
-            Box (
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text("通讯录", modifier = Modifier.align(Alignment.Center))
-                IconButton(
-                    onClick = {
-                        navController.navigate(AppScreen.addFriends)
-                    },
-                    modifier=  Modifier.align(Alignment.BottomEnd)
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends")
+    TopBar(
+        center = {
+            Text("通讯录")
+        },
+        end = {
+            IconButton(
+                onClick = {
+                    navController.navigate(AppScreen.addFriends)
                 }
+            ) {
+                Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends")
             }
-        }
-    }
+        },
+        backgroundColor = Color.White
+    )
 }
 
 @Composable

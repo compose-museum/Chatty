@@ -163,23 +163,20 @@ fun StrangerProfileInfo(
 @Composable
 fun StrangerProfileTopBar() {
     var naviController = LocalNavController.current
-    TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
-        backgroundColor = Color.White,
-        elevation = 0.dp
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
+    TopBar(
+        start = {
             IconButton(onClick = {
-                //naviController.popBackStack()
-            }, modifier = Modifier.align(Alignment.CenterStart)) {
+                naviController.popBackStack()
+            }) {
                 Icon(Icons.Rounded.ArrowBack, null)
             }
+        },
+        center = {
             Text("联系人", color = Color.Black, fontWeight = FontWeight.Bold)
-        }
-    }
+        },
+        backgroundColor = Color.White,
+        elevation = 0.dp
+    )
 }
 
 @Composable

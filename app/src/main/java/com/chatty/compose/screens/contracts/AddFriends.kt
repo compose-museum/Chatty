@@ -113,26 +113,21 @@ fun AddFriends() {
 @Composable
 fun AddFriendTopBar() {
     val navController = LocalNavController.current
-    TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
-        backgroundColor = Color.White
-    ) {
-        CenterRow {
-            Box (
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Text("添加联系人", modifier = Modifier.align(Alignment.Center))
-                IconButton(
-                    onClick = {
-                         navController.popBackStack()
-                    },
-                    modifier=  Modifier.align(Alignment.BottomStart)
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.back), "add_friends")
+    TopBar(
+        start = {
+            IconButton(
+                onClick = {
+                    navController.popBackStack()
                 }
+            ) {
+                Icon(painter = painterResource(id = R.drawable.back), "add_friends")
             }
-        }
-    }
+        },
+        center =  {
+            Text("添加联系人")
+        },
+        backgroundColor = Color.White
+    )
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
