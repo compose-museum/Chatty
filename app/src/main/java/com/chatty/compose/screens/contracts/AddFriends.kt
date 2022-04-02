@@ -37,10 +37,7 @@ import androidx.compose.ui.unit.sp
 import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.ui.components.AppScreen
-import com.chatty.compose.ui.components.CenterRow
-import com.chatty.compose.ui.components.HeightSpacer
-import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.components.*
 import com.chatty.compose.ui.utils.LocalNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
