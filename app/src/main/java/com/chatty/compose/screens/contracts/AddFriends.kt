@@ -160,6 +160,11 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                     .focusable(true, interactionSource)
                     .onFocusChanged {
                         isSearchingState.value = it.isFocused
+                        if (!isSearchingState.value) {
+                            searchContent = ""
+                            displaySearchUsersFlow.tryEmit(emptyList())
+                            isLoading = false
+                        }
                     },
                 textStyle = TextStyle(fontSize = 18.sp),
                 maxLines = 1,
