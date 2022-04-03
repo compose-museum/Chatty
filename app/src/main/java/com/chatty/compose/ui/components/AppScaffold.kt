@@ -1,9 +1,11 @@
 package com.chatty.compose.ui.components
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import com.chatty.compose.R
 import com.chatty.compose.screens.chatty.Chatty
 import com.chatty.compose.screens.contracts.Contracts
@@ -45,7 +47,8 @@ fun AppScaffold() {
         drawerContent = {
            PersonalProfile()
         },
-        scaffoldState = scaffoldState
+        scaffoldState = scaffoldState,
+        modifier = Modifier.navigationBarsPadding()
     ) {
         CompositionLocalProvider(LocalScaffoldState provides scaffoldState) {
             HorizontalPager(
