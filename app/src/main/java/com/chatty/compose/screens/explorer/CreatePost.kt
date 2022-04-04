@@ -1,5 +1,6 @@
 package com.chatty.compose.screens.explorer
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,12 +15,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalModalBottomSheetState
 import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.launch
@@ -28,7 +31,7 @@ import kotlinx.coroutines.launch
 fun CreatePost() {
     var text by remember { mutableStateOf("") }
     Column (
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.chattyColors.backgroundColor)
     ) {
         CreatePostTopBar()
         Divider(Modifier.fillMaxWidth())
@@ -36,8 +39,8 @@ fun CreatePost() {
             CenterRow(Modifier.padding(14.dp)) {
                 CircleShapeImage(size = 40.dp, painter = painterResource(id = R.drawable.ava4))
                 WidthSpacer(value = 4.dp)
-                Text("香辣鸡腿堡",Modifier.weight(1f) ,style = MaterialTheme.typography.h6)
-                Text("字数：${text.length}", Modifier.alpha(0.5f))
+                Text("香辣鸡腿堡",Modifier.weight(1f) ,style = MaterialTheme.typography.h6, color = MaterialTheme.chattyColors.textColor)
+                Text("字数：${text.length}", Modifier.alpha(0.5f), color = MaterialTheme.chattyColors.textColor)
             }
             TextField(
                 value = text,
@@ -47,12 +50,14 @@ fun CreatePost() {
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
+                    focusedIndicatorColor = Color.Transparent,
+                    cursorColor = MaterialTheme.chattyColors.textColor,
                 ),
                 modifier = Modifier.fillMaxSize(),
                 placeholder = {
-                    Text("最近发生了什么有意思的事情？")
-                }
+                    Text("最近发生了什么有意思的事情？", color = MaterialTheme.chattyColors.textColor)
+                },
+                textStyle = TextStyle(color = MaterialTheme.chattyColors.textColor)
             )
         }
     }
@@ -67,7 +72,7 @@ fun CreatePostTopBar() {
     val context = LocalContext.current
 
     TopBar(
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.chattyColors.backgroundColor,
         start = { 
             IconButton(onClick = {
                 scope.launch {
@@ -75,11 +80,11 @@ fun CreatePostTopBar() {
                     bottomSheetState.hide()
                 }
             }) {
-                Icon(Icons.Rounded.ArrowBack, null)
+                Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
             }
         },
         center = {
-            Text("发表新鲜事")
+            Text("发表新鲜事", color = MaterialTheme.chattyColors.textColor)
         },
         end = {
             IconButton(onClick = {
@@ -88,7 +93,7 @@ fun CreatePostTopBar() {
                     bottomSheetState.hide()
                 }
             }) {
-                Icon(Icons.Rounded.Done, null)
+                Icon(Icons.Rounded.Done, null, tint = MaterialTheme.chattyColors.iconColor)
             }
         }
     )

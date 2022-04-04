@@ -18,6 +18,7 @@ import com.chatty.compose.R
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 
 @Composable
 fun ExplorerTopBar(
@@ -27,7 +28,7 @@ fun ExplorerTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .alpha(alpha),
-        color = Color(0xFFF8F8F8),
+        color = MaterialTheme.chattyColors.backgroundColor,
     ) {
         CenterRow(
             modifier = Modifier
@@ -38,7 +39,7 @@ fun ExplorerTopBar(
         ) {
             CircleShapeImage(size = 30.dp, painter = painterResource(id = R.drawable.ava4), contentScale = ContentScale.Crop)
             WidthSpacer(6.dp)
-            Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6)
+            Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6, color = MaterialTheme.chattyColors.textColor)
         }
     }
 }

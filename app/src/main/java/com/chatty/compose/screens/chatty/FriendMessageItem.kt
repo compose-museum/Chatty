@@ -19,6 +19,7 @@ import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.NumberChips
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import kotlin.random.Random
 
 @Composable
@@ -34,7 +35,7 @@ fun FriendMessageItem(
             .clickable {
 
             },
-        color = Color(0xFFF8F8F8)
+        color = MaterialTheme.chattyColors.backgroundColor
     ) {
         CenterRow(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
@@ -46,21 +47,23 @@ fun FriendMessageItem(
             ) {
                 Text(
                     text = friendName,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.chattyColors.textColor
                 )
                 Spacer(Modifier.padding(vertical = 3.dp))
                 Text(
                     text = lastMsg,
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.chattyColors.textColor
                 )
             }
             WidthSpacer(4.dp)
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-                Text("${Random.nextInt(0, 24)}:${Random.nextInt(0, 60)}")
+                Text("${Random.nextInt(0, 24)}:${Random.nextInt(0, 60)}", color = MaterialTheme.chattyColors.textColor)
                 Spacer(Modifier.padding(vertical = 3.dp))
                 NumberChips(unreadCount)
             }

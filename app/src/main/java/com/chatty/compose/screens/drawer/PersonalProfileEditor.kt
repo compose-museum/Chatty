@@ -21,6 +21,7 @@ import com.chatty.compose.R
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.theme.ok
 import com.chatty.compose.ui.utils.LocalNavController
 
@@ -40,7 +41,7 @@ fun PersonalProfileEditor(title: String, isGender: Boolean = false, isQRCode: Bo
                 IconButton(onClick = {
                     navController.popBackStack()
                 }) {
-                    Icon(Icons.Rounded.ArrowBack, null)
+                    Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
                 }
             },
             center =  {

@@ -1,10 +1,43 @@
 package com.chatty.compose.ui.theme
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+
+val LocalChattyColors = compositionLocalOf {
+    ChattyColors()
+}
+
+val MaterialTheme.chattyColors: ChattyColors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalChattyColors.current
+
+class ChattyColors() {
+    var isLight by mutableStateOf(false)
+        private set
+
+    val backgroundColor: Color
+        @Composable
+        get() = animateColorAsState(targetValue = if (isLight) Color.White else Color.Black, tween(700)).value
+
+    val textColor: Color
+        @Composable
+        get() = animateColorAsState(targetValue = if (isLight) Color.Black else Color.White, tween(700)).value
+
+    val iconColor: Color
+        @Composable
+        get() = animateColorAsState(targetValue = if (isLight) Color.Black else Color.White, tween(700)).value
+
+    fun toggleTheme() {
+        isLight = !isLight
+    }
+}
 
 private val DarkColorPalette = darkColors(
     primary = Purple200,
@@ -35,10 +68,12 @@ fun ChattyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
         LightColorPalette
     }
 
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
+    CompositionLocalProvider(LocalChattyColors provides ChattyColors()) {
+        MaterialTheme(
+            colors = colors,
+            typography = Typography,
+            shapes = Shapes,
+            content = content
+        )
+    }
 }

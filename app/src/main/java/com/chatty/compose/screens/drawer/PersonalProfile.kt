@@ -1,13 +1,11 @@
 package com.chatty.compose.screens.drawer
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,16 +29,14 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 
 @Preview
 @Composable
 fun PersonalProfile() {
-    Scaffold(
-        bottomBar = {
-            BottomSettingIcons()
-        },
-        modifier = Modifier.fillMaxWidth()
+    Box(
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.chattyColors.backgroundColor),
     ) {
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -59,6 +55,9 @@ fun PersonalProfile() {
             }
             HeightSpacer(value = 10.dp)
             PersonalProfileDetail()
+        }
+        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+            BottomSettingIcons()
         }
     }
 }
@@ -128,8 +127,8 @@ fun PersonalProfileDetail() {
             text = "个人信息",
             fontSize = 25.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
-            modifier = Modifier.padding(start = 20.dp)
+            color = MaterialTheme.chattyColors.textColor,
+            modifier = Modifier.padding(start = 20.dp),
         )
         Column(modifier = Modifier.fillMaxWidth()) {
             ProfileDetailRowItem(label = "性别", content = "男") {
@@ -170,20 +169,29 @@ fun ProfileDetailRowItem(label: String, content: String = "", isQrCode: Boolean 
             Text(
                 text = label,
                 fontSize = 15.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.chattyColors.textColor
             )
             Row {
                 if (isQrCode) {
-                    Icon(painter = painterResource(id = R.drawable.qr_code), contentDescription = label)
+                    Icon(
+                        painter = painterResource(id = R.drawable.qr_code),
+                        contentDescription = label,
+                        tint = MaterialTheme.chattyColors.iconColor
+                    )
                 } else {
                     Text(
                         text = content,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Gray,
+                        color = MaterialTheme.chattyColors.textColor,
                     )
                 }
-                Icon(painter = painterResource(id = R.drawable.expand_right), contentDescription = label)
+                Icon(painter = painterResource(
+                    id = R.drawable.expand_right),
+                    contentDescription = label,
+                    tint = MaterialTheme.chattyColors.iconColor
+                )
             }
         }
     }
@@ -191,6 +199,7 @@ fun ProfileDetailRowItem(label: String, content: String = "", isQrCode: Boolean 
 
 @Composable
 fun BottomSettingIcons() {
+    var chattyColors = MaterialTheme.chattyColors
     CenterRow(
         Modifier
             .fillMaxWidth()
@@ -203,27 +212,37 @@ fun BottomSettingIcons() {
                 onClick = {}
             ) {
                 Column(
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.settings), contentDescription = null)
+                    Icon(painter = painterResource(id = R.drawable.settings), contentDescription = null, tint = MaterialTheme.chattyColors.iconColor)
                     HeightSpacer(value = 4.dp)
-                    Text(text = "设置", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "设置", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.chattyColors.textColor)
                 }
             }
             WidthSpacer(value = 10.dp)
             IconButton(
-                onClick = {}
+                onClick = {
+                    chattyColors.toggleTheme()
+                }
             ) {
                 Column(
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier.size(60.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.dark_mode), contentDescription = null)
+                    Icon(
+                        painter = painterResource(id = R.drawable.dark_mode),
+                        contentDescription = null, tint = MaterialTheme.chattyColors.iconColor
+                    )
                     HeightSpacer(value = 4.dp)
-                    Text(text = "主题", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = if (chattyColors.isLight) "暗黑模式" else "明亮模式",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.chattyColors.textColor
+                    )
                 }
             }
         }
@@ -232,13 +251,13 @@ fun BottomSettingIcons() {
             onClick = { }
         ) {
             Column(
-                modifier = Modifier.size(50.dp),
+                modifier = Modifier.size(60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Icon(painter = painterResource(id = R.drawable.logout), contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.logout), contentDescription = null, tint = MaterialTheme.chattyColors.iconColor)
                 HeightSpacer(value = 4.dp)
-                Text(text = "注销", fontSize = 15.sp, fontWeight = FontWeight.Bold)
+                Text(text = "注销", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.chattyColors.textColor)
             }
         }
     }

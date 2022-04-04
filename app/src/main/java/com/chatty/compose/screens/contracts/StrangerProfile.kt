@@ -23,6 +23,7 @@ import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.ui.components.*
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.drawLoginStateRing
 
@@ -37,10 +38,10 @@ fun StrangerProfileDemo() {
 fun StrangerProfile(user: UserProfileData, formSource: String) {
     var confirmDialogState by remember { mutableStateOf(false) }
     val naviController = LocalNavController.current
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.chattyColors.backgroundColor)) {
         Column(modifier = Modifier.fillMaxSize()) {
             StrangerProfileTopBar()
-            Column(modifier = Modifier.background(Color(0xFFF8F8F8))) {
+            Column(modifier = Modifier.background(MaterialTheme.chattyColors.backgroundColor)) {
                 StrangerProfileInfo(user)
                 StrangerMoreInfo(formSource)
             }
@@ -119,7 +120,7 @@ fun StrangerProfileInfo(
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp),
-        color = Color(0xFFF8F8F8)
+        color = MaterialTheme.chattyColors.backgroundColor
     ) {
         CenterRow(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
@@ -136,7 +137,8 @@ fun StrangerProfileInfo(
                 Row{
                     Text(
                         text = user.nickname,
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.chattyColors.textColor
                     )
                     if (user.gender != null) {
                         WidthSpacer(value = 3.dp)
@@ -152,7 +154,8 @@ fun StrangerProfileInfo(
                     text = user.motto,
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.chattyColors.textColor
                 )
             }
         }
@@ -168,13 +171,13 @@ fun StrangerProfileTopBar() {
             IconButton(onClick = {
                 naviController.popBackStack()
             }) {
-                Icon(Icons.Rounded.ArrowBack, null)
+                Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
             }
         },
         center = {
-            Text("联系人", color = Color.Black, fontWeight = FontWeight.Bold)
+            Text("联系人", fontWeight = FontWeight.Bold, color = MaterialTheme.chattyColors.textColor)
         },
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.chattyColors.backgroundColor,
         elevation = 0.dp
     )
 }
@@ -202,14 +205,15 @@ fun StrangerMoreInfoRowItem(label: String, content: String = "") {
             Text(
                 text = label,
                 fontSize = 15.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.chattyColors.textColor
             )
             WidthSpacer(value = 5.dp)
             Text(
                 text = content,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
+                color = MaterialTheme.chattyColors.textColor
             )
         }
     }

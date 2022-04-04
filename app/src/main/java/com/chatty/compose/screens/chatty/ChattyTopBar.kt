@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -30,11 +31,14 @@ import com.chatty.compose.screens.chatty.mock.recentMessages
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.TopBar
+import com.chatty.compose.ui.theme.LocalChattyColors
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalScaffoldState
 import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.launch
 import java.util.*
 
+@Preview
 @Composable
 fun ChattyTopBar() {
     val scaffoldState = LocalScaffoldState.current
@@ -45,7 +49,7 @@ fun ChattyTopBar() {
     var searchContent by remember { mutableStateOf("") }
 
     TopBar(
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.chattyColors.backgroundColor,
         start =  {
             IconButton(
                 onClick = {
@@ -54,7 +58,7 @@ fun ChattyTopBar() {
                             scaffoldState.drawerState.open()
                         }
                     }
-                }
+                },
             ) {
                 CircleShapeImage(size = 32.dp, painter = painterResource(id = R.drawable.ava4))
             }
@@ -78,7 +82,7 @@ fun ChattyTopBar() {
                         .width(300.dp)
                         .padding(horizontal = 4.dp)
                         .focusRequester(focusRequester),
-                    textStyle = TextStyle(fontSize = 16.sp)
+                    textStyle = TextStyle(fontSize = 16.sp, color = MaterialTheme.chattyColors.textColor)
                 ) { innerText ->
                     CenterRow(Modifier.fillMaxWidth()) {
                         Box(
@@ -90,7 +94,7 @@ fun ChattyTopBar() {
                     }
                 }
             } else {
-                Text("Chatty", modifier = Modifier)
+                Text("Chatty", color = MaterialTheme.chattyColors.textColor)
             }
         },
         end = {
@@ -102,7 +106,7 @@ fun ChattyTopBar() {
                         searchContent = ""
                     },
                 ) {
-                    Icon(Icons.Filled.Close, null)
+                    Icon(Icons.Filled.Close, null, tint = MaterialTheme.chattyColors.iconColor)
                 }
             } else {
                 IconButton(
@@ -110,7 +114,7 @@ fun ChattyTopBar() {
                         isSearching = true
                     }
                 ) {
-                    Icon(Icons.Rounded.Search, null)
+                    Icon(Icons.Rounded.Search, null, tint = MaterialTheme.chattyColors.iconColor)
                 }
             }
         }

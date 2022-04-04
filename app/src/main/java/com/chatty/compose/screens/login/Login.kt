@@ -23,6 +23,7 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -95,7 +96,7 @@ fun Login() {
                                     openDropMenu = !openDropMenu
                                 }
                             ) {
-                                Icon(painterResource(R.drawable.expand), null)
+                                Icon(painterResource(R.drawable.expand), null, tint = MaterialTheme.chattyColors.iconColor)
                             }
                         }
                     )
@@ -129,7 +130,7 @@ fun Login() {
                                 passwordHidden = !passwordHidden
                             }
                         ) {
-                            Icon(painterResource(id = R.drawable.visibility), null)
+                            Icon(painterResource(id = R.drawable.visibility), null, tint = MaterialTheme.chattyColors.iconColor)
                         }
                     }
                 )
@@ -147,7 +148,7 @@ fun Login() {
                 elevation = ButtonDefaults.elevation(defaultElevation = 10.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Icon(painterResource(R.drawable.login), null, tint = Color.White)
+                Icon(painterResource(R.drawable.login), null, tint = MaterialTheme.chattyColors.iconColor)
                 WidthSpacer(5.dp)
                 Text("登入", color = Color.White)
             }
