@@ -6,16 +6,23 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.screens.chatty.mock.initialMessages
 import com.chatty.compose.screens.contracts.AddFriends
 import com.chatty.compose.screens.contracts.QrCodeScan
 import com.chatty.compose.screens.contracts.StrangerProfile
 import com.chatty.compose.screens.contracts.UserProfile
+import com.chatty.compose.screens.conversation.ConversationScreen
+import com.chatty.compose.screens.conversation.ConversationUiState
+import com.chatty.compose.screens.conversation.LocalBackPressedDispatcher
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
@@ -47,14 +54,35 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberAnimatedNavController()
 
-                CompositionLocalProvider(LocalNavController provides navController) {
+                DisposableEffect(Unit) {
+                    val destinationChangedListener =
+                        object : NavController.OnDestinationChangedListener {
+                            override fun onDestinationChanged(
+                                controller: NavController,
+                                destination: NavDestination,
+                                arguments: Bundle?
+                            ) {
+                                hideIME()
+                            }
+                        }
+                    navController.addOnDestinationChangedListener(destinationChangedListener)
+                    onDispose {
+                        navController.removeOnDestinationChangedListener(
+                            destinationChangedListener
+                        )
+                    }
+                }
+
+                CompositionLocalProvider(
+                    LocalNavController provides navController,
+                    LocalBackPressedDispatcher provides onBackPressedDispatcher
+                ) {
                     AnimatedNavHost(navController, AppScreen.main) {
                         composable(
                             AppScreen.splash,
                             enterTransition = null,
                             exitTransition = null
                         ) {
-                            hideIME()
                             Splash()
                         }
                         composable(
@@ -62,7 +90,6 @@ class MainActivity : ComponentActivity() {
                             enterTransition = null,
                             exitTransition = null
                         ) {
-                            hideIME()
                             Login()
                         }
                         composable(
@@ -70,7 +97,6 @@ class MainActivity : ComponentActivity() {
                             enterTransition = null,
                             exitTransition = null
                         ) {
-                            hideIME()
                             Register()
                         }
                         composable(
@@ -78,7 +104,6 @@ class MainActivity : ComponentActivity() {
                             enterTransition = null,
                             exitTransition = null,
                         ) {
-                            hideIME()
                             AppScaffold()
                         }
                         composable(
@@ -89,10 +114,9 @@ class MainActivity : ComponentActivity() {
                             enterTransition = null,
                             exitTransition = null
                         ) { backStackEntry ->
-                            var uid = backStackEntry.arguments?.getString("uid")!!
+                            val uid = backStackEntry.arguments?.getString("uid")!!
                             // 待改进
-                            var user = friends.find { it.uid == uid }!!
-                            UserProfile(user = user)
+                            UserProfile(user = fetchUserInfoById(uid))
                         }
                         composable(
                             route = "${AppScreen.profileEdit}/{category}",
@@ -113,11 +137,9 @@ class MainActivity : ComponentActivity() {
                             PersonalProfileEditor(title, category == "gender", category == "qrcode")
                         }
                         composable(AppScreen.addFriends) {
-                            hideIME()
                             AddFriends()
                         }
                         composable(AppScreen.qr_scan) {
-                            hideIME()
                             QrCodeScan()
                         }
                         composable(
@@ -129,7 +151,6 @@ class MainActivity : ComponentActivity() {
                             enterTransition = null,
                             exitTransition = null
                         ) { backStackEntry ->
-                            hideIME()
                             var uid = backStackEntry.arguments?.getString("uid")!!
                             // 待改进
                             var user = friends.find { it.uid == uid }!!
@@ -137,9 +158,26 @@ class MainActivity : ComponentActivity() {
                             var fromSource = backStackEntry.arguments?.getString("from_source")!!
                             StrangerProfile(user, fromSource)
                         }
+                        composable(
+                            route = "${AppScreen.conversation}/{uid}",
+                            arguments = listOf(navArgument("uid") {
+                                type = NavType.StringType
+                            })
+                        ) { backStackEntry ->
+                            val uid = backStackEntry.arguments?.getString("uid")!!
+                            ConversationScreen(
+                                uiState = ConversationUiState(
+                                    initialMessages = initialMessages,
+                                    conversationUserId = uid
+                                )
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+
+
+fun fetchUserInfoById(uid: String) = friends.first { it.uid == uid }

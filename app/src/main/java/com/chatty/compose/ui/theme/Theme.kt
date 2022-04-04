@@ -19,24 +19,53 @@ val MaterialTheme.chattyColors: ChattyColors
     get() = LocalChattyColors.current
 
 class ChattyColors {
-    var isLight by mutableStateOf(false)
+    var isLight by mutableStateOf(true)
         private set
 
     val backgroundColor: Color
         @Composable
-        get() = animateColorAsState(targetValue = if (isLight) Color.White else Color.Black, tween(700)).value
+        get() = animateColorAsState(
+            targetValue = if (isLight) Color(0xFFF8F8F8) else Color(0xFF464547),
+            tween(700)
+        ).value
 
     val textColor: Color
         @Composable
-        get() = animateColorAsState(targetValue = if (isLight) Color.Black else Color.White, tween(700)).value
+        get() = animateColorAsState(
+            targetValue = if (isLight) Color.Black else Color.White,
+            tween(700)
+        ).value
 
     val iconColor: Color
         @Composable
-        get() = animateColorAsState(targetValue = if (isLight) Color.Black else Color.White, tween(700)).value
+        get() = animateColorAsState(
+            targetValue = if (isLight) Color.Black else Color.White,
+            tween(700)
+        ).value
 
     fun toggleTheme() {
         isLight = !isLight
     }
+
+    val ConversationBubbleBg
+        get() = if (isLight) Color.White else Color.Black
+    val ConversationBubbleBgMe = Color.LightGray
+    val ConversationText
+        get() = if (isLight) Color.Black else Color.White
+    val ConversationTextMe
+        get() = if (isLight) Color.Black else Color.Black
+    val ConversationAnnotatedText
+        get() = if (isLight) Color(0xFF03A9F4) else Color(0xFFDAEAF1)
+    val ConversationAnnotatedTextMe
+        get() = if (isLight) Color(0xFFDAEAF1) else Color(0xFF03A9F4)
+    val ConversationInputSelector
+        get() = if (isLight) Color.Gray.copy(0.7f) else Color.White.copy(0.8f)
+    val ConversationInputSelectorSelected
+        get() = if (isLight) Color.Black else Color.White
+    val ConversationHintText
+        get() = if (isLight) Color.Gray.copy(0.7f) else Color.White.copy(0.3f)
+    val DisabledContent
+        get() = if (isLight) Color.LightGray.copy(0.8f) else Color.White.copy(0.5f)
 }
 
 private val DarkColorPalette = darkColors(

@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.chatty.compose.screens.chatty.mock.displayMessages
 import com.chatty.compose.ui.theme.chattyColors
 
@@ -27,7 +26,7 @@ fun Chatty() {
             itemsIndexed(displayMessages, key = { _, item ->
                 item.mid
             }) { _, item ->
-                FriendMessageItem(item.userProfile.avatarRes, item.userProfile.nickname, item.lastMsg, item.unreadCount)
+                FriendMessageItem(item.userProfile, item.lastMsg, item.unreadCount)
             }
         }
     }
