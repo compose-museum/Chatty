@@ -11,21 +11,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.chatty.compose.bean.UserProfileData
+import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.NumberChips
 import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.chattyColors
+import com.chatty.compose.ui.utils.LocalNavController
 import kotlin.random.Random
 
 @Composable
 fun FriendMessageItem(
-    avatarRes: Int,
-    friendName: String,
+    userProfileData: UserProfileData,
     lastMsg: String,
     unreadCount: Int = 0
 ) {
@@ -37,16 +38,20 @@ fun FriendMessageItem(
             },
         color = MaterialTheme.chattyColors.backgroundColor
     ) {
+        val navController = LocalNavController.current
         CenterRow(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
+                .clickable {
+                    navController.navigate("${AppScreen.conversation}/${userProfileData.uid}")
+                }
         ) {
-            CircleShapeImage(60.dp, painter = painterResource(id = avatarRes))
+            CircleShapeImage(60.dp, painter = painterResource(id = userProfileData.avatarRes))
             Spacer(Modifier.padding(horizontal = 10.dp))
             Column(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = friendName,
+                    text = userProfileData.nickname,
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.chattyColors.textColor
                 )

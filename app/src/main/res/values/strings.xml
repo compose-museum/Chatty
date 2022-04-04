@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Chatty</string>
+
+    <string name="emoji_selector_desc">Emoji selector</string>
+    <string name="emoji_selector_bt_desc">Show Emoji selector</string>
+    <string name="attach_photo_desc">Attach Photo</string>
+    <string name="not_available">Functionality currently not available</string>
+    <string name="not_available_subtitle">Grab a beverage and check back later!</string>
+    <string name="attached_image">Attached image</string>
+    <string name="textfield_hint">开始聊吧</string>
+    <string name="emojis_label">表情</string>
+    <string name="stickers_label">贴纸</string>
+    <string name="author_me">me</string>
+    <string name="now">8:30 PM</string>
+
 </resources>

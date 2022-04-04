@@ -1,5 +1,11 @@
 package com.chatty.compose.ui.utils
 
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.Composable
+
 interface Comparator<T> {
     fun compare(midValue: T, target: T): Boolean
 }
@@ -30,4 +36,24 @@ fun <E> binarySearchFirstElementIndex(arr: List<E>, target: E, comparator: Compa
         }
     }
     return l
+}
+
+
+
+@Composable
+fun FunctionalityNotAvailablePopup(onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        text = {
+            Text(
+                text = "Functionality not available \uD83D\uDE48",
+                style = MaterialTheme.typography.body1
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text(text = "CLOSE")
+            }
+        }
+    )
 }
