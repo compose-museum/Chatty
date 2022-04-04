@@ -34,6 +34,7 @@ import coil.compose.rememberImagePainter
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.HeightSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.theme.ok
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.popUpAllBackStackEntry
@@ -181,7 +182,7 @@ fun Register() {
                                 passwordHidden = !passwordHidden
                             }
                         ) {
-                            Icon(painterResource(id = R.drawable.visibility), null)
+                            Icon(painterResource(id = R.drawable.visibility), null, tint = MaterialTheme.chattyColors.iconColor)
                         }
                     },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)

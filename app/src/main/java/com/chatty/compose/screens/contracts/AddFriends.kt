@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.LocalFocusManager
@@ -38,6 +39,7 @@ import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.ui.components.*
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,7 +71,7 @@ fun AddFriends() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF8F8F8))
+            .background(MaterialTheme.chattyColors.backgroundColor)
     ) {
         AnimatedVisibility(visible = !isSearchingState.value) {
             AddFriendTopBar()
@@ -81,7 +83,7 @@ fun AddFriends() {
             AddFriendsOtherWay()
         } else {
             if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.chattyColors.textColor)
             }
             LazyColumn {
                 displaySearchUsers.value.forEach {
@@ -107,13 +109,13 @@ fun AddFriendTopBar() {
                     navController.popBackStack()
                 }
             ) {
-                Icon(painter = painterResource(id = R.drawable.back), "add_friends")
+                Icon(painter = painterResource(id = R.drawable.back), "add_friends", tint = MaterialTheme.chattyColors.iconColor)
             }
         },
         center =  {
-            Text("添加联系人")
+            Text("添加联系人", color = MaterialTheme.chattyColors.textColor)
         },
-        backgroundColor = Color.White
+        backgroundColor = MaterialTheme.chattyColors.backgroundColor
     )
 }
 
@@ -143,7 +145,7 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                 },
                 modifier = Modifier
                     .height(50.dp)
-                    .border(1.dp, Color.Black, RoundedCornerShape(5.dp))
+                    .border(1.dp, MaterialTheme.chattyColors.textColor, RoundedCornerShape(5.dp))
                     .focusable(true, interactionSource)
                     .onFocusChanged {
                         isSearchingState.value = it.isFocused
@@ -153,7 +155,7 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                             isLoading = false
                         }
                     },
-                textStyle = TextStyle(fontSize = 18.sp),
+                textStyle = TextStyle(fontSize = 18.sp, color = MaterialTheme.chattyColors.textColor),
                 maxLines = 1,
                 keyboardActions = KeyboardActions(
                     onSearch = {
@@ -166,7 +168,8 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = androidx.compose.ui.text.input.ImeAction.Search
-                )
+                ),
+                cursorBrush = SolidColor(MaterialTheme.chattyColors.textColor)
             ) { innerText ->
                 CenterRow(Modifier.fillMaxWidth()) {
                     Box(
@@ -180,7 +183,7 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.search),
                                     contentDescription = null,
-                                    tint = Color.LightGray
+                                    tint = MaterialTheme.chattyColors.iconColor
                                 )
                                 WidthSpacer(value = 3.dp)
                                 Text(
@@ -197,7 +200,7 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                         IconButton(
                             onClick = { searchContent = "" },
                         ) {
-                            Icon(Icons.Filled.Close, null)
+                            Icon(Icons.Filled.Close, null, tint = MaterialTheme.chattyColors.iconColor)
                         }
                     }
                 }
@@ -212,7 +215,7 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                     isSearchingState.value = false
                     searchContent = ""
                 }) {
-                    Text(text = "取消")
+                    Text(text = "取消", color = MaterialTheme.chattyColors.textColor)
                 }
             }
         }
@@ -274,7 +277,7 @@ fun AddFriendsOtherWay(
             .clickable {
                 onClick()
             },
-        color = Color(0xFFF8F8F8)
+        color = MaterialTheme.chattyColors.backgroundColor
     ) {
         CenterRow(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
@@ -282,6 +285,7 @@ fun AddFriendsOtherWay(
             Icon(
                 painter =  painterResource(id = R.drawable.qr_code),
                 contentDescription = "qr_code",
+                tint = MaterialTheme.chattyColors.iconColor,
                 modifier = Modifier
                     .size(60.dp)
                     .padding(12.dp)
@@ -292,21 +296,23 @@ fun AddFriendsOtherWay(
             ) {
                 Text(
                     text = functionName,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.chattyColors.textColor
                 )
                 Spacer(Modifier.padding(vertical = 3.dp))
                 Text(
                     text = description,
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.chattyColors.textColor
                 )
             }
             WidthSpacer(4.dp)
             Column(
                 horizontalAlignment = Alignment.End
             ) {
-                Icon(painter = painterResource(id = R.drawable.expand_right), contentDescription = "")
+                Icon(painter = painterResource(id = R.drawable.expand_right), contentDescription = "", tint = MaterialTheme.chattyColors.iconColor)
             }
         }
     }

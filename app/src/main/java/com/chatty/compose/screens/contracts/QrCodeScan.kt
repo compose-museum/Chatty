@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -30,6 +31,7 @@ import com.chatty.compose.R
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.TopBar
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.USER_CODE_PREFIX
 import com.chatty.compose.ui.utils.hasTorch
@@ -125,7 +127,7 @@ fun QrCodeScanTopBar() {
             IconButton(onClick = {
                 naviController.popBackStack()
             }) {
-                Icon(Icons.Rounded.ArrowBack, null, tint = Color.White)
+                Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
             }
         },
         center = {

@@ -24,6 +24,7 @@ import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.drawLoginStateRing
 
 
@@ -82,7 +83,8 @@ fun UserProfile(user: UserProfileData) {
             ) {
                 Icon(
                     painter = painterResource(id = R.mipmap.phone),
-                    contentDescription = "phone"
+                    contentDescription = "phone",
+                    tint = MaterialTheme.chattyColors.iconColor
                 )
             }
             WidthSpacer(value = 30.dp)
@@ -95,7 +97,8 @@ fun UserProfile(user: UserProfileData) {
             ) {
                 Icon(
                     painter = painterResource(id = R.mipmap.message),
-                    contentDescription = "phone"
+                    contentDescription = "phone",
+                    tint = MaterialTheme.chattyColors.iconColor
                 )
             }
             WidthSpacer(value = 30.dp)
@@ -108,7 +111,8 @@ fun UserProfile(user: UserProfileData) {
             ) {
                 Icon(
                     painter = painterResource(id = R.mipmap.video),
-                    contentDescription = "phone"
+                    contentDescription = "phone",
+                    tint = MaterialTheme.chattyColors.iconColor
                 )
             }
         }

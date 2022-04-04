@@ -19,6 +19,7 @@ import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalModalBottomSheetState
 import kotlinx.coroutines.launch
 
@@ -57,7 +58,7 @@ fun Explorer() {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.White)
+                    .background(MaterialTheme.chattyColors.backgroundColor)
             ) {
                 LazyColumn(
                     modifier = Modifier
@@ -73,7 +74,8 @@ fun Explorer() {
                         ) {
                             Text(
                                 text = "探索新鲜事",
-                                style = MaterialTheme.typography.h4
+                                style = MaterialTheme.typography.h4,
+                                color = MaterialTheme.chattyColors.textColor
                             )
                             Spacer(Modifier.weight(1f))
                             CircleShapeImage(size = 48.dp, painter = painterResource(id = R.drawable.ava4))
@@ -115,30 +117,33 @@ fun SocialItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.chattyColors.textColor
                 )
                 HeightSpacer(value = 2.dp)
                 Text(
                     text = time,
                     style = MaterialTheme.typography.body2,
-                    modifier = Modifier.alpha(0.5f)
+                    modifier = Modifier.alpha(0.5f),
+                    color = MaterialTheme.chattyColors.textColor
                 )
             }
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(Icons.Rounded.MoreVert, null)
+                Icon(Icons.Rounded.MoreVert, null, tint = MaterialTheme.chattyColors.iconColor)
             }
         }
         HeightSpacer(value = 4.dp)
         Text(
-            text = content
+            text = content,
+            color = MaterialTheme.chattyColors.textColor
         )
         HeightSpacer(value = 4.dp)
         CenterRow {
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(painterResource(R.drawable.heart), null, modifier = Modifier.size(24.dp))
+                Icon(painterResource(R.drawable.heart), null, modifier = Modifier.size(24.dp), tint = MaterialTheme.chattyColors.iconColor)
             }
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(painterResource(id = R.drawable.comment), null, modifier = Modifier.size(24.dp))
+                Icon(painterResource(id = R.drawable.comment), null, modifier = Modifier.size(24.dp), tint = MaterialTheme.chattyColors.iconColor)
             }
         }
     }

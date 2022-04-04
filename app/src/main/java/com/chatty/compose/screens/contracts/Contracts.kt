@@ -34,6 +34,7 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.TopBar
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.theme.ok
 import com.chatty.compose.ui.utils.*
 import com.github.promeg.pinyinhelper.Pinyin
@@ -90,7 +91,7 @@ fun Contracts() {
                             text = it.key.toString(),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .background(Color(0xFFF2F4FB))
+                                .background(MaterialTheme.chattyColors.backgroundColor)
                                 .padding(horizontal = 10.dp, vertical = 5.dp),
                             fontWeight = FontWeight.W700,
                             color = Color(0xFF0079D3)
@@ -143,7 +144,7 @@ fun ContractTopBar() {
     val navController = LocalNavController.current
     TopBar(
         center = {
-            Text("通讯录")
+            Text("通讯录", color = MaterialTheme.chattyColors.textColor)
         },
         end = {
             IconButton(
@@ -151,10 +152,10 @@ fun ContractTopBar() {
                     navController.navigate(AppScreen.addFriends)
                 }
             ) {
-                Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends")
+                Icon(painter = painterResource(id = R.drawable.add_friend), "add_friends", tint = MaterialTheme.chattyColors.iconColor)
             }
         },
-        backgroundColor = Color.White
+        backgroundColor = MaterialTheme.chattyColors.backgroundColor
     )
 }
 
@@ -171,7 +172,7 @@ fun FriendItem(
             .clickable {
                 onClick()
             },
-        color = Color(0xFFF8F8F8)
+        color = MaterialTheme.chattyColors.backgroundColor
     ) {
         CenterRow(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
@@ -183,14 +184,16 @@ fun FriendItem(
             ) {
                 Text(
                     text = friendName,
-                    style = MaterialTheme.typography.h6
+                    style = MaterialTheme.typography.h6,
+                    color = MaterialTheme.chattyColors.textColor
                 )
                 Spacer(Modifier.padding(vertical = 3.dp))
                 Text(
                     text = motto,
                     style = MaterialTheme.typography.body2,
                     maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.chattyColors.textColor
                 )
             }
         }
@@ -225,7 +228,7 @@ fun AlphaGuildBar(alphaStates: MutableCollection<AlphaState>, onClick: (Int) -> 
                     currentIndex = index
                 }
             ) {
-                Text(text = alphaState.alpha.toString(), color = if (alphaState.state.value) Color.White else Color.Black)
+                Text(text = alphaState.alpha.toString(), color = if (alphaState.state.value || !MaterialTheme.chattyColors.isLight) Color.White else Color.Black)
             }
         }
     }
