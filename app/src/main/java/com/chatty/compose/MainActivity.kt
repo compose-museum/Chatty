@@ -12,7 +12,10 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.screens.contracts.*
+import com.chatty.compose.screens.contracts.AddFriends
+import com.chatty.compose.screens.contracts.QrCodeScan
+import com.chatty.compose.screens.contracts.StrangerProfile
+import com.chatty.compose.screens.contracts.UserProfile
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
@@ -20,6 +23,7 @@ import com.chatty.compose.screens.splash.Splash
 import com.chatty.compose.ui.components.AppScaffold
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.theme.ChattyTheme
+import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.hideIME
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -35,7 +39,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChattyTheme {
                 val systemUiController = rememberSystemUiController()
-                val useDarkIcons = MaterialTheme.colors.isLight
+                val useDarkIcons = MaterialTheme.colors.isLight && MaterialTheme.chattyColors.isLight
 
                 SideEffect {
                     systemUiController.setSystemBarsColor(Color.Transparent, useDarkIcons)

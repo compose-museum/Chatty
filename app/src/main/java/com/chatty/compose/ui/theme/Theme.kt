@@ -18,7 +18,7 @@ val MaterialTheme.chattyColors: ChattyColors
     @ReadOnlyComposable
     get() = LocalChattyColors.current
 
-class ChattyColors() {
+class ChattyColors {
     var isLight by mutableStateOf(false)
         private set
 
