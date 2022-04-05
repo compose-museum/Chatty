@@ -1,7 +1,6 @@
-package com.chatty.compose.screens.chatty.mock
+package com.chatty.compose.screens.conversation.mock
 
 import com.chatty.compose.R
-import com.chatty.compose.screens.conversation.ConversationUiState
 import com.chatty.compose.screens.conversation.Message
 
 

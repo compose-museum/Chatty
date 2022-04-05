@@ -1,11 +1,7 @@
 package com.chatty.compose.screens.conversation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -21,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
 import com.chatty.compose.fetchUserInfoById
-import com.chatty.compose.screens.chatty.mock.initialMessages
+import com.chatty.compose.screens.conversation.mock.initialMessages
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController

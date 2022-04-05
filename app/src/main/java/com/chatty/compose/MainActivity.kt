@@ -5,11 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOut
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,7 +20,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.screens.chatty.mock.initialMessages
 import com.chatty.compose.screens.contracts.AddFriends
 import com.chatty.compose.screens.contracts.QrCodeScan
 import com.chatty.compose.screens.contracts.StrangerProfile
@@ -32,6 +27,7 @@ import com.chatty.compose.screens.contracts.UserProfile
 import com.chatty.compose.screens.conversation.ConversationScreen
 import com.chatty.compose.screens.conversation.ConversationUiState
 import com.chatty.compose.screens.conversation.LocalBackPressedDispatcher
+import com.chatty.compose.screens.conversation.mock.initialMessages
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
