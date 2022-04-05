@@ -4,11 +4,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOut
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.IntOffset
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -46,7 +55,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ChattyTheme {
                 val systemUiController = rememberSystemUiController()
-                val useDarkIcons = MaterialTheme.colors.isLight && MaterialTheme.chattyColors.isLight
+                val useDarkIcons =
+                    MaterialTheme.colors.isLight && MaterialTheme.chattyColors.isLight
 
                 SideEffect {
                     systemUiController.setSystemBarsColor(Color.Transparent, useDarkIcons)
@@ -77,7 +87,37 @@ class MainActivity : ComponentActivity() {
                     LocalNavController provides navController,
                     LocalBackPressedDispatcher provides onBackPressedDispatcher
                 ) {
-                    AnimatedNavHost(navController, AppScreen.main) {
+
+                    val transSpec = remember { tween<IntOffset>(700) }
+                    AnimatedNavHost(
+                        navController = navController,
+                        startDestination = AppScreen.main,
+                        enterTransition = {
+                            slideInHorizontally(
+                                initialOffsetX = { it },
+                                animationSpec = transSpec
+                            )
+                        },
+                        popExitTransition = {
+                            slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = transSpec
+                            )
+                        },
+                        exitTransition = {
+                            slideOutHorizontally(
+                                targetOffsetX = { -it },
+                                animationSpec = transSpec
+                            )
+                        },
+                        popEnterTransition = {
+                            slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = transSpec
+                            )
+                        }
+
+                    ) {
                         composable(
                             AppScreen.splash,
                             enterTransition = null,
