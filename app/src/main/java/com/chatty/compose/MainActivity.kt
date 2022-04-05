@@ -8,6 +8,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.SideEffect
@@ -17,6 +18,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
@@ -44,6 +47,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity() {
+
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,137 +87,143 @@ class MainActivity : ComponentActivity() {
                     LocalNavController provides navController,
                     LocalBackPressedDispatcher provides onBackPressedDispatcher
                 ) {
-
-                    val transSpec = remember { tween<IntOffset>(700) }
-                    AnimatedNavHost(
-                        navController = navController,
-                        startDestination = AppScreen.main,
-                        enterTransition = {
-                            slideInHorizontally(
-                                initialOffsetX = { it },
-                                animationSpec = transSpec
-                            )
-                        },
-                        popExitTransition = {
-                            slideOutHorizontally(
-                                targetOffsetX = { it },
-                                animationSpec = transSpec
-                            )
-                        },
-                        exitTransition = {
-                            slideOutHorizontally(
-                                targetOffsetX = { -it },
-                                animationSpec = transSpec
-                            )
-                        },
-                        popEnterTransition = {
-                            slideInHorizontally(
-                                initialOffsetX = { -it },
-                                animationSpec = transSpec
-                            )
-                        }
-
-                    ) {
-                        composable(
-                            AppScreen.splash,
-                            enterTransition = null,
-                            exitTransition = null
-                        ) {
-                            Splash()
-                        }
-                        composable(
-                            AppScreen.login,
-                            enterTransition = null,
-                            exitTransition = null
-                        ) {
-                            Login()
-                        }
-                        composable(
-                            AppScreen.register,
-                            enterTransition = null,
-                            exitTransition = null
-                        ) {
-                            Register()
-                        }
-                        composable(
-                            AppScreen.main,
-                            enterTransition = null,
-                            exitTransition = null,
-                        ) {
-                            AppScaffold()
-                        }
-                        composable(
-                            route = "${AppScreen.userProfile}/{uid}",
-                            arguments = listOf(navArgument("uid") {
-                                type = NavType.StringType
-                            }),
-                            enterTransition = null,
-                            exitTransition = null
-                        ) { backStackEntry ->
-                            val uid = backStackEntry.arguments?.getString("uid")!!
-                            // 待改进
-                            UserProfile(user = fetchUserInfoById(uid))
-                        }
-                        composable(
-                            route = "${AppScreen.profileEdit}/{category}",
-                            arguments = listOf(navArgument("category") {
-                                type = NavType.StringType
-                            }),
-                            enterTransition = null,
-                            exitTransition = null
-                        ) { backStackEntry ->
-                            var category = backStackEntry.arguments?.getString("category")
-                            var title = when (category) {
-                                "gender" -> "选择性别"
-                                "age" -> "输入年龄"
-                                "phone" -> "输入电话号"
-                                "email" -> "输入电子邮箱"
-                                else -> "展示二维码"
-                            }
-                            PersonalProfileEditor(title, category == "gender", category == "qrcode")
-                        }
-                        composable(AppScreen.addFriends) {
-                            AddFriends()
-                        }
-                        composable(AppScreen.qr_scan) {
-                            QrCodeScan()
-                        }
-                        composable(
-                            route = "${AppScreen.strangerProfile}/{uid}/{from_source}",
-                            arguments = listOf(
-                                navArgument("uid") { type = NavType.StringType },
-                                navArgument("from_source") { type = NavType.StringType },
-                            ),
-                            enterTransition = null,
-                            exitTransition = null
-                        ) { backStackEntry ->
-                            var uid = backStackEntry.arguments?.getString("uid")!!
-                            // 待改进
-                            var user = friends.find { it.uid == uid }!!
-
-                            var fromSource = backStackEntry.arguments?.getString("from_source")!!
-                            StrangerProfile(user, fromSource)
-                        }
-                        composable(
-                            route = "${AppScreen.conversation}/{uid}",
-                            arguments = listOf(navArgument("uid") {
-                                type = NavType.StringType
-                            })
-                        ) { backStackEntry ->
-                            val uid = backStackEntry.arguments?.getString("uid")!!
-                            ConversationScreen(
-                                uiState = ConversationUiState(
-                                    initialMessages = initialMessages,
-                                    conversationUserId = uid
-                                )
-                            )
-                        }
-                    }
+                    ChattyNavHost(navController)
                 }
             }
         }
     }
 }
 
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun ChattyNavHost(navController: NavHostController) {
+    val transSpec = remember { tween<IntOffset>(700) }
+
+    AnimatedNavHost(
+        navController = navController,
+        startDestination = AppScreen.main,
+        enterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { it },
+                animationSpec = transSpec
+            )
+        },
+        popExitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { it },
+                animationSpec = transSpec
+            )
+        },
+        exitTransition = {
+            slideOutHorizontally(
+                targetOffsetX = { -it },
+                animationSpec = transSpec
+            )
+        },
+        popEnterTransition = {
+            slideInHorizontally(
+                initialOffsetX = { -it },
+                animationSpec = transSpec
+            )
+        }
+
+    ) {
+        composable(
+            AppScreen.splash,
+            enterTransition = null,
+            exitTransition = null
+        ) {
+            Splash()
+        }
+        composable(
+            AppScreen.login,
+            enterTransition = null,
+            exitTransition = null
+        ) {
+            Login()
+        }
+        composable(
+            AppScreen.register,
+            enterTransition = null,
+            exitTransition = null
+        ) {
+            Register()
+        }
+        composable(
+            AppScreen.main,
+            enterTransition = null,
+            exitTransition = null,
+        ) {
+            AppScaffold()
+        }
+        composable(
+            route = "${AppScreen.userProfile}/{uid}",
+            arguments = listOf(navArgument("uid") {
+                type = NavType.StringType
+            }),
+            enterTransition = null,
+            exitTransition = null
+        ) { backStackEntry ->
+            val uid = backStackEntry.arguments?.getString("uid")!!
+            // 待改进
+            UserProfile(user = fetchUserInfoById(uid))
+        }
+        composable(
+            route = "${AppScreen.profileEdit}/{category}",
+            arguments = listOf(navArgument("category") {
+                type = NavType.StringType
+            }),
+            enterTransition = null,
+            exitTransition = null
+        ) { backStackEntry ->
+            var category = backStackEntry.arguments?.getString("category")
+            var title = when (category) {
+                "gender" -> "选择性别"
+                "age" -> "输入年龄"
+                "phone" -> "输入电话号"
+                "email" -> "输入电子邮箱"
+                else -> "展示二维码"
+            }
+            PersonalProfileEditor(title, category == "gender", category == "qrcode")
+        }
+        composable(AppScreen.addFriends) {
+            AddFriends()
+        }
+        composable(AppScreen.qr_scan) {
+            QrCodeScan()
+        }
+        composable(
+            route = "${AppScreen.strangerProfile}/{uid}/{from_source}",
+            arguments = listOf(
+                navArgument("uid") { type = NavType.StringType },
+                navArgument("from_source") { type = NavType.StringType },
+            ),
+            enterTransition = null,
+            exitTransition = null
+        ) { backStackEntry ->
+            var uid = backStackEntry.arguments?.getString("uid")!!
+            // 待改进
+            var user = friends.find { it.uid == uid }!!
+
+            var fromSource = backStackEntry.arguments?.getString("from_source")!!
+            StrangerProfile(user, fromSource)
+        }
+        composable(
+            route = "${AppScreen.conversation}/{uid}",
+            arguments = listOf(navArgument("uid") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val uid = backStackEntry.arguments?.getString("uid")!!
+            ConversationScreen(
+                uiState = ConversationUiState(
+                    initialMessages = initialMessages,
+                    conversationUserId = uid
+                )
+            )
+        }
+    }
+}
 
 fun fetchUserInfoById(uid: String) = friends.first { it.uid == uid }
