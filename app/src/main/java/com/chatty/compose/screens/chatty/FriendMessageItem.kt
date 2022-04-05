@@ -15,11 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.bean.UserProfileData
-import com.chatty.compose.ui.components.AppScreen
-import com.chatty.compose.ui.components.CenterRow
-import com.chatty.compose.ui.components.CircleShapeImage
-import com.chatty.compose.ui.components.NumberChips
-import com.chatty.compose.ui.components.WidthSpacer
+import com.chatty.compose.ui.components.*
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 import kotlin.random.Random
@@ -30,20 +26,17 @@ fun FriendMessageItem(
     lastMsg: String,
     unreadCount: Int = 0
 ) {
+    val navController = LocalNavController.current
     Surface(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-
+                navController.navigate("${AppScreen.conversation}/${userProfileData.uid}")
             },
         color = MaterialTheme.chattyColors.backgroundColor
     ) {
-        val navController = LocalNavController.current
         CenterRow(
-            modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
-                .clickable {
-                    navController.navigate("${AppScreen.conversation}/${userProfileData.uid}")
-                }
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp),
         ) {
             CircleShapeImage(60.dp, painter = painterResource(id = userProfileData.avatarRes))
             Spacer(Modifier.padding(horizontal = 10.dp))
