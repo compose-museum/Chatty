@@ -66,7 +66,6 @@ fun Explorer() {
                         .fillMaxSize(),
                     state = lazyState
                 ) {
-                    item { Spacer(Modifier.statusBarsPadding()) }
                     item {
                         CenterRow(
                             modifier = Modifier
