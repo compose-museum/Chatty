@@ -53,7 +53,8 @@ fun Explorer() {
     CompositionLocalProvider(LocalModalBottomSheetState provides bottomSheetState) {
         ModalBottomSheetLayout(
             sheetContent = { CreatePost() },
-            sheetState = bottomSheetState
+            sheetState = bottomSheetState,
+            modifier = Modifier.padding(WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues())
         ) {
             Box(
                 modifier = Modifier
@@ -65,7 +66,6 @@ fun Explorer() {
                         .fillMaxSize(),
                     state = lazyState
                 ) {
-                    item { Spacer(Modifier.statusBarsPadding()) }
                     item {
                         CenterRow(
                             modifier = Modifier

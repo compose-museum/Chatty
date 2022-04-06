@@ -29,7 +29,7 @@ val friends = listOf(
     UserProfileData(R.drawable.ava7, "Bird", "对韭当割，人生几何。"),
     UserProfileData(R.drawable.ava8, "泰拉瑞亚", "未曾谋面的也终将会相遇的，慢慢来吧，慢慢约会吧\uD83D\uDC31"),
     UserProfileData(R.drawable.ava9, "奥风", "这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。"),
-    UserProfileData(R.drawable.ava10, "竹蜻蜓", "回到过去")
+    UserProfileData(R.drawable.ava10, "0x5f3759df", "科学的尽头是玄学")
 )
 
 val recentMessages = mutableStateListOf(

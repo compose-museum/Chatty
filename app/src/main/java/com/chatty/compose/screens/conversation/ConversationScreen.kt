@@ -59,7 +59,7 @@ fun ConversationScreen(
                 CompositionLocalProvider(LocalConversationUser provides fetchUserInfoById(uiState.conversationUserId)) {
                     Messages(
                         messages = uiState.messages,
-                        navigateToProfile = { navController.navigate(AppScreen.userProfile) },
+                        navigateToProfile = { navController.navigate("${AppScreen.userProfile}/${uiState.conversationUserId}") },
                         modifier = Modifier.weight(1f),
                         scrollState = scrollState
                     )

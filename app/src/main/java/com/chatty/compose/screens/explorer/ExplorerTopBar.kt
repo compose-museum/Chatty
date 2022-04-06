@@ -32,7 +32,6 @@ fun ExplorerTopBar(
     ) {
         CenterRow(
             modifier = Modifier
-                .statusBarsPadding()
                 .padding(12.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
