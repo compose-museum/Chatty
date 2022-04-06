@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material.AppBarDefaults.ContentPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Done
@@ -95,6 +96,7 @@ fun CreatePostTopBar() {
             }) {
                 Icon(Icons.Rounded.Done, null, tint = MaterialTheme.chattyColors.iconColor)
             }
-        }
+        },
+        contentPadding = ContentPadding
     )
 }

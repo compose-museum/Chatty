@@ -23,10 +23,11 @@ fun TopBar(
     center: @Composable () -> Unit = {},
     end: @Composable () -> Unit = {},
     backgroundColor: Color = MaterialTheme.colors.primarySurface,
-    elevation: Dp = AppBarDefaults.TopAppBarElevation
+    elevation: Dp = AppBarDefaults.TopAppBarElevation,
+    contentPadding: PaddingValues = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues()
 ) {
     TopAppBar(
-        contentPadding = WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues(),
+        contentPadding = contentPadding,
         backgroundColor = backgroundColor,
         elevation = elevation,
         modifier = modifier
