@@ -1,11 +1,8 @@
 package com.chatty.compose.screens.contracts
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,6 +30,7 @@ fun UserProfile(user: UserProfileData) {
     val verticalScrollState = rememberScrollState()
     Column(modifier = Modifier
         .fillMaxWidth()
+        .background(MaterialTheme.chattyColors.backgroundColor)
         .verticalScroll(verticalScrollState)
         .systemBarsPadding()
         .padding(horizontal = 20.dp),
@@ -57,13 +55,14 @@ fun UserProfile(user: UserProfileData) {
             fontSize = 40.sp,
             fontWeight = FontWeight.ExtraBold,
             fontFamily = FontFamily.Monospace,
+            color = MaterialTheme.chattyColors.textColor
         )
         HeightSpacer(value = 10.dp)
         Text(
             text = user.motto,
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Companion.Gray,
+            color = MaterialTheme.chattyColors.textColor,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis
         )
@@ -130,7 +129,7 @@ fun UserProfileDetail(user: UserProfileData) {
             text = "用户详情",
             fontSize = 25.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
+            color = MaterialTheme.chattyColors.textColor
         )
         Divider(modifier = Modifier
             .fillMaxWidth()
@@ -148,7 +147,8 @@ fun UserProfileDetail(user: UserProfileData) {
                 modifier = Modifier.constrainAs(genderTitleRef) {
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
             Text(
                 text = "年龄",
@@ -157,7 +157,8 @@ fun UserProfileDetail(user: UserProfileData) {
                 modifier = Modifier.constrainAs(ageTitleRef) {
                     top.linkTo(genderTitleRef.bottom, 15.dp)
                     start.linkTo(parent.start)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
             Text(
                 text = "手机号",
@@ -166,7 +167,8 @@ fun UserProfileDetail(user: UserProfileData) {
                 modifier = Modifier.constrainAs(phoneTitleRef) {
                     top.linkTo(ageTitleRef.bottom, 15.dp)
                     start.linkTo(parent.start)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
             Text(
                 text = "电子邮箱",
@@ -175,49 +177,50 @@ fun UserProfileDetail(user: UserProfileData) {
                 modifier = Modifier.constrainAs(emailTitleRef) {
                     top.linkTo(phoneTitleRef.bottom, 15.dp)
                     start.linkTo(parent.start)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
 
             Text(
                 text = user.gender ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
                 modifier = Modifier.constrainAs(genderRef) {
                     top.linkTo(genderTitleRef.top)
                     start.linkTo(barrier, 30.dp)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
 
             Text(
                 text = user.age?.toString() ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
                 modifier = Modifier.constrainAs(ageRef) {
                     top.linkTo(ageTitleRef.top)
                     start.linkTo(barrier, 30.dp)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
             Text(
                 text = user.phone ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
                 modifier = Modifier.constrainAs(phoneRef) {
                     top.linkTo(phoneTitleRef.top)
                     start.linkTo(barrier, 30.dp)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
             Text(
                 text = user.email ?: "未知",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
                 modifier = Modifier.constrainAs(emailRef) {
                     top.linkTo(emailTitleRef.top)
                     start.linkTo(barrier, 30.dp)
-                }
+                },
+                color = MaterialTheme.chattyColors.textColor
             )
         }
     }
@@ -233,7 +236,7 @@ fun MoreFriendOptions() {
             text = "更多设置",
             fontSize = 25.sp,
             fontWeight = FontWeight.ExtraBold,
-            color = Color.Black,
+            color = MaterialTheme.chattyColors.textColor
         )
         Divider(modifier = Modifier
             .fillMaxWidth()
@@ -248,7 +251,8 @@ fun MoreFriendOptions() {
             Text(
                 text = "添加到置顶",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.chattyColors.textColor
             )
             Switch(
                 checked = isFollowed,
@@ -267,7 +271,8 @@ fun MoreFriendOptions() {
             Text(
                 text = "加入到黑名单",
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.chattyColors.textColor
             )
             Switch(
                 checked = isBlocked,

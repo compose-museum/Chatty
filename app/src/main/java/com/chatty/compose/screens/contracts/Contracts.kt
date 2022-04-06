@@ -62,9 +62,21 @@ fun Contracts() {
             .background(Color(0xFFF8F8F8))
     ) {
         ContractTopBar()
-        var sortedFriends = friends.groupBy {
-            Pinyin.toPinyin(it.nickname.first()).first()
-        }.toSortedMap()
+        var sortedFriends = remember{
+            friends.groupBy {
+            var firstLetter = Pinyin.toPinyin(it.nickname.first()).first()
+                if (!firstLetter.isLetter()) { '#' }
+                else {
+                    firstLetter.uppercaseChar()
+                }
+            }.toSortedMap { a: Char, b: Char ->
+                when {
+                    a == '#' -> 1
+                    b == '#' -> -1
+                    else -> a.compareTo(b)
+                }
+            }
+        }
         val preSumIndexToStateMap = remember(sortedFriends) { mutableMapOf<Int, AlphaState>() }
         val alphaCountPreSumList = remember(sortedFriends) {
             var currentSum = 0
