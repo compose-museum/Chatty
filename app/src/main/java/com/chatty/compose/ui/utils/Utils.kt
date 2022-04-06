@@ -7,15 +7,15 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 
 interface Comparator<T> {
-    fun compare(midValue: T, target: T): Boolean
+    fun compare(target: T): Boolean
 }
 
-fun <E> binarySearchLastElementIndex(arr: List<E>, target: E, comparator: Comparator<E>): Int {
+fun <E> List<E>.searchLastElementIndex(comparator: Comparator<E>): Int {
     var l = -1
-    var r = arr.size - 1
+    var r = size - 1
     while (l < r) {
-        var mid = l - (l - r - 1) / 2
-        if (comparator.compare(arr[mid], target)) {
+        val mid = l - (l - r - 1) / 2
+        if (comparator.compare(get(mid))) {
             l = mid
         } else {
             r = mid - 1
@@ -24,12 +24,12 @@ fun <E> binarySearchLastElementIndex(arr: List<E>, target: E, comparator: Compar
     return l
 }
 
-fun <E> binarySearchFirstElementIndex(arr: List<E>, target: E, comparator: Comparator<E>): Int {
+fun <E> List<E>.searchFirstElementIndex(comparator: Comparator<E>): Int {
     var l = 0
-    var r = arr.size
+    var r = size
     while (l < r) {
-        var mid = l - (l - r) / 2
-        if (comparator.compare(arr[mid], target)) {
+        val mid = l - (l - r) / 2
+        if (comparator.compare(get(mid))) {
             r = mid
         } else {
             l = mid + 1

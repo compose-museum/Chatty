@@ -120,9 +120,9 @@ fun Contracts() {
                 AlphaGuildBar(preSumIndexToStateMap.values) { selectIndex ->
                     scope.launch {
                         lazyListState.scrollToItem(alphaCountPreSumList[selectIndex])
-                        var newestAlphaIndex = binarySearchLastElementIndex(alphaCountPreSumList, lazyListState.firstVisibleItemIndex, object: Comparator<Int> {
-                            override fun compare(midValue: Int, target: Int): Boolean {
-                                return midValue <= target
+                        var newestAlphaIndex = alphaCountPreSumList.searchLastElementIndex(object: Comparator<Int> {
+                            override fun compare(target: Int): Boolean {
+                                return target <= lazyListState.firstVisibleItemIndex
                             }
                         })
                         currentSelectedAlphaIndex = newestAlphaIndex
@@ -134,9 +134,9 @@ fun Contracts() {
             }
         }
         LaunchedEffect(lazyListState.firstVisibleItemIndex) {
-            currentSelectedAlphaIndex = binarySearchLastElementIndex(alphaCountPreSumList, lazyListState.firstVisibleItemIndex,  object: Comparator<Int> {
-                override fun compare(midValue: Int, target: Int): Boolean {
-                    return midValue <= target
+            currentSelectedAlphaIndex = alphaCountPreSumList.searchLastElementIndex(object: Comparator<Int> {
+                override fun compare(target: Int): Boolean {
+                    return target <= lazyListState.firstVisibleItemIndex
                 }
             })
         }
