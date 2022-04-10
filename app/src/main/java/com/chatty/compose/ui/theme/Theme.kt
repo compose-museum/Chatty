@@ -9,6 +9,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 
+
 val LocalChattyColors = compositionLocalOf {
     ChattyColors()
 }
@@ -18,54 +19,83 @@ val MaterialTheme.chattyColors: ChattyColors
     @ReadOnlyComposable
     get() = LocalChattyColors.current
 
-class ChattyColors {
+
+interface IChattyColors {
+    val backgroundColor @Composable get() = Color.Black
+    val textColor @Composable get() = Color.Black
+    val iconColor @Composable get() = Color.Black
+    val ConversationBubbleBg: Color
+    val ConversationBubbleBgMe: Color
+    val ConversationText: Color
+    val ConversationTextMe: Color
+    val ConversationAnnotatedText: Color
+    val ConversationAnnotatedTextMe: Color
+    val ConversationInputSelector: Color
+    val ConversationInputSelectorSelected: Color
+    val ConversationHintText: Color
+    val DisabledContent: Color
+}
+
+private object LightColors : IChattyColors {
+    override val backgroundColor @Composable get() = Color(0xFFF8F8F8)
+    override val textColor @Composable get() = Color.Black
+    override val iconColor @Composable get() = Color.Black
+    override val ConversationBubbleBg = Color.White
+    override val ConversationBubbleBgMe = Color.LightGray
+    override val ConversationText = Color.Black
+    override val ConversationTextMe = Color.Black
+    override val ConversationAnnotatedText = Color(0xFF03A9F4)
+    override val ConversationAnnotatedTextMe = Color(0xFFDAEAF1)
+    override val ConversationInputSelector = Color.Gray.copy(0.7f)
+    override val ConversationInputSelectorSelected = Color.Black
+    override val ConversationHintText = Color.Gray.copy(0.7f)
+    override val DisabledContent = Color.LightGray.copy(0.8f)
+}
+
+private object DarkColors : IChattyColors {
+    override val backgroundColor @Composable get() = Color(0xFF464547)
+    override val textColor: Color @Composable get() = Color.White
+    override val iconColor: Color @Composable get() = Color.White
+    override val ConversationBubbleBg = Color.Black
+    override val ConversationBubbleBgMe = Color.LightGray
+    override val ConversationText = Color.White
+    override val ConversationTextMe = Color.Black
+    override val ConversationAnnotatedText = Color(0xFFDAEAF1)
+    override val ConversationAnnotatedTextMe = Color(0xFF03A9F4)
+    override val ConversationInputSelector = Color.White.copy(0.8f)
+    override val ConversationInputSelectorSelected = Color.White
+    override val ConversationHintText = Color.White.copy(0.3f)
+    override val DisabledContent = Color.White.copy(0.5f)
+
+}
+
+class ChattyColors : IChattyColors {
     var isLight by mutableStateOf(true)
         private set
 
-    val backgroundColor: Color
-        @Composable
-        get() = animateColorAsState(
-            targetValue = if (isLight) Color(0xFFF8F8F8) else Color(0xFF464547),
-            tween(700)
-        ).value
+    private val _curColors by derivedStateOf {
+        if (isLight) LightColors else DarkColors
+    }
 
-    val textColor: Color
-        @Composable
-        get() = animateColorAsState(
-            targetValue = if (isLight) Color.Black else Color.White,
-            tween(700)
-        ).value
-
-    val iconColor: Color
-        @Composable
-        get() = animateColorAsState(
-            targetValue = if (isLight) Color.Black else Color.White,
-            tween(700)
-        ).value
 
     fun toggleTheme() {
         isLight = !isLight
     }
 
-    val ConversationBubbleBg
-        get() = if (isLight) Color.White else Color.Black
-    val ConversationBubbleBgMe = Color.LightGray
-    val ConversationText
-        get() = if (isLight) Color.Black else Color.White
-    val ConversationTextMe
-        get() = if (isLight) Color.Black else Color.Black
-    val ConversationAnnotatedText
-        get() = if (isLight) Color(0xFF03A9F4) else Color(0xFFDAEAF1)
-    val ConversationAnnotatedTextMe
-        get() = if (isLight) Color(0xFFDAEAF1) else Color(0xFF03A9F4)
-    val ConversationInputSelector
-        get() = if (isLight) Color.Gray.copy(0.7f) else Color.White.copy(0.8f)
-    val ConversationInputSelectorSelected
-        get() = if (isLight) Color.Black else Color.White
-    val ConversationHintText
-        get() = if (isLight) Color.Gray.copy(0.7f) else Color.White.copy(0.3f)
-    val DisabledContent
-        get() = if (isLight) Color.LightGray.copy(0.8f) else Color.White.copy(0.5f)
+
+    override val backgroundColor @Composable get() = animatedValue(_curColors.backgroundColor)
+    override val textColor @Composable get() = animatedValue(_curColors.textColor)
+    override val iconColor @Composable get() = animatedValue(_curColors.iconColor)
+    override val ConversationBubbleBg get() = _curColors.ConversationBubbleBg
+    override val ConversationBubbleBgMe get() = _curColors.ConversationBubbleBgMe
+    override val ConversationText get() = _curColors.ConversationText
+    override val ConversationTextMe get() = _curColors.ConversationTextMe
+    override val ConversationAnnotatedText get() = _curColors.ConversationAnnotatedText
+    override val ConversationAnnotatedTextMe get() = _curColors.ConversationAnnotatedTextMe
+    override val ConversationInputSelector get() = _curColors.ConversationInputSelector
+    override val ConversationInputSelectorSelected get() = _curColors.ConversationInputSelectorSelected
+    override val ConversationHintText get() = _curColors.ConversationHintText
+    override val DisabledContent get() = _curColors.DisabledContent
 }
 
 private val DarkColorPalette = darkColors(
@@ -106,3 +136,9 @@ fun ChattyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable
         )
     }
 }
+
+@Composable
+private fun animatedValue(targetValue: Color) = animateColorAsState(
+    targetValue = targetValue,
+    tween(700)
+).value

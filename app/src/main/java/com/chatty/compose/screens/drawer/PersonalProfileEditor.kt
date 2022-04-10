@@ -110,7 +110,7 @@ fun QRCodeDisplay() {
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Image(painter = painterResource(id = R.drawable.qrcode), contentDescription = "qr_code")
             HeightSpacer(value = 5.dp)
-            Text(text = "使用扫一扫功能添加我")
+            Text(text = "使用扫一扫添加我")
         }
     }
 }
