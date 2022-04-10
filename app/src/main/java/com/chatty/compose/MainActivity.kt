@@ -20,10 +20,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.screens.contracts.AddFriends
-import com.chatty.compose.screens.contracts.QrCodeScan
-import com.chatty.compose.screens.contracts.StrangerProfile
-import com.chatty.compose.screens.contracts.UserProfile
+import com.chatty.compose.screens.contracts.*
 import com.chatty.compose.screens.conversation.ConversationScreen
 import com.chatty.compose.screens.conversation.ConversationUiState
 import com.chatty.compose.screens.conversation.LocalBackPressedDispatcher
@@ -62,15 +59,7 @@ class MainActivity : ComponentActivity() {
 
                 DisposableEffect(Unit) {
                     val destinationChangedListener =
-                        object : NavController.OnDestinationChangedListener {
-                            override fun onDestinationChanged(
-                                controller: NavController,
-                                destination: NavDestination,
-                                arguments: Bundle?
-                            ) {
-                                hideIME()
-                            }
-                        }
+                        NavController.OnDestinationChangedListener { _, _, _ -> hideIME() }
                     navController.addOnDestinationChangedListener(destinationChangedListener)
                     onDispose {
                         navController.removeOnDestinationChangedListener(
@@ -87,7 +76,7 @@ class MainActivity : ComponentActivity() {
                     val transSpec = remember { tween<IntOffset>(700) }
                     AnimatedNavHost(
                         navController = navController,
-                        startDestination = AppScreen.main,
+                        startDestination = AppScreen.splash,
                         enterTransition = {
                             slideInHorizontally(
                                 initialOffsetX = { it },
@@ -173,10 +162,10 @@ class MainActivity : ComponentActivity() {
                             PersonalProfileEditor(title, category == "gender", category == "qrcode")
                         }
                         composable(AppScreen.addFriends) {
-                            AddFriends()
+                            AddFriends(AddFriendsViewModel())
                         }
                         composable(AppScreen.qr_scan) {
-                            QrCodeScan()
+                            QRCodeScanner()
                         }
                         composable(
                             route = "${AppScreen.strangerProfile}/{uid}/{from_source}",

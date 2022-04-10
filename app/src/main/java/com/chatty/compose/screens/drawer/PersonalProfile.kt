@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.chatty.compose.R
+import com.chatty.compose.bean.UserProfileData
+import com.chatty.compose.screens.chatty.mock.friends
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
@@ -32,7 +34,7 @@ import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 
-@Preview
+
 @Composable
 fun PersonalProfile() {
     Box(
@@ -63,9 +65,13 @@ fun PersonalProfile() {
 }
 
 
+fun getCurrentLoginUserProfile(): UserProfileData {
+    return friends[0]
+}
 
 @Composable
 fun PersonalProfileHeader() {
+    var currentUser = getCurrentLoginUserProfile()
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,7 +80,7 @@ fun PersonalProfileHeader() {
     ) {
         val (portraitImageRef, usernameTextRef, desTextRef) = remember { createRefs() }
         Image(
-            painter = painterResource(id = R.drawable.ava2),
+            painter = painterResource(id = currentUser.avatarRes),
             contentDescription = "portrait",
             modifier = Modifier
                 .constrainAs(portraitImageRef) {
@@ -85,7 +91,7 @@ fun PersonalProfileHeader() {
                 .clip(CircleShape)
         )
         Text(
-            text = "Zinger Burger",
+            text = currentUser.nickname,
             fontSize = 20.sp,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Left,
@@ -98,7 +104,7 @@ fun PersonalProfileHeader() {
                 }
         )
         Text(
-            text = "To be or not to be, that's a question",
+            text = currentUser.motto,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             fontSize = 18.sp,
@@ -118,7 +124,7 @@ fun PersonalProfileHeader() {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PersonalProfileDetail() {
-
+    var currentUser = getCurrentLoginUserProfile()
     val navController = LocalNavController.current
     Column(modifier = Modifier
         .fillMaxWidth()
@@ -131,19 +137,19 @@ fun PersonalProfileDetail() {
             modifier = Modifier.padding(start = 20.dp),
         )
         Column(modifier = Modifier.fillMaxWidth()) {
-            ProfileDetailRowItem(label = "性别", content = "男") {
+            ProfileDetailRowItem(label = "性别", content = currentUser.gender ?: "未知") {
                 navController.navigate("${AppScreen.profileEdit}/gender")
             }
-            ProfileDetailRowItem(label = "年龄", content = "20") {
+            ProfileDetailRowItem(label = "年龄", content = currentUser.age.toString() ?: "未知") {
                 navController.navigate("${AppScreen.profileEdit}/age")
             }
-            ProfileDetailRowItem(label = "手机号", content = "10086") {
+            ProfileDetailRowItem(label = "手机号", content = currentUser.phone ?: "未知") {
                 navController.navigate("${AppScreen.profileEdit}/phone")
             }
-            ProfileDetailRowItem(label = "电子邮箱", content = "zinger_burger@gmail.com") {
+            ProfileDetailRowItem(label = "电子邮箱", content = currentUser.email ?: "未知") {
                 navController.navigate("${AppScreen.profileEdit}/email")
             }
-            ProfileDetailRowItem(label = "二维码", isQrCode = true) {
+            ProfileDetailRowItem(label = "二维码", isQrCode = true)  {
                 navController.navigate("${AppScreen.profileEdit}/qrcode")
             }
         }
@@ -152,7 +158,7 @@ fun PersonalProfileDetail() {
 
 
 @Composable
-fun ProfileDetailRowItem(label: String, content: String = "", isQrCode: Boolean = false, onClick: () -> Unit) {
+fun ProfileDetailRowItem(label: String, content: String = "", isQrCode: Boolean = false, onClick: () -> Unit = {}) {
     Box(
         Modifier
             .fillMaxWidth()

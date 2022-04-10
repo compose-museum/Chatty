@@ -140,6 +140,7 @@ fun UserProfileDetail(user: UserProfileData) {
             val (genderTitleRef, ageTitleRef, phoneTitleRef, emailTitleRef) = createRefs()
             val (genderRef, ageRef, phoneRef, emailRef) = createRefs()
             val barrier = createEndBarrier(genderTitleRef, ageTitleRef, phoneTitleRef, emailTitleRef)
+            val barrierDistance = 80.dp
             Text(
                 text = "性别",
                 fontSize = 20.sp,
@@ -187,7 +188,7 @@ fun UserProfileDetail(user: UserProfileData) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(genderRef) {
                     top.linkTo(genderTitleRef.top)
-                    start.linkTo(barrier, 30.dp)
+                    start.linkTo(barrier, barrierDistance)
                 },
                 color = MaterialTheme.chattyColors.textColor
             )
@@ -198,7 +199,7 @@ fun UserProfileDetail(user: UserProfileData) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(ageRef) {
                     top.linkTo(ageTitleRef.top)
-                    start.linkTo(barrier, 30.dp)
+                    start.linkTo(barrier, barrierDistance)
                 },
                 color = MaterialTheme.chattyColors.textColor
             )
@@ -208,7 +209,7 @@ fun UserProfileDetail(user: UserProfileData) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(phoneRef) {
                     top.linkTo(phoneTitleRef.top)
-                    start.linkTo(barrier, 30.dp)
+                    start.linkTo(barrier, barrierDistance)
                 },
                 color = MaterialTheme.chattyColors.textColor
             )
@@ -218,7 +219,7 @@ fun UserProfileDetail(user: UserProfileData) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.constrainAs(emailRef) {
                     top.linkTo(emailTitleRef.top)
-                    start.linkTo(barrier, 30.dp)
+                    start.linkTo(barrier, barrierDistance)
                 },
                 color = MaterialTheme.chattyColors.textColor
             )
@@ -246,7 +247,6 @@ fun MoreFriendOptions() {
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
-
         ) {
             Text(
                 text = "添加到置顶",

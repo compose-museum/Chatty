@@ -35,7 +35,7 @@ import com.chatty.compose.R
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.theme.chattyColors
-import com.chatty.compose.ui.theme.ok
+import com.chatty.compose.ui.theme.green
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.popUpAllBackStackEntry
 
@@ -218,7 +218,7 @@ fun Register() {
                     shape =  RoundedCornerShape(8.dp),
                     trailingIcon = {
                         if (password == repeatPassword && repeatPassword.isNotEmpty()) {
-                            Icon(Icons.Filled.Check, null, tint = ok)
+                            Icon(Icons.Filled.Check, null, tint = green)
                         }
                     },
                     visualTransformation = if(passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,

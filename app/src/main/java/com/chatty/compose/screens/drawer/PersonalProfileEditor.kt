@@ -1,5 +1,6 @@
 package com.chatty.compose.screens.drawer
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -19,10 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.AppScreen
+import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.chattyColors
-import com.chatty.compose.ui.theme.ok
+import com.chatty.compose.ui.theme.green
 import com.chatty.compose.ui.utils.LocalNavController
 
 
@@ -54,21 +56,23 @@ fun PersonalProfileEditor(title: String, isGender: Boolean = false, isQRCode: Bo
                 )
             },
             end =  {
-                Button(
-                    onClick = { navController.navigate(AppScreen.main) },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = ok
-                    ),
-                ) {
-                    Text(text = "完成", color = Color.White)
+                if (!isQRCode) {
+                    Button(
+                        onClick = { navController.navigate(AppScreen.main) },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = green
+                        ),
+                    ) {
+                        Text(text = "完成", color = Color.White)
+                    } 
                 }
             },
             backgroundColor = Color.White
         )
-        if (isGender) {
-            GenderSelector()
-        } else {
-            ProfileInputField()
+        when {
+            isGender -> GenderSelector()
+            isQRCode -> QRCodeDisplay()
+            else -> ProfileInputField()
         }
     }
 }
@@ -99,6 +103,18 @@ fun ProfileInputField() {
         focusRequester.requestFocus()
     }
 }
+
+@Composable
+fun QRCodeDisplay() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally){
+            Image(painter = painterResource(id = R.drawable.qrcode), contentDescription = "qr_code")
+            HeightSpacer(value = 5.dp)
+            Text(text = "使用扫一扫功能添加我")
+        }
+    }
+}
+
 @Composable
 fun GenderSelector() {
     var selectMale by remember {
@@ -134,7 +150,7 @@ fun GenderSelector() {
                 Icon(
                     painter = painterResource(id = R.drawable.correct),
                     contentDescription = "correct",
-                    tint = ok
+                    tint = green
                 )
             }
         }
@@ -168,7 +184,7 @@ fun GenderSelector() {
                 Icon(
                     painter = painterResource(id = R.drawable.correct),
                     contentDescription = "correct",
-                    tint = ok
+                    tint = green
                 )
             }
         }

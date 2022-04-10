@@ -33,19 +33,16 @@ val friends = listOf(
 )
 
 val recentMessages = mutableStateListOf(
-    MessageItemData(friends[0], "I miss you", 2),
-    MessageItemData(friends[1], "冬至", 5),
-    MessageItemData(friends[2], "“做最好的准备  也做最坏的打算”", 16),
-    MessageItemData(friends[3], "水母只能在深海度过相对失败的一生", 17),
-    MessageItemData(friends[4], "请向前走，不要在此停留。konpaku.cn", 2),
-    MessageItemData(friends[5], "逝者如斯夫，不舍昼夜", 4),
-    MessageItemData(friends[6], "对韭当割，人生几何。", 99),
-    MessageItemData(friends[7], "未曾谋面的也终将会相遇的，慢慢来吧，慢慢约会吧\uD83D\uDC31"),
-    MessageItemData(friends[8], "这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。这个人很懒，什么都没留下。"),
-    MessageItemData(friends[9], "回到过去"),
-    MessageItemData(friends[10], "I miss you", 2),
-    MessageItemData(friends[11], "冬至", 5),
-    MessageItemData(friends[12], "“做最好的准备  也做最坏的打算”", 16)
+    MessageItemData(friends[0], "吃了吗？", 2),
+    MessageItemData(friends[1], "你说的对，我也是这么想的", 1),
+    MessageItemData(friends[2], "Compose实在太方便了", 3),
+    MessageItemData(friends[3], "嗨喽好久不见，最近在忙啥呢", 4),
+    MessageItemData(friends[4], "目前确实可以这样搞", 2),
+    MessageItemData(friends[5], "在嘛？有空吗？", 4),
+    MessageItemData(friends[6], "有一说一，确实"),
+    MessageItemData(friends[10], "啊对对对"),
+    MessageItemData(friends[11], "我觉得香辣鸡腿堡是真的好吃"),
+    MessageItemData(friends[12], "等会见")
 )
 
 var displayMessages by mutableStateOf( recentMessages.toMutableList() )
