@@ -12,7 +12,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.unit.dp
-import com.chatty.compose.ui.theme.ok
+import com.chatty.compose.ui.theme.green
 
 fun Context.hideIME() {
     (getSystemService(ComponentActivity.INPUT_METHOD_SERVICE) as InputMethodManager)
@@ -22,7 +22,7 @@ fun Context.vibrate(time: Long) {
     (getSystemService(Context.VIBRATOR_SERVICE) as Vibrator)
         .vibrate(time)
 }
-fun Context.hasTorch(): Boolean {
+fun Context.hasCameraFlash(): Boolean {
     return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 }
 fun Modifier.drawLoginStateRing() = this.then(
@@ -36,7 +36,7 @@ fun Modifier.drawLoginStateRing() = this.then(
                 center = Offset(drawContext.size.width - circleRadius , drawContext.size.height - circleRadius)
             )
             drawCircle(
-                color = ok,
+                color = green,
                 radius = circleRadius * 4 / 5,
                 center = Offset(drawContext.size.width - circleRadius, drawContext.size.height - circleRadius)
             )

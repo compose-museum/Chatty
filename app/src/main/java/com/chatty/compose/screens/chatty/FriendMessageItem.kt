@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -58,12 +59,17 @@ fun FriendMessageItem(
                 )
             }
             WidthSpacer(4.dp)
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                Text("${Random.nextInt(0, 24)}:${Random.nextInt(0, 60)}", color = MaterialTheme.chattyColors.textColor)
-                Spacer(Modifier.padding(vertical = 3.dp))
-                NumberChips(unreadCount)
+            var randomTime = remember {
+              "${Random.nextInt(0, 24)}:${Random.nextInt(10, 60)}"
+            }
+            if (unreadCount > 0) {
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(randomTime, color = MaterialTheme.chattyColors.textColor)
+                    Spacer(Modifier.padding(vertical = 3.dp))
+                    NumberChips(unreadCount)
+                }
             }
         }
     }

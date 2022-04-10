@@ -34,7 +34,7 @@ import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.USER_CODE_PREFIX
-import com.chatty.compose.ui.utils.hasTorch
+import com.chatty.compose.ui.utils.hasCameraFlash
 import com.king.zxing.CaptureHelper
 import com.king.zxing.OnCaptureCallback
 import com.king.zxing.ViewfinderView
@@ -50,10 +50,10 @@ private fun setTorch(helper: CaptureHelper, on: Boolean) {
 
 
 @Composable
-fun QrCodeScan() {
+fun QRCodeScanner() {
     val naviController = LocalNavController.current
     val context = LocalContext.current
-    val hasTorch = remember { context.hasTorch() }
+    val hasTorch = remember { context.hasCameraFlash() }
     val surfaceView = remember { SurfaceView(context) }
     val viewfinderView = remember { ViewfinderView(context) }
     var isUsingFlashLight by remember { mutableStateOf(false) }
@@ -65,7 +65,6 @@ fun QrCodeScan() {
                     var uid = it.removePrefix(USER_CODE_PREFIX)
                     naviController.navigate("${AppScreen.strangerProfile}/${uid}/二维码搜索")
                 }
-                Log.d("gzz", "scan result: $it")
                 restartPreviewAndDecode()
                 true
             }
@@ -117,6 +116,11 @@ fun QrCodeScan() {
         }
         QrCodeScanTopBar()
     }
+    DisposableEffect(helper) {
+        onDispose {
+            helper.onDestroy()
+        }
+    }
 }
 
 @Composable
@@ -127,7 +131,7 @@ fun QrCodeScanTopBar() {
             IconButton(onClick = {
                 naviController.popBackStack()
             }) {
-                Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
+                Icon(Icons.Rounded.ArrowBack, null, tint = Color.White)
             }
         },
         center = {

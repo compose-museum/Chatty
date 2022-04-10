@@ -86,9 +86,9 @@ fun Login() {
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape =  RoundedCornerShape(8.dp),
-                        leadingIcon = {
-                            //Avatar(selectedUser, modifier = Modifier.size(35.dp))
-                        },
+//                        leadingIcon = {
+//                            //Avatar(selectedUser, modifier = Modifier.size(35.dp))
+//                        },
                         trailingIcon = {
                             IconButton(
                                 onClick = {
@@ -96,7 +96,7 @@ fun Login() {
                                     openDropMenu = !openDropMenu
                                 }
                             ) {
-                                Icon(painterResource(R.drawable.expand), null, tint = MaterialTheme.chattyColors.iconColor)
+                                Icon(painterResource(R.drawable.expand), null)
                             }
                         }
                     )
@@ -130,7 +130,7 @@ fun Login() {
                                 passwordHidden = !passwordHidden
                             }
                         ) {
-                            Icon(painterResource(id = R.drawable.visibility), null, tint = MaterialTheme.chattyColors.iconColor)
+                            Icon(painterResource(id = R.drawable.visibility), null)
                         }
                     }
                 )
@@ -148,7 +148,7 @@ fun Login() {
                 elevation = ButtonDefaults.elevation(defaultElevation = 10.dp),
                 shape = RoundedCornerShape(8.dp)
             ) {
-                Icon(painterResource(R.drawable.login), null, tint = MaterialTheme.chattyColors.iconColor)
+                Icon(painterResource(R.drawable.login), null)
                 WidthSpacer(5.dp)
                 Text("登入", color = Color.White)
             }

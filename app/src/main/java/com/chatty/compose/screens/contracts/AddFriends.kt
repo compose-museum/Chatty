@@ -19,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -48,41 +49,49 @@ import java.util.*
 import kotlin.math.max
 
 
+class AddFriendsViewModel() {
+    var isSearching by mutableStateOf<Boolean>(false)
+    var isLoading by mutableStateOf<Boolean>(false)
+    var searchContent by mutableStateOf<String>("")
+    var displaySearchUsersFlow = MutableStateFlow<List<UserProfileData>>(listOf())
+    suspend fun refreshFriendSearched() {
+        delay(3000)
+        var currentResult = friends.filter {
+            it.nickname.lowercase(Locale.getDefault()).contains(searchContent)
+        }.toMutableList()
+        displaySearchUsersFlow.emit(currentResult)
+        isLoading = false
+    }
 
-// 后续可以提升到 ViewModel 中
-var isLoading by mutableStateOf<Boolean>(false)
-var displaySearchUsersFlow = MutableStateFlow<List<UserProfileData>>(listOf())
-
-suspend fun refreshFriendSearched(searchContent: String) {
-    delay(3000)
-    var currentResult = friends.filter {
-        it.nickname.lowercase(Locale.getDefault()).contains(searchContent)
-    }.toMutableList()
-    displaySearchUsersFlow.emit(currentResult)
-    isLoading = false
+    fun clearSearchStatus() {
+        displaySearchUsersFlow.tryEmit(emptyList())
+        isLoading = false
+        isSearching = false
+    }
 }
 
-@Preview
+
+
 @Composable
-fun AddFriends() {
+fun AddFriends(viewModel: AddFriendsViewModel) {
     var naviController = LocalNavController.current
-    var isSearchingState = remember { mutableStateOf(false) }
-    var displaySearchUsers = displaySearchUsersFlow.collectAsState()
+    var displaySearchUsers = viewModel.displaySearchUsersFlow.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.chattyColors.backgroundColor)
+            .padding(WindowInsets.statusBars.asPaddingValues())
     ) {
-        AnimatedVisibility(visible = !isSearchingState.value) {
+        AnimatedVisibility(visible = !viewModel.isSearching) {
             AddFriendTopBar()
         }
         HeightSpacer(value = 5.dp)
-        SearchFriendBar(isSearchingState)
+        SearchFriendBar(viewModel)
         HeightSpacer(value = 10.dp)
-        if(!isSearchingState.value) {
+        if(!viewModel.isSearching) {
             AddFriendsOtherWay()
         } else {
-            if (isLoading) {
+            if (viewModel.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally), color = MaterialTheme.chattyColors.textColor)
             }
             LazyColumn {
@@ -115,44 +124,30 @@ fun AddFriendTopBar() {
         center =  {
             Text("添加联系人", color = MaterialTheme.chattyColors.textColor)
         },
-        backgroundColor = MaterialTheme.chattyColors.backgroundColor
+        backgroundColor = MaterialTheme.chattyColors.backgroundColor,
+        contentPadding = AppBarDefaults.ContentPadding
     )
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
+fun SearchFriendBar(viewModel: AddFriendsViewModel) {
     val scope = rememberCoroutineScope()
-    var focusManager = LocalFocusManager.current
-    var searchContent by remember { mutableStateOf("") }
-    var focusRequester = remember { FocusRequester() }
-    var rowModifier: Modifier = Modifier
-    if (isSearchingState.value) {
-        rowModifier = rowModifier.padding(WindowInsets.statusBars.asPaddingValues())
-    }
-    val interactionSource = remember {
-      MutableInteractionSource()
-    }
-    SubcompositionRow(
-        Modifier
-            .then(rowModifier)
-            .padding(horizontal = 10.dp),
+    val focusManager = LocalFocusManager.current
+    SubcomposeSearchFriendRow(
+        modifier = Modifier.padding(horizontal = 10.dp),
         textField = {
             BasicTextField(
-                value = searchContent,
+                value = viewModel.searchContent,
                 onValueChange = {
-                    searchContent = it
+                    viewModel.searchContent = it
                 },
                 modifier = Modifier
                     .height(50.dp)
                     .border(1.dp, MaterialTheme.chattyColors.textColor, RoundedCornerShape(5.dp))
-                    .focusable(true, interactionSource)
                     .onFocusChanged {
-                        isSearchingState.value = it.isFocused
-                        if (!isSearchingState.value) {
-                            searchContent = ""
-                            displaySearchUsersFlow.tryEmit(emptyList())
-                            isLoading = false
+                        viewModel.isSearching = it.isFocused
+                        if (!viewModel.isSearching) {
+                            viewModel.clearSearchStatus()
                         }
                     },
                 textStyle = TextStyle(fontSize = 18.sp, color = MaterialTheme.chattyColors.textColor),
@@ -160,8 +155,8 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                 keyboardActions = KeyboardActions(
                     onSearch = {
                         scope.launch {
-                            isLoading = true
-                            refreshFriendSearched(searchContent)
+                            viewModel.isLoading = true
+                            viewModel.refreshFriendSearched()
                         }
                     }
                 ),
@@ -176,9 +171,9 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                         modifier = Modifier
                             .weight(1f)
                             .padding(horizontal = 12.dp),
-                        contentAlignment = if (isSearchingState.value) Alignment.CenterStart else Alignment.Center
+                        contentAlignment = if (viewModel.isSearching) Alignment.CenterStart else Alignment.Center
                     ) {
-                        if (!isSearchingState.value) {
+                        if (!viewModel.isSearching) {
                             CenterRow {
                                 Icon(
                                     painter = painterResource(id = R.drawable.search),
@@ -196,9 +191,9 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
                         }
                         innerText()
                     }
-                    if (searchContent.isNotEmpty()) {
+                    if (viewModel.searchContent.isNotEmpty()) {
                         IconButton(
-                            onClick = { searchContent = "" },
+                            onClick = { viewModel.searchContent = "" },
                         ) {
                             Icon(Icons.Filled.Close, null, tint = MaterialTheme.chattyColors.iconColor)
                         }
@@ -207,13 +202,10 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
             }
         },
         cancel = {
-            if (isSearchingState.value) {
+            if (viewModel.isSearching) {
                 TextButton(onClick = {
-                    displaySearchUsersFlow.tryEmit(emptyList())
-                    isLoading = false
+                    viewModel.clearSearchStatus()
                     focusManager.clearFocus()
-                    isSearchingState.value = false
-                    searchContent = ""
                 }) {
                     Text(text = "取消", color = MaterialTheme.chattyColors.textColor)
                 }
@@ -224,7 +216,7 @@ fun SearchFriendBar(isSearchingState: MutableState<Boolean>) {
 
 
 @Composable
-fun SubcompositionRow(modifier: Modifier, textField: @Composable () -> Unit, cancel: @Composable () -> Unit) {
+fun SubcomposeSearchFriendRow(modifier: Modifier, textField: @Composable () -> Unit, cancel: @Composable () -> Unit) {
     SubcomposeLayout(modifier) { constraints ->
         var cancelMeasureables = subcompose("cancel") { cancel() }
         var cancelPlaceable: Placeable? = null
@@ -234,11 +226,9 @@ fun SubcompositionRow(modifier: Modifier, textField: @Composable () -> Unit, can
         var consumeWidth = cancelPlaceable?.width ?: 0
         var textFieldMeasureables = subcompose("text_field") { textField() }.first()
         var textFieldPlaceables = textFieldMeasureables.measure(
-            Constraints(
+            constraints.copy(
                 minWidth = constraints.maxWidth - consumeWidth,
-                maxWidth = constraints.maxWidth - consumeWidth,
-                minHeight = 0,
-                maxHeight = constraints.maxHeight
+                maxWidth = constraints.maxWidth - consumeWidth
             )
         )
         var width = constraints.maxWidth
@@ -254,7 +244,7 @@ fun SubcompositionRow(modifier: Modifier, textField: @Composable () -> Unit, can
 fun AddFriendsOtherWay() {
     Column() {
         val navController = LocalNavController.current
-        AddFriendsOtherWay(
+        AddFriendsOtherWayItem(
             R.drawable.qr_code,
             "扫一扫",
             "扫描二维码添加联系人"
@@ -265,7 +255,7 @@ fun AddFriendsOtherWay() {
 }
 
 @Composable
-fun AddFriendsOtherWay(
+fun AddFriendsOtherWayItem(
     icon: Int,
     functionName: String,
     description: String,
@@ -309,10 +299,12 @@ fun AddFriendsOtherWay(
                 )
             }
             WidthSpacer(4.dp)
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                Icon(painter = painterResource(id = R.drawable.expand_right), contentDescription = "", tint = MaterialTheme.chattyColors.iconColor)
+            Box(modifier = Modifier.align(Alignment.Bottom).fillMaxHeight(), contentAlignment = Alignment.Center) {
+                Icon(
+                    painter = painterResource(id = R.drawable.expand_right),
+                    contentDescription = "",
+                    tint = MaterialTheme.chattyColors.iconColor
+                )
             }
         }
     }
