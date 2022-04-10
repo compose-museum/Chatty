@@ -261,14 +261,13 @@ fun AddFriendsOtherWayItem(
     description: String,
     onClick: () -> Unit = {}
 ) {
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onClick()
-            },
-        color = MaterialTheme.chattyColors.backgroundColor
-    ) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .background(MaterialTheme.chattyColors.backgroundColor)
+        .clickable {
+            onClick()
+        }
+    ){
         CenterRow(
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 10.dp)
         ) {
@@ -280,16 +279,14 @@ fun AddFriendsOtherWayItem(
                     .size(60.dp)
                     .padding(12.dp)
             )
-            Spacer(Modifier.padding(horizontal = 10.dp))
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
+            WidthSpacer(value = 10.dp)
+            Column{
                 Text(
                     text = functionName,
                     style = MaterialTheme.typography.h6,
                     color = MaterialTheme.chattyColors.textColor
                 )
-                Spacer(Modifier.padding(vertical = 3.dp))
+                HeightSpacer(3.dp)
                 Text(
                     text = description,
                     style = MaterialTheme.typography.body2,
@@ -298,14 +295,12 @@ fun AddFriendsOtherWayItem(
                     color = MaterialTheme.chattyColors.textColor
                 )
             }
-            WidthSpacer(4.dp)
-            Box(modifier = Modifier.align(Alignment.Bottom).fillMaxHeight(), contentAlignment = Alignment.Center) {
-                Icon(
-                    painter = painterResource(id = R.drawable.expand_right),
-                    contentDescription = "",
-                    tint = MaterialTheme.chattyColors.iconColor
-                )
-            }
         }
+        Icon(
+            painter = painterResource(id = R.drawable.expand_right),
+            contentDescription = "",
+            tint = MaterialTheme.chattyColors.iconColor,
+            modifier = Modifier.align(Alignment.CenterEnd)
+        )
     }
 }

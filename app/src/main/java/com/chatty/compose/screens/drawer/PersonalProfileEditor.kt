@@ -31,11 +31,20 @@ import com.chatty.compose.ui.utils.LocalNavController
 @Preview
 @Composable
 fun Demo() {
-    PersonalProfileEditor("设置性别", true, false)
+    PersonalProfileEditor("设置性别")
 }
 
 @Composable
-fun PersonalProfileEditor(title: String, isGender: Boolean = false, isQRCode: Boolean) {
+fun PersonalProfileEditor(attr: String) {
+        var isQRCode = (attr == "qrcode")
+        var isGender = (attr == "gender")
+        var title = when (attr) {
+            "age" -> "输入年龄"
+            "phone" -> "输入电话号"
+            "email" -> "输入电子邮箱"
+            "gender" -> "选择性别"
+            else -> "展示二维码"
+        }
     val navController = LocalNavController.current
     Column {
         TopBar(

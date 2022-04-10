@@ -33,9 +33,43 @@ fun UserProfile(user: UserProfileData) {
         .background(MaterialTheme.chattyColors.backgroundColor)
         .verticalScroll(verticalScrollState)
         .systemBarsPadding()
-        .padding(horizontal = 20.dp),
-    horizontalAlignment = Alignment.CenterHorizontally
+        .padding(horizontal = 20.dp)
     ) {
+        UserProfileHeader(user = user)
+        HeightSpacer(value = 10.dp)
+        UserProfileDetail(user)
+        HeightSpacer(value = 20.dp)
+        MoreFriendOptions()
+        HeightSpacer(value = 10.dp)
+        Button(
+            onClick = {
+                // 删除联系人
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Color.White
+            )
+        ) {
+            Text(
+                text = "删除联系人",
+                fontSize = 15.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.Red
+            )
+        }
+    }
+}
+
+fun fetchUserOnlineStatus(uid: String): Boolean {
+    return true
+}
+
+@Composable
+fun UserProfileHeader(user: UserProfileData) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally){
         Box(modifier = Modifier
             .fillMaxWidth()
             .height(200.dp),
@@ -46,7 +80,7 @@ fun UserProfile(user: UserProfileData) {
                 contentDescription = "avatar",
                 modifier = Modifier
                     .size(150.dp)
-                    .drawLoginStateRing()
+                    .drawLoginStateRing(fetchUserOnlineStatus(user.uid))
                     .clip(CircleShape)
             )
         }
@@ -115,13 +149,8 @@ fun UserProfile(user: UserProfileData) {
                 )
             }
         }
-        HeightSpacer(value = 10.dp)
-        UserProfileDetail(user)
-        HeightSpacer(value = 20.dp)
-        MoreFriendOptions()
     }
 }
-
 @Composable
 fun UserProfileDetail(user: UserProfileData) {
     Column(Modifier.fillMaxWidth()) {
@@ -279,22 +308,6 @@ fun MoreFriendOptions() {
                 onCheckedChange = {
                     isBlocked = it
                 }
-            )
-        }
-        HeightSpacer(value = 10.dp)
-        Button(onClick = { /*TODO*/ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.White
-            )
-        ) {
-            Text(
-                text = "删除联系人",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.Red
             )
         }
     }

@@ -165,15 +165,8 @@ fun ChattyNavHost(navController: NavHostController) {
             enterTransition = null,
             exitTransition = null
         ) { backStackEntry ->
-            var category = backStackEntry.arguments?.getString("category")
-            var title = when (category) {
-                "gender" -> "选择性别"
-                "age" -> "输入年龄"
-                "phone" -> "输入电话号"
-                "email" -> "输入电子邮箱"
-                else -> "展示二维码"
-            }
-            PersonalProfileEditor(title, category == "gender", category == "qrcode")
+            var category = backStackEntry.arguments?.getString("category")!!
+            PersonalProfileEditor(category)
         }
         composable(AppScreen.addFriends) {
             AddFriends(AddFriendsViewModel())

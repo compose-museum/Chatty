@@ -25,7 +25,7 @@ fun Context.vibrate(time: Long) {
 fun Context.hasCameraFlash(): Boolean {
     return packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 }
-fun Modifier.drawLoginStateRing() = this.then(
+fun Modifier.drawLoginStateRing(isOnline: Boolean) = this.then(
     object : DrawModifier {
         override fun ContentDrawScope.draw() {
             val circleRadius = 20.dp.toPx()
@@ -36,7 +36,7 @@ fun Modifier.drawLoginStateRing() = this.then(
                 center = Offset(drawContext.size.width - circleRadius , drawContext.size.height - circleRadius)
             )
             drawCircle(
-                color = green,
+                color = if (isOnline) Color.Green else Color.Red,
                 radius = circleRadius * 4 / 5,
                 center = Offset(drawContext.size.width - circleRadius, drawContext.size.height - circleRadius)
             )
