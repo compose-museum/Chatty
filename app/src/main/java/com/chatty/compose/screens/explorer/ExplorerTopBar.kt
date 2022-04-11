@@ -28,10 +28,11 @@ fun ExplorerTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .alpha(alpha),
-        color = MaterialTheme.chattyColors.backgroundColor,
+        color = Color.Gray,
     ) {
         CenterRow(
             modifier = Modifier
+                .statusBarsPadding()
                 .padding(12.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center

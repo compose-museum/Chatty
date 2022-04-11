@@ -11,7 +11,6 @@ import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
@@ -23,7 +22,7 @@ import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalModalBottomSheetState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalAnimationApi::class, androidx.compose.material.ExperimentalMaterialApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun Explorer() {
 
@@ -53,8 +52,7 @@ fun Explorer() {
     CompositionLocalProvider(LocalModalBottomSheetState provides bottomSheetState) {
         ModalBottomSheetLayout(
             sheetContent = { CreatePost() },
-            sheetState = bottomSheetState,
-            modifier = Modifier.padding(WindowInsets.statusBars.only(WindowInsetsSides.Top).asPaddingValues())
+            sheetState = bottomSheetState
         ) {
             Box(
                 modifier = Modifier
@@ -64,7 +62,8 @@ fun Explorer() {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
-                    state = lazyState
+                    state = lazyState,
+                    contentPadding = WindowInsets.statusBars.asPaddingValues()
                 ) {
                     item {
                         CenterRow(
@@ -106,7 +105,7 @@ fun SocialItem(
     avaRes: Int,
     name: String,
     time: String = "22 分钟之前",
-    content: String = "刚高考完，来广州打暑假工，今天，人生第一次工作，站了8个小时腿都酸了，不敢和客人讲话，害怕店长看我的眼神，生怕做的不合客人的意，现在躺在床上想着以前在家打LOL的日子。虽然现在累的闭眼都能睡着，但过的很多意义，勇敢点，大胆点，自信点，加油，这两个月我可以。"
+    content: String = "带着最坚定的“决心”，最后的决战就在眼前了。 然而，攸惚间，却回到了最开始的地方。 音乐响起，相遇过的身影一一出现。 娓娓讲起，一切的开始。 然而……我们的前方…… 真的是一切的结束吗？ 得知了真相之后，这份“决心”…… 是否会有所松动？ 这份“决心”，又会将这个“世界”的命运带向何处？"
 ) {
     Column(
         modifier = Modifier.padding(12.dp)
