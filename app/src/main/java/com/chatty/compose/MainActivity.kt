@@ -8,17 +8,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -29,6 +23,7 @@ import com.chatty.compose.screens.conversation.ConversationUiState
 import com.chatty.compose.screens.conversation.LocalBackPressedDispatcher
 import com.chatty.compose.screens.conversation.mock.initialMessages
 import com.chatty.compose.screens.drawer.PersonalProfileEditor
+import com.chatty.compose.screens.explorer.CreatePost
 import com.chatty.compose.screens.login.Login
 import com.chatty.compose.screens.register.Register
 import com.chatty.compose.screens.splash.Splash
@@ -86,7 +81,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ChattyNavHost(navController: NavHostController) {
-    val transSpec = remember { tween<IntOffset>(700) }
+    val transSpec = remember { tween<IntOffset>(400) }
 
     AnimatedNavHost(
         navController = navController,
@@ -203,6 +198,11 @@ fun ChattyNavHost(navController: NavHostController) {
                     conversationUserId = uid
                 )
             )
+        }
+        composable(
+            route = AppScreen.createPost
+        ) {
+            CreatePost()
         }
     }
 }

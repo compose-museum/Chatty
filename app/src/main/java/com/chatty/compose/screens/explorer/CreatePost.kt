@@ -1,12 +1,8 @@
 package com.chatty.compose.screens.explorer
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.AppBarDefaults.ContentPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Done
@@ -24,20 +20,22 @@ import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.chattyColors
-import com.chatty.compose.ui.utils.LocalModalBottomSheetState
+import com.chatty.compose.ui.utils.LocalNavController
 import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.launch
 
 @Composable
 fun CreatePost() {
     var text by remember { mutableStateOf("") }
-    Column (
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.chattyColors.backgroundColor)
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.chattyColors.backgroundColor)
     ) {
         CreatePostTopBar()
         Divider(Modifier.fillMaxWidth())
         Column {
-            CenterRow(Modifier.padding(14.dp)) {
+            CenterRow(Modifier.padding(start = 14.dp, end = 14.dp, top = 14.dp)) {
                 CircleShapeImage(size = 40.dp, painter = painterResource(id = R.drawable.ava4))
                 WidthSpacer(value = 4.dp)
                 Text("香辣鸡腿堡",Modifier.weight(1f) ,style = MaterialTheme.typography.h6, color = MaterialTheme.chattyColors.textColor)
@@ -54,9 +52,12 @@ fun CreatePost() {
                     focusedIndicatorColor = Color.Transparent,
                     cursorColor = MaterialTheme.chattyColors.textColor,
                 ),
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .imePadding()
+                    .fillMaxSize(),
                 placeholder = {
-                    Text("最近发生了什么有意思的事情？", color = MaterialTheme.chattyColors.textColor)
+                    Text("最近发生了什么有意思的事情？", color = MaterialTheme.chattyColors.textColor, modifier = Modifier.alpha(0.5f))
                 },
                 textStyle = TextStyle(color = MaterialTheme.chattyColors.textColor)
             )
@@ -68,8 +69,8 @@ fun CreatePost() {
 @Composable
 fun CreatePostTopBar() {
 
-    val bottomSheetState = LocalModalBottomSheetState.current
     val scope = rememberCoroutineScope()
+    val navController = LocalNavController.current
     val context = LocalContext.current
 
     TopBar(
@@ -78,7 +79,7 @@ fun CreatePostTopBar() {
             IconButton(onClick = {
                 scope.launch {
                     context.hideIME()
-                    bottomSheetState.hide()
+                    navController.popBackStack()
                 }
             }) {
                 Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
@@ -91,12 +92,12 @@ fun CreatePostTopBar() {
             IconButton(onClick = {
                 scope.launch {
                     context.hideIME()
-                    bottomSheetState.hide()
+                    navController.popBackStack()
                 }
             }) {
                 Icon(Icons.Rounded.Done, null, tint = MaterialTheme.chattyColors.iconColor)
             }
         },
-        contentPadding = ContentPadding
+        contentPadding = WindowInsets.statusBars.asPaddingValues()
     )
 }
