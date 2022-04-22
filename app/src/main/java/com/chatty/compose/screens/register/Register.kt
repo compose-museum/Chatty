@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -53,8 +52,6 @@ fun Register() {
     var repeatPassword by remember { mutableStateOf("") }
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var passwordHidden by remember { mutableStateOf(true) }
-
-    val context = LocalContext.current
 
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -91,13 +88,11 @@ fun Register() {
                         color = Color.Transparent
                     ) {
                         Image(
-                            painter = if (imageUri == null) painterResource(id = R.drawable.ava1) else rememberImagePainter(imageUri),
+                            painter = imageUri?.let { rememberImagePainter(imageUri) }
+                                ?:run { painterResource(id = R.drawable.ava1) },
                             contentDescription = null,
                             contentScale = if (imageUri == null) ContentScale.Fit else ContentScale.Crop,
-                            modifier = Modifier
-                                .clickable {
-                                    launcher.launch("image/*")
-                                }
+                            modifier = Modifier.clickable { launcher.launch("image/*") }
                         )
                     }
                 }

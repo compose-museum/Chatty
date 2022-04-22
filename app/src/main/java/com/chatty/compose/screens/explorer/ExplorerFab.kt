@@ -50,7 +50,7 @@ fun ExplorerFab(
                             backgroundColor = Color.White,
                             modifier = Modifier.padding(10.dp)
                         ) {
-                            Icon(Icons.Rounded.Edit, null)
+                            Icon(Icons.Rounded.Edit, null, tint = Color.Black)
                         }
                     }
                     1f -> {
@@ -61,7 +61,7 @@ fun ExplorerFab(
                             backgroundColor = Color.White,
                             modifier = Modifier.padding(10.dp)
                         ) {
-                            Icon(painterResource(id = R.drawable.arrow_upward), null)
+                            Icon(painterResource(id = R.drawable.arrow_upward), null, tint = Color.Black)
                         }
                     }
                 }

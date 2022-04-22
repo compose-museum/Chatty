@@ -82,6 +82,9 @@ class ChattyColors : IChattyColors {
         isLight = !isLight
     }
 
+    fun toggleToLightColor() { isLight = true }
+    fun toggleToDarkColor() { isLight = false }
+
 
     override val backgroundColor @Composable get() = animatedValue(_curColors.backgroundColor)
     override val textColor @Composable get() = animatedValue(_curColors.textColor)
@@ -121,13 +124,18 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun ChattyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+
+    val chattyColors = ChattyColors()
+
     val colors = if (darkTheme) {
+        chattyColors.toggleToDarkColor()
         DarkColorPalette
     } else {
+        chattyColors.toggleToLightColor()
         LightColorPalette
     }
 
-    CompositionLocalProvider(LocalChattyColors provides ChattyColors()) {
+    CompositionLocalProvider(LocalChattyColors provides chattyColors) {
         MaterialTheme(
             colors = colors,
             typography = Typography,

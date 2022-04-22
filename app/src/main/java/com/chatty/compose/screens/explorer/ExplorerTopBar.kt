@@ -10,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -28,7 +27,8 @@ fun ExplorerTopBar(
         modifier = Modifier
             .fillMaxWidth()
             .alpha(alpha),
-        color = Color.Gray,
+        color = MaterialTheme.chattyColors.backgroundColor,
+        elevation = 6.dp
     ) {
         CenterRow(
             modifier = Modifier

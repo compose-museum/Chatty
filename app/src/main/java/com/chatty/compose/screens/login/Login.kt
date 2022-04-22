@@ -23,7 +23,6 @@ import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
 import com.chatty.compose.ui.components.WidthSpacer
-import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -54,7 +53,6 @@ fun Login() {
                 contentAlignment = Alignment.Center
             ) {
                 CenterRow {
-                    //Image(painterResource(id = R), null, modifier = Modifier.size(80.dp))
                     WidthSpacer(value = 12.dp)
                     Text(
                         text = "Chatty",
@@ -86,9 +84,6 @@ fun Login() {
                         },
                         modifier = Modifier.fillMaxWidth(),
                         shape =  RoundedCornerShape(8.dp),
-//                        leadingIcon = {
-//                            //Avatar(selectedUser, modifier = Modifier.size(35.dp))
-//                        },
                         trailingIcon = {
                             IconButton(
                                 onClick = {
@@ -98,7 +93,8 @@ fun Login() {
                             ) {
                                 Icon(painterResource(R.drawable.expand), null)
                             }
-                        }
+                        },
+                        singleLine = true
                     )
                 }
             }
@@ -132,7 +128,8 @@ fun Login() {
                         ) {
                             Icon(painterResource(id = R.drawable.visibility), null)
                         }
-                    }
+                    },
+                    singleLine = true
                 )
             }
             HeightSpacer(value = 20.dp)
