@@ -1,15 +1,15 @@
 package com.chatty.compose.screens.explorer
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -28,18 +28,21 @@ fun ExplorerTopBar(
             .fillMaxWidth()
             .alpha(alpha),
         color = MaterialTheme.chattyColors.backgroundColor,
-        elevation = 6.dp
+        elevation = 14.dp
     ) {
-        CenterRow(
-            modifier = Modifier
-                .statusBarsPadding()
-                .padding(12.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            CircleShapeImage(size = 30.dp, painter = painterResource(id = R.drawable.ava4), contentScale = ContentScale.Crop)
-            WidthSpacer(6.dp)
-            Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6, color = MaterialTheme.chattyColors.textColor)
+        Box {
+            CenterRow(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(12.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                CircleShapeImage(size = 30.dp, painter = painterResource(id = R.drawable.ava4), contentScale = ContentScale.Crop)
+                WidthSpacer(6.dp)
+                Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6, color = MaterialTheme.chattyColors.textColor)
+            }
+            Divider(Modifier.fillMaxWidth().align(Alignment.BottomCenter), color = Color(0xFF0079D3), thickness = 2.dp)
         }
     }
 }

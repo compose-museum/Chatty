@@ -117,10 +117,6 @@ fun SocialItem(
                     color = MaterialTheme.chattyColors.textColor
                 )
             }
-            CenterRow {
-                Icon(Icons.Rounded.Favorite, null, tint = Color.Red)
-                Text("56")
-            }
         }
         HeightSpacer(value = 4.dp)
         Text(
