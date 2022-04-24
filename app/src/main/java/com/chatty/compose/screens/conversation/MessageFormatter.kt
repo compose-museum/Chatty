@@ -119,8 +119,8 @@ private fun getSymbolAnnotation(
                 text = matchResult.value,
                 spanStyle = SpanStyle(
                     color =
-                    if (primary) colorScheme.ConversationAnnotatedTextMe
-                    else colorScheme.ConversationAnnotatedText,
+                    if (primary) colorScheme.conversationAnnotatedTextMe
+                    else colorScheme.conversationAnnotatedText,
                     fontWeight = FontWeight.Bold
                 )
             ),
@@ -169,8 +169,8 @@ private fun getSymbolAnnotation(
                 text = matchResult.value,
                 spanStyle = SpanStyle(
                     color =
-                    if (primary) colorScheme.ConversationAnnotatedTextMe
-                    else colorScheme.ConversationAnnotatedText
+                    if (primary) colorScheme.conversationAnnotatedTextMe
+                    else colorScheme.conversationAnnotatedText
                 )
             ),
             StringAnnotation(

@@ -24,49 +24,48 @@ interface IChattyColors {
     val backgroundColor @Composable get() = Color.Black
     val textColor @Composable get() = Color.Black
     val iconColor @Composable get() = Color.Black
-    val ConversationBubbleBg: Color
-    val ConversationBubbleBgMe: Color
-    val ConversationText: Color
-    val ConversationTextMe: Color
-    val ConversationAnnotatedText: Color
-    val ConversationAnnotatedTextMe: Color
-    val ConversationInputSelector: Color
-    val ConversationInputSelectorSelected: Color
-    val ConversationHintText: Color
-    val DisabledContent: Color
+    val conversationBubbleBg: Color
+    val conversationBubbleBgMe: Color
+    val conversationText: Color
+    val conversationTextMe: Color
+    val conversationAnnotatedText: Color
+    val conversationAnnotatedTextMe: Color
+    val conversationInputSelector: Color
+    val conversationInputSelectorSelected: Color
+    val conversationHintText: Color
+    val disabledContent: Color
 }
 
 private object LightColors : IChattyColors {
-    override val backgroundColor @Composable get() = Color(0xFFF8F8F8)
+    override val backgroundColor @Composable get() =  Color(0xFFF8F8F8)
     override val textColor @Composable get() = Color.Black
     override val iconColor @Composable get() = Color.Black
-    override val ConversationBubbleBg = Color.White
-    override val ConversationBubbleBgMe = Color.LightGray
-    override val ConversationText = Color.Black
-    override val ConversationTextMe = Color.Black
-    override val ConversationAnnotatedText = Color(0xFF03A9F4)
-    override val ConversationAnnotatedTextMe = Color(0xFFDAEAF1)
-    override val ConversationInputSelector = Color.Gray.copy(0.7f)
-    override val ConversationInputSelectorSelected = Color.Black
-    override val ConversationHintText = Color.Gray.copy(0.7f)
-    override val DisabledContent = Color.LightGray.copy(0.8f)
+    override val conversationBubbleBg = Color.White
+    override val conversationBubbleBgMe = Color.LightGray
+    override val conversationText = Color.Black
+    override val conversationTextMe = Color.Black
+    override val conversationAnnotatedText = Color(0xFF03A9F4)
+    override val conversationAnnotatedTextMe = Color(0xFFDAEAF1)
+    override val conversationInputSelector = Color.Gray.copy(0.7f)
+    override val conversationInputSelectorSelected = Color.Black
+    override val conversationHintText = Color.Gray.copy(0.7f)
+    override val disabledContent = Color.LightGray.copy(0.8f)
 }
 
 private object DarkColors : IChattyColors {
     override val backgroundColor @Composable get() = Color(0xFF464547)
-    override val textColor: Color @Composable get() = Color.White
-    override val iconColor: Color @Composable get() = Color.White
-    override val ConversationBubbleBg = Color.Black
-    override val ConversationBubbleBgMe = Color.LightGray
-    override val ConversationText = Color.White
-    override val ConversationTextMe = Color.Black
-    override val ConversationAnnotatedText = Color(0xFFDAEAF1)
-    override val ConversationAnnotatedTextMe = Color(0xFF03A9F4)
-    override val ConversationInputSelector = Color.White.copy(0.8f)
-    override val ConversationInputSelectorSelected = Color.White
-    override val ConversationHintText = Color.White.copy(0.3f)
-    override val DisabledContent = Color.White.copy(0.5f)
-
+    override val textColor @Composable get() = Color.White
+    override val iconColor @Composable get() = Color.White
+    override val conversationBubbleBg = Color.Black
+    override val conversationBubbleBgMe = Color.LightGray
+    override val conversationText = Color.White
+    override val conversationTextMe = Color.Black
+    override val conversationAnnotatedText = Color(0xFFDAEAF1)
+    override val conversationAnnotatedTextMe = Color(0xFF03A9F4)
+    override val conversationInputSelector = Color.White.copy(0.8f)
+    override val conversationInputSelectorSelected = Color.White
+    override val conversationHintText = Color.White.copy(0.3f)
+    override val disabledContent = Color.White.copy(0.5f)
 }
 
 class ChattyColors : IChattyColors {
@@ -89,16 +88,16 @@ class ChattyColors : IChattyColors {
     override val backgroundColor @Composable get() = animatedValue(_curColors.backgroundColor)
     override val textColor @Composable get() = animatedValue(_curColors.textColor)
     override val iconColor @Composable get() = animatedValue(_curColors.iconColor)
-    override val ConversationBubbleBg get() = _curColors.ConversationBubbleBg
-    override val ConversationBubbleBgMe get() = _curColors.ConversationBubbleBgMe
-    override val ConversationText get() = _curColors.ConversationText
-    override val ConversationTextMe get() = _curColors.ConversationTextMe
-    override val ConversationAnnotatedText get() = _curColors.ConversationAnnotatedText
-    override val ConversationAnnotatedTextMe get() = _curColors.ConversationAnnotatedTextMe
-    override val ConversationInputSelector get() = _curColors.ConversationInputSelector
-    override val ConversationInputSelectorSelected get() = _curColors.ConversationInputSelectorSelected
-    override val ConversationHintText get() = _curColors.ConversationHintText
-    override val DisabledContent get() = _curColors.DisabledContent
+    override val conversationBubbleBg get() = _curColors.conversationBubbleBg
+    override val conversationBubbleBgMe get() = _curColors.conversationBubbleBgMe
+    override val conversationText get() = _curColors.conversationText
+    override val conversationTextMe get() = _curColors.conversationTextMe
+    override val conversationAnnotatedText get() = _curColors.conversationAnnotatedText
+    override val conversationAnnotatedTextMe get() = _curColors.conversationAnnotatedTextMe
+    override val conversationInputSelector get() = _curColors.conversationInputSelector
+    override val conversationInputSelectorSelected get() = _curColors.conversationInputSelectorSelected
+    override val conversationHintText get() = _curColors.conversationHintText
+    override val disabledContent get() = _curColors.disabledContent
 }
 
 private val DarkColorPalette = darkColors(

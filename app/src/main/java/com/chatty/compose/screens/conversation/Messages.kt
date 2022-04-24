@@ -172,7 +172,7 @@ private fun AuthorNameTimestamp(msg: Message) {
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = msg.timestamp,
-            style = MaterialTheme.typography.subtitle2.copy(color = MaterialTheme.chattyColors.ConversationHintText),
+            style = MaterialTheme.typography.subtitle2.copy(color = MaterialTheme.chattyColors.conversationHintText),
             modifier = Modifier.alignBy(LastBaseline),
         )
     }
@@ -192,7 +192,7 @@ fun DayHeader(dayString: String) {
         Text(
             text = dayString,
             modifier = Modifier.padding(horizontal = 16.dp),
-            color = MaterialTheme.chattyColors.DisabledContent
+            color = MaterialTheme.chattyColors.disabledContent
         )
         DayHeaderLine()
     }
@@ -205,7 +205,7 @@ private fun RowScope.DayHeaderLine() {
         modifier = Modifier
             .weight(1f)
             .align(Alignment.CenterVertically),
-        color = MaterialTheme.chattyColors.DisabledContent
+        color = MaterialTheme.chattyColors.disabledContent
     )
 }
 
@@ -216,9 +216,9 @@ fun ChatItemBubble(
 ) {
 
     val backgroundBubbleColor = if (isUserMe) {
-        MaterialTheme.chattyColors.ConversationBubbleBgMe
+        MaterialTheme.chattyColors.conversationBubbleBgMe
     } else {
-        MaterialTheme.chattyColors.ConversationBubbleBg
+        MaterialTheme.chattyColors.conversationBubbleBg
     }
 
     Column {
@@ -266,8 +266,8 @@ fun ClickableMessage(
     ClickableText(
         text = styledMessage,
         style = MaterialTheme.typography.body1.copy(
-            color = if (isUserMe) MaterialTheme.chattyColors.ConversationTextMe
-            else MaterialTheme.chattyColors.ConversationText
+            color = if (isUserMe) MaterialTheme.chattyColors.conversationTextMe
+            else MaterialTheme.chattyColors.conversationText
         ),
         modifier = Modifier.padding(16.dp),
         onClick = {
