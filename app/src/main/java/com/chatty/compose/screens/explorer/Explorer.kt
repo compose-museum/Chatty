@@ -25,12 +25,14 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
 import com.chatty.compose.ui.components.*
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
+import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -121,6 +123,7 @@ fun SocialItem(
     var text by remember { mutableStateOf("") }
     var isExpanded by remember { mutableStateOf(false) }
     var isAlreadyExpanded by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Column(
         modifier = Modifier
@@ -196,7 +199,7 @@ fun SocialItem(
                         shape = CircleShape
                     ) {
                         CenterRow(Modifier.padding(8.dp)) {
-                            CircleShapeImage(40.dp, painterResource(R.drawable.ava1))
+                            CircleShapeImage(40.dp, painterResource(R.drawable.ava4))
                             WidthSpacer(value = 5.dp)
                             Box(Modifier.weight(1f)) {
                                 if (text.isEmpty()) {
@@ -208,7 +211,13 @@ fun SocialItem(
                                 it()
                             }
                             if (text.isNotEmpty()) {
-                                IconButton(onClick = { /*TODO*/ }) {
+                                IconButton(
+                                    onClick = {
+                                        isExpanded = false
+                                        isAlreadyExpanded = false
+                                        context.hideIME()
+                                    }
+                                ) {
                                     Icon(Icons.Rounded.Send, null, tint = MaterialTheme.chattyColors.iconColor)
                                 }
                             }
