@@ -5,9 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
@@ -16,7 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.screens.home.mock.friends
 import com.chatty.compose.screens.contracts.*
 import com.chatty.compose.screens.conversation.ConversationScreen
 import com.chatty.compose.screens.conversation.ConversationUiState
@@ -48,8 +47,7 @@ class MainActivity : ComponentActivity() {
             ChattyTheme {
                 val systemUiController = rememberSystemUiController()
                 val useDarkIcons =
-                    MaterialTheme.colors.isLight && MaterialTheme.chattyColors.isLight
-
+                    !isSystemInDarkTheme() && MaterialTheme.chattyColors.isLight
                 SideEffect {
                     systemUiController.setSystemBarsColor(Color.Transparent, useDarkIcons)
                 }
@@ -85,31 +83,31 @@ fun ChattyNavHost(navController: NavHostController) {
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = AppScreen.main,
-        enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { it },
-                animationSpec = transSpec
-            )
-        },
-        popExitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { it },
-                animationSpec = transSpec
-            )
-        },
-        exitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { -it },
-                animationSpec = transSpec
-            )
-        },
-        popEnterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { -it },
-                animationSpec = transSpec
-            )
-        }
+        startDestination = AppScreen.login,
+//        enterTransition = {
+//            slideInHorizontally(
+//                initialOffsetX = { it },
+//                animationSpec = transSpec
+//            )
+//        },
+//        popExitTransition = {
+//            slideOutHorizontally(
+//                targetOffsetX = { it },
+//                animationSpec = transSpec
+//            )
+//        },
+//        exitTransition = {
+//            slideOutHorizontally(
+//                targetOffsetX = { -it },
+//                animationSpec = transSpec
+//            )
+//        },
+//        popEnterTransition = {
+//            slideInHorizontally(
+//                initialOffsetX = { -it },
+//                animationSpec = transSpec
+//            )
+//        }
 
     ) {
         composable(
@@ -208,3 +206,5 @@ fun ChattyNavHost(navController: NavHostController) {
 }
 
 fun fetchUserInfoById(uid: String) = friends.first { it.uid == uid }
+
+typealias AppTheme = MaterialTheme

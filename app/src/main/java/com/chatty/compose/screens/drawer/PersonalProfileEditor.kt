@@ -3,9 +3,9 @@ package com.chatty.compose.screens.drawer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,7 +69,7 @@ fun PersonalProfileEditor(attr: String) {
                     Button(
                         onClick = { navController.navigate(AppScreen.main) },
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = green
+                            containerColor = green
                         ),
                     ) {
                         Text(text = "完成", color = Color.White)
@@ -86,6 +86,7 @@ fun PersonalProfileEditor(attr: String) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileInputField() {
     var inputText by remember {

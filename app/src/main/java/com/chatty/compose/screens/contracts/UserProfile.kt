@@ -3,7 +3,7 @@ package com.chatty.compose.screens.contracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +49,7 @@ fun UserProfile(user: UserProfileData) {
                 .fillMaxWidth()
                 .height(50.dp),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = Color.White
+                containerColor = Color.White
             )
         ) {
             Text(

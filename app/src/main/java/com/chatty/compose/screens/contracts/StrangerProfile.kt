@@ -1,31 +1,30 @@
 package com.chatty.compose.screens.contracts
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
-import com.chatty.compose.screens.chatty.mock.friends
-import com.chatty.compose.ui.components.*
+import com.chatty.compose.screens.home.mock.friends
+import com.chatty.compose.ui.components.AppScreen
+import com.chatty.compose.ui.components.CenterRow
+import com.chatty.compose.ui.components.TopBar
+import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
-import com.chatty.compose.ui.utils.drawLoginStateRing
 
 
 @Preview
@@ -52,7 +51,7 @@ fun StrangerProfile(user: UserProfileData, formSource: String) {
                     .fillMaxWidth()
                     .height(50.dp),
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.White
+                    containerColor = Color.White
                 )
             ) {
                 Text(
@@ -71,7 +70,7 @@ fun StrangerProfile(user: UserProfileData, formSource: String) {
                     Text(
                         text = "添加联系人",
                         fontWeight = FontWeight.W700,
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.titleMedium
                     )
                 },
                 text = {
@@ -90,7 +89,7 @@ fun StrangerProfile(user: UserProfileData, formSource: String) {
                         Text(
                             "确认",
                             fontWeight = FontWeight.W700,
-                            style = MaterialTheme.typography.button
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
                 },
@@ -103,7 +102,7 @@ fun StrangerProfile(user: UserProfileData, formSource: String) {
                         Text(
                             "取消",
                             fontWeight = FontWeight.W700,
-                            style = MaterialTheme.typography.button
+                            style = MaterialTheme.typography.labelMedium
                         )
                     }
                 }
@@ -137,7 +136,7 @@ fun StrangerProfileInfo(
                 Row{
                     Text(
                         text = user.nickname,
-                        style = MaterialTheme.typography.h6,
+                        style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.chattyColors.textColor
                     )
                     if (user.gender != null) {
@@ -152,7 +151,7 @@ fun StrangerProfileInfo(
                 Spacer(Modifier.padding(vertical = 3.dp))
                 Text(
                     text = user.motto,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.chattyColors.textColor

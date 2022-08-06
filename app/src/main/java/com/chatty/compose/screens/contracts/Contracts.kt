@@ -1,25 +1,22 @@
 package com.chatty.compose.screens.contracts
 
-import android.util.Log
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.Saver
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -30,18 +27,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
-import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.screens.home.mock.friends
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.CircleShapeImage
 import com.chatty.compose.ui.components.TopBar
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.theme.green
-import com.chatty.compose.ui.utils.*
+import com.chatty.compose.ui.utils.Comparator
+import com.chatty.compose.ui.utils.LocalNavController
+import com.chatty.compose.ui.utils.searchLastElementIndex
+import com.chatty.compose.ui.utils.vibrate
 import com.github.promeg.pinyinhelper.Pinyin
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 
@@ -67,10 +64,10 @@ fun Contracts() {
             .background(Color(0xFFF8F8F8))
     ) {
         ContractTopBar()
-        var currentFriends = fetchLatestFriendsList()
-        var sortedFriends = remember(currentFriends){
+        val currentFriends = fetchLatestFriendsList()
+        val sortedFriends = remember(currentFriends){
             currentFriends.groupBy {
-                var firstChar = Pinyin.toPinyin(it.nickname.first()).first()
+                val firstChar = Pinyin.toPinyin(it.nickname.first()).first()
                 if (!firstChar.isLetter()) { '#' }
                 else {
                     firstChar.uppercaseChar()
@@ -94,7 +91,7 @@ fun Contracts() {
         val alphaCountPreSumList = remember(sortedFriends) {
             var currentSum = 0
             var index = 0
-            var result = mutableListOf<Int>()
+            val result = mutableListOf<Int>()
             for ((alpha, friendList) in sortedFriends) {
                 preSumIndexToStateMap[index] = AlphaState(alpha, mutableStateOf(false))
                 result.add(currentSum)
@@ -110,7 +107,7 @@ fun Contracts() {
                     .fillMaxSize(),
                 state = lazyListState
             ) {
-                sortedFriends.forEach { it ->
+                sortedFriends.forEach {
                     item {
                         Text(
                             text = it.key.toString(),
@@ -122,7 +119,7 @@ fun Contracts() {
                             color = Color(0xFF0079D3)
                         )
                     }
-                    itemsIndexed(items = it.value) { index, user ->
+                    itemsIndexed(items = it.value) { _, user ->
                         FriendItem(user.avatarRes, user.nickname, user.motto) {
                             navController.navigate("${AppScreen.conversation}/${user.uid}")
                         }
@@ -133,7 +130,7 @@ fun Contracts() {
                 AlphaGuildBar(preSumIndexToStateMap.values) { selectIndex ->
                     scope.launch {
                         lazyListState.scrollToItem(alphaCountPreSumList[selectIndex])
-                        var newestAlphaIndex = alphaCountPreSumList.searchLastElementIndex(object: Comparator<Int> {
+                        val newestAlphaIndex = alphaCountPreSumList.searchLastElementIndex(object: Comparator<Int> {
                             override fun compare(target: Int): Boolean {
                                 return target <= lazyListState.firstVisibleItemIndex
                             }
@@ -146,7 +143,8 @@ fun Contracts() {
                 }
             }
         }
-        LaunchedEffect(lazyListState.firstVisibleItemIndex) {
+        val afterFirstVisibleItem by remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }
+        LaunchedEffect(afterFirstVisibleItem) {
             currentSelectedAlphaIndex = alphaCountPreSumList.searchLastElementIndex(object: Comparator<Int> {
                 override fun compare(target: Int): Boolean {
                     return target <= lazyListState.firstVisibleItemIndex
@@ -155,7 +153,7 @@ fun Contracts() {
         }
 
         LaunchedEffect(currentSelectedAlphaIndex) {
-            var alphaState = preSumIndexToStateMap[currentSelectedAlphaIndex]!!
+            val alphaState = preSumIndexToStateMap[currentSelectedAlphaIndex]!!
             preSumIndexToStateMap.values.forEach {
                 it.state.value = false
             }
@@ -207,13 +205,13 @@ fun FriendItem(
             ) {
                 Text(
                     text = friendName,
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.chattyColors.textColor
                 )
                 Spacer(Modifier.padding(vertical = 3.dp))
                 Text(
                     text = motto,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.chattyColors.textColor
@@ -225,31 +223,45 @@ fun FriendItem(
 
 @Composable
 fun AlphaGuildBar(alphaStates: MutableCollection<AlphaState>, updateSelectIndex: (Int) -> Unit) {
-    var currentIndex by remember { mutableStateOf(-1) }
     val alphaItemHeight = 28.dp
     val density = LocalDensity.current
-    Column(
-        modifier = Modifier.pointerInput(Unit) {
-            detectVerticalDragGestures { change, dragAmount ->
-                with(density) {
-                    currentIndex = (change.position.y / alphaItemHeight.toPx()).toInt().coerceIn(0, alphaStates.size - 1)
+    var currentIndex by remember { mutableStateOf(-1) }
+    var displayBox by remember { mutableStateOf(false) }
+    var offsetY by remember { mutableStateOf(0f) }
+    Row {
+        if (displayBox) HoverBox(alphaStates, currentIndex, offsetY)
+        Column(
+            modifier = Modifier.pointerInput(Unit) {
+                detectVerticalDragGestures(
+                    onDragEnd = {
+                        displayBox = false
+                    },
+                    onDragStart = {
+                        displayBox = true
+                    }
+                ) { change, _ ->
+                    with(density) {
+                        currentIndex = (change.position.y / alphaItemHeight.toPx()).toInt().coerceIn(0, alphaStates.size - 1)
+                    }
                 }
             }
-        }
-    ) {
-        alphaStates.forEachIndexed { index: Int, alphaState: AlphaState ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .size(28.dp)
-                    .padding(2.dp)
-                    .clip(CircleShape)
-                    .background(if (alphaState.state.value) green else Color.Transparent)
-                    .clickable {
-                        currentIndex = index
-                    }
-            ) {
-                Text(text = alphaState.alpha.toString(), color = if (alphaState.state.value || !MaterialTheme.chattyColors.isLight) Color.White else Color.Black)
+        ) {
+            alphaStates.forEachIndexed { index: Int, alphaState: AlphaState ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(2.dp)
+                        .clip(CircleShape)
+                        .background(if (alphaState.state.value) green else Color.Transparent)
+                        .pointerInput(Unit) {
+                            detectTapGestures(
+                                onPress = { currentIndex = index }
+                            )
+                        }
+                ) {
+                    Text(text = alphaState.alpha.toString(), color = if (alphaState.state.value || !MaterialTheme.chattyColors.isLight) Color.White else Color.Black)
+                }
             }
         }
     }
@@ -258,12 +270,37 @@ fun AlphaGuildBar(alphaStates: MutableCollection<AlphaState>, updateSelectIndex:
             return@LaunchedEffect
         }
         updateSelectIndex(currentIndex)
+        offsetY = currentIndex * alphaItemHeight.value - 15f
     }
 }
 
-
-//@Preview
-//@Composable
-//fun GuildBarDemo() {
-//    AlphaGuildBar(mutableSetOf('a', 'c', 'd', 'e', 'f', 'h', 'n', 'v', 's'))
-//}
+@Composable
+fun HoverBox(
+    alphaStates: MutableCollection<AlphaState>,
+    currentIndex: Int,
+    offsetY: Float
+) {
+    Box(
+        modifier = Modifier.padding(end = 20.dp).offset(y = offsetY.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Canvas(Modifier.size(60.dp)) {
+            drawCircle(
+                color = Color.Gray
+            )
+            val trianglePath = Path().let {
+                it.moveTo(this.size.width * 1.2f, this.size.height / 2)
+                it.lineTo(this.size.width * .9f, this.size.height * .2f)
+                it.lineTo(this.size.width * .9f, this.size.height * .8f)
+                it.close()
+                it
+            }
+            drawPath(trianglePath, color = Color.Gray)
+        }
+        Text(
+            text = alphaStates.elementAt(currentIndex).alpha.toString(),
+            style = MaterialTheme.typography.headlineMedium,
+            color = Color.White
+        )
+    }
+}

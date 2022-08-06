@@ -16,7 +16,7 @@
 
 package com.chatty.compose.screens.conversation
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
@@ -69,9 +69,9 @@ fun messageFormatter(
 
         val codeSnippetBackground =
             if (primary) {
-                MaterialTheme.colors.secondary
+                MaterialTheme.colorScheme.secondary
             } else {
-                MaterialTheme.colors.surface
+                MaterialTheme.colorScheme.surface
             }
 
         for (token in tokens) {

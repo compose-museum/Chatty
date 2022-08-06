@@ -9,10 +9,10 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -93,9 +93,9 @@ fun Message(
     isLastMessageByAuthor: Boolean,
 ) {
     val borderColor = if (isUserMe) {
-        MaterialTheme.colors.primary
+        MaterialTheme.colorScheme.primary
     } else {
-        MaterialTheme.colors.secondary
+        MaterialTheme.colorScheme.secondary
     }
 
     val spaceBetweenAuthors = if (isLastMessageByAuthor) Modifier.padding(top = 8.dp) else Modifier
@@ -108,7 +108,7 @@ fun Message(
                     .padding(horizontal = 16.dp)
                     .size(42.dp)
                     .border(1.5.dp, borderColor, CircleShape)
-                    .border(3.dp, MaterialTheme.colors.surface, CircleShape)
+                    .border(3.dp, MaterialTheme.colorScheme.surface, CircleShape)
                     .clip(CircleShape)
                     .align(Alignment.Top),
                 painter = painterResource(id = if (isUserMe) R.drawable.ava2 else LocalConversationUser.current.avatarRes),
@@ -163,7 +163,7 @@ private fun AuthorNameTimestamp(msg: Message) {
     Row(modifier = Modifier.semantics(mergeDescendants = true) {}) {
         Text(
             text = if (msg.isUserMe) stringResource(id = R.string.author_me) else LocalConversationUser.current.nickname,
-            style = MaterialTheme.typography.subtitle1,
+            style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .alignBy(LastBaseline)
                 .paddingFrom(LastBaseline, after = 8.dp), // Space to 1st bubble
@@ -172,7 +172,7 @@ private fun AuthorNameTimestamp(msg: Message) {
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = msg.timestamp,
-            style = MaterialTheme.typography.subtitle2.copy(color = MaterialTheme.chattyColors.conversationHintText),
+            style = MaterialTheme.typography.titleSmall.copy(color = MaterialTheme.chattyColors.conversationHintText),
             modifier = Modifier.alignBy(LastBaseline),
         )
     }
@@ -225,7 +225,7 @@ fun ChatItemBubble(
         Surface(
             color = backgroundBubbleColor,
             shape = ChatBubbleShape,
-            elevation = ConvasationBublblElevation
+            shadowElevation = ConvasationBublblElevation
         ) {
             ClickableMessage(
                 message = message,
@@ -238,7 +238,7 @@ fun ChatItemBubble(
             Surface(
                 color = backgroundBubbleColor,
                 shape = ChatBubbleShape,
-                elevation = ConvasationBublblElevation
+                shadowElevation = ConvasationBublblElevation
             ) {
                 Image(
                     painter = painterResource(it),
@@ -265,7 +265,7 @@ fun ClickableMessage(
 
     ClickableText(
         text = styledMessage,
-        style = MaterialTheme.typography.body1.copy(
+        style = MaterialTheme.typography.bodyMedium.copy(
             color = if (isUserMe) MaterialTheme.chattyColors.conversationTextMe
             else MaterialTheme.chattyColors.conversationText
         ),

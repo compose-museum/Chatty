@@ -13,12 +13,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChatBubble
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.material.icons.rounded.Share
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -36,7 +36,6 @@ import com.chatty.compose.ui.utils.hideIME
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun Explorer() {
 
@@ -81,7 +80,7 @@ fun Explorer() {
                 ) {
                     Text(
                         text = "探索新鲜事",
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.chattyColors.textColor
                     )
                     Spacer(Modifier.weight(1f))
@@ -136,13 +135,13 @@ fun SocialItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.h6,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.chattyColors.textColor
                 )
                 HeightSpacer(value = 2.dp)
                 Text(
                     text = time,
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.alpha(0.5f),
                     color = MaterialTheme.chattyColors.textColor
                 )
@@ -195,7 +194,7 @@ fun SocialItem(
                     },
                 decorationBox = {
                     Surface(
-                        elevation = 6.dp,
+                        shadowElevation = 6.dp,
                         shape = CircleShape
                     ) {
                         CenterRow(Modifier.padding(8.dp)) {
@@ -224,7 +223,7 @@ fun SocialItem(
                         }
                     }
                 },
-                textStyle = MaterialTheme.typography.subtitle2,
+                textStyle = MaterialTheme.typography.titleSmall,
                 maxLines = 3
             )
         }

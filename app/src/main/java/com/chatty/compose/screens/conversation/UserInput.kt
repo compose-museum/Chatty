@@ -24,10 +24,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.InsertPhoto
 import androidx.compose.material.icons.outlined.Mood
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -97,7 +97,7 @@ fun UserInput(
     // Used to decide if the keyboard should be shown
     var textFieldFocusState by remember { mutableStateOf(false) }
 
-    Surface(elevation = 2.dp) {
+    Surface(shadowElevation = 2.dp) {
         Column(modifier = modifier) {
             Row(Modifier.fillMaxWidth()) {
                 UserInputText(
@@ -168,7 +168,7 @@ private fun SelectorExpanded(
         }
     }
 
-    Surface(elevation = 8.dp) {
+    Surface(shadowElevation = 8.dp) {
         when (currentSelector) {
             InputSelector.EMOJI -> EmojiSelector(onTextAdded, focusRequester)
             InputSelector.PICTURE -> FunctionalityNotAvailablePanel()
@@ -196,13 +196,13 @@ fun FunctionalityNotAvailablePanel() {
         ) {
             Text(
                 text = stringResource(id = R.string.not_available),
-                style = MaterialTheme.typography.subtitle2
+                style = MaterialTheme.typography.titleSmall
             )
             Text(
                 text = stringResource(id = R.string.not_available_subtitle),
                 modifier = Modifier.paddingFrom(FirstBaseline, before = 32.dp),
-                style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }
@@ -362,7 +362,7 @@ private fun UserInputText(
                         .align(Alignment.CenterStart)
                         .padding(start = 32.dp),
                     text = stringResource(id = R.string.textfield_hint),
-                    style = MaterialTheme.typography.body1.copy(color = MaterialTheme.chattyColors.conversationHintText)
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.chattyColors.conversationHintText)
                 )
             }
         }
@@ -426,8 +426,8 @@ fun ExtendedSelectorInnerButton(
     val colors = ButtonDefaults.buttonColors(
         contentColor = MaterialTheme.chattyColors.conversationHintText,
         disabledContentColor = MaterialTheme.chattyColors.conversationHintText,
-        backgroundColor = MaterialTheme.chattyColors.backgroundColor,
-        disabledBackgroundColor = Color.White
+        containerColor = MaterialTheme.chattyColors.backgroundColor,
+        disabledContainerColor = Color.White
     )
     TextButton(
         onClick = onClick,
@@ -441,7 +441,7 @@ fun ExtendedSelectorInnerButton(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.subtitle2
+            style = MaterialTheme.typography.titleSmall
         )
     }
 }

@@ -21,7 +21,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -87,4 +87,9 @@ dependencies {
     // Zxing
     def zxing_version = "1.1.3-androidx"
     implementation "com.king.zxing:zxing-lite:$zxing_version"
+
+    // md3
+    def md3_version = "1.0.0-alpha15"
+    implementation "androidx.compose.material3:material3:$md3_version"
+    implementation "androidx.compose.material3:material3-window-size-class:$md3_version"
 }

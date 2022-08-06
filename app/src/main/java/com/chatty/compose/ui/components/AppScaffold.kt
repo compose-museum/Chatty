@@ -2,64 +2,61 @@ package com.chatty.compose.ui.components
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.chatty.compose.R
-import com.chatty.compose.screens.chatty.Chatty
+import com.chatty.compose.screens.home.Home
 import com.chatty.compose.screens.contracts.Contracts
 import com.chatty.compose.screens.drawer.PersonalProfile
 import com.chatty.compose.screens.explorer.Explorer
-import com.chatty.compose.ui.utils.LocalScaffoldState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn( ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Composable
 fun AppScaffold() {
-    
+
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val pagerState = rememberPagerState()
     val scope = rememberCoroutineScope()
-    var selectedScreens by remember { mutableStateOf(0) }
-    val scaffoldState = rememberScaffoldState()
+    var selectedScreen by remember { mutableStateOf(0) }
 
-    val screens = listOf(
-        Screens("Chatty", R.drawable.chat) { Chatty() },
-        Screens("通讯录", R.drawable.list) { Contracts() },
-        Screens("发现", R.drawable.explore) { Explorer() }
-    )
-
-    Scaffold(
-        bottomBar = {
-            MyBottomNavigationBar(
-                selectedScreen = selectedScreens,
-                screens = screens,
-                onClick = {
-                    scope.launch {
-                        pagerState.scrollToPage(it)
-                    }
-                }
-            )
-        },
+    ModalNavigationDrawer(
         drawerContent = {
-           PersonalProfile()
+            PersonalProfile()
         },
-        scaffoldState = scaffoldState,
+        drawerState = drawerState,
         modifier = Modifier.navigationBarsPadding()
     ) {
-        CompositionLocalProvider(LocalScaffoldState provides scaffoldState) {
+        Scaffold(
+            bottomBar = {
+                MyBottomNavigationBar(
+                    selectedScreen = selectedScreen,
+                    onClick = {
+                        scope.launch {
+                            pagerState.scrollToPage(it)
+                        }
+                    }
+                )
+            }
+        ) {
             HorizontalPager(
-                count = screens.size,
+                count = BottomScreen.values().size,
                 state = pagerState,
                 userScrollEnabled = false,
                 contentPadding = it
             ) { page ->
-                screens.forEachIndexed { index, screens ->
+                BottomScreen.values().forEachIndexed{ index, bottomScreen ->
                     when (page) {
-                        index -> screens.content()
+                        index -> {
+                            when(bottomScreen) {
+                                BottomScreen.Message -> Home(drawerState)
+                                BottomScreen.Contract -> Contracts()
+                                BottomScreen.Explore -> Explorer()
+                            }
+                        }
                     }
                 }
             }
@@ -68,13 +65,13 @@ fun AppScaffold() {
 
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
-            selectedScreens = page
+            selectedScreen = page
         }
     }
     
-    BackHandler(scaffoldState.drawerState.isOpen) {
+    BackHandler(drawerState.isOpen) {
         scope.launch {
-            scaffoldState.drawerState.close()
+            drawerState.close()
         }
     }
     

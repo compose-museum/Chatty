@@ -3,62 +3,65 @@ package com.chatty.compose.screens.drawer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.chatty.compose.AppTheme
 import com.chatty.compose.R
 import com.chatty.compose.bean.UserProfileData
-import com.chatty.compose.screens.chatty.mock.friends
+import com.chatty.compose.screens.home.mock.friends
 import com.chatty.compose.ui.components.AppScreen
 import com.chatty.compose.ui.components.CenterRow
 import com.chatty.compose.ui.components.HeightSpacer
-import com.chatty.compose.ui.components.WidthSpacer
 import com.chatty.compose.ui.theme.chattyColors
 import com.chatty.compose.ui.utils.LocalNavController
 
 
 @Composable
 fun PersonalProfile() {
-    Box(
-        modifier = Modifier.fillMaxSize().background(MaterialTheme.chattyColors.backgroundColor),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppTheme.colorScheme.background),
     ) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .paint(
+                    painterResource(id = R.drawable.google_bg),
+                    contentScale = ContentScale.FillBounds
+                ),
+            contentAlignment = Alignment.BottomStart
         ) {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .paint(
-                        painterResource(id = R.drawable.google_bg),
-                        contentScale = ContentScale.FillBounds
-                    ),
-                contentAlignment = Alignment.BottomStart
-            ) {
-                PersonalProfileHeader()
-            }
-            HeightSpacer(value = 10.dp)
-            PersonalProfileDetail()
+            PersonalProfileHeader()
         }
-        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+        HeightSpacer(value = 10.dp)
+        PersonalProfileDetail()
+        Box(
+            modifier = Modifier.fillMaxHeight(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
             BottomSettingIcons()
         }
     }
@@ -71,7 +74,7 @@ fun getCurrentLoginUserProfile(): UserProfileData {
 
 @Composable
 fun PersonalProfileHeader() {
-    var currentUser = getCurrentLoginUserProfile()
+    val currentUser = getCurrentLoginUserProfile()
     ConstraintLayout(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,150 +124,111 @@ fun PersonalProfileHeader() {
 }
 
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonalProfileDetail() {
     var currentUser = getCurrentLoginUserProfile()
     val navController = LocalNavController.current
-    Column(modifier = Modifier
-        .fillMaxWidth()
+    val chattyColors = MaterialTheme.chattyColors
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 12.dp)
     ) {
-        Text(
-            text = "个人信息",
-            fontSize = 25.sp,
-            fontWeight = FontWeight.ExtraBold,
-            color = MaterialTheme.chattyColors.textColor,
-            modifier = Modifier.padding(start = 20.dp),
-        )
-        Column(modifier = Modifier.fillMaxWidth()) {
-            ProfileDetailRowItem(label = "性别", content = currentUser.gender ?: "未知") {
-                navController.navigate("${AppScreen.profileEdit}/gender")
+        CenterRow {
+            Text(
+                text = "个人信息",
+                fontSize = 25.sp,
+                fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier.weight(1f)
+            )
+            IconButton(
+                onClick = { chattyColors.toggleTheme() }
+            ) {
+                Icon(
+                    imageVector = if (chattyColors.isLight)Icons.Rounded.DarkMode else Icons.Rounded.LightMode,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
             }
-            ProfileDetailRowItem(label = "年龄", content = currentUser.age.toString() ?: "未知") {
-                navController.navigate("${AppScreen.profileEdit}/age")
-            }
-            ProfileDetailRowItem(label = "手机号", content = currentUser.phone ?: "未知") {
-                navController.navigate("${AppScreen.profileEdit}/phone")
-            }
-            ProfileDetailRowItem(label = "电子邮箱", content = currentUser.email ?: "未知") {
-                navController.navigate("${AppScreen.profileEdit}/email")
-            }
-            ProfileDetailRowItem(label = "二维码", isQrCode = true)  {
-                navController.navigate("${AppScreen.profileEdit}/qrcode")
-            }
+        }
+        Spacer(Modifier.padding(vertical = 12.dp))
+        PersonalProfileItem.values().forEach { item ->
+            NavigationDrawerItem(
+                label = {
+                    Text(item.label, style = MaterialTheme.typography.titleMedium)
+                },
+                selected = true,
+                badge = {
+                    item.badge?.let {
+                        Text(it)
+                    }
+                },
+                icon = {
+                    Icon(item.icon, null)
+                },
+                onClick = {
+                    when (item) {
+                        PersonalProfileItem.SEX -> navController.navigate("${AppScreen.profileEdit}/gender")
+                        PersonalProfileItem.AGE -> navController.navigate("${AppScreen.profileEdit}/age")
+                        PersonalProfileItem.PHONE -> navController.navigate("${AppScreen.profileEdit}/phone")
+                        PersonalProfileItem.EMAIL -> navController.navigate("${AppScreen.profileEdit}/email")
+                        PersonalProfileItem.QRCODE -> navController.navigate("${AppScreen.profileEdit}/qrcode")
+                    }
+                }
+            )
+            HeightSpacer(value = 8.dp)
         }
     }
 }
 
-
-@Composable
-fun ProfileDetailRowItem(label: String, content: String = "", isQrCode: Boolean = false, onClick: () -> Unit = {}) {
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .clickable { onClick() }
-            .padding(vertical = 30.dp, horizontal = 20.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = label,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.chattyColors.textColor
-            )
-            Row {
-                if (isQrCode) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.qr_code),
-                        contentDescription = label,
-                        tint = MaterialTheme.chattyColors.iconColor
-                    )
-                } else {
-                    Text(
-                        text = content,
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.chattyColors.textColor,
-                    )
-                }
-                Icon(painter = painterResource(
-                    id = R.drawable.expand_right),
-                    contentDescription = label,
-                    tint = MaterialTheme.chattyColors.iconColor
-                )
-            }
-        }
-    }
+enum class PersonalProfileItem(
+    val label: String,
+    val badge: String?,
+    val icon: ImageVector
+) {
+    SEX("性别", "男", Icons.Rounded.Male),
+    AGE("年龄", "19", Icons.Rounded.Circle),
+    PHONE("手机号", "未知", Icons.Rounded.Call),
+    EMAIL("电子邮箱", "未知", Icons.Rounded.Mail),
+    QRCODE("二维码", null, Icons.Rounded.QrCode)
 }
 
 @Composable
 fun BottomSettingIcons() {
-    var chattyColors = MaterialTheme.chattyColors
+    val navController = LocalNavController.current
     CenterRow(
         Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
-            .height(80.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .padding(18.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row {
-            IconButton(
-                onClick = {}
-            ) {
-                Column(
-                    modifier = Modifier.size(60.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Icon(painter = painterResource(id = R.drawable.settings), contentDescription = null, tint = MaterialTheme.chattyColors.iconColor)
-                    HeightSpacer(value = 4.dp)
-                    Text(text = "设置", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.chattyColors.textColor)
-                }
-            }
-            WidthSpacer(value = 10.dp)
-            IconButton(
+        Column(
+            modifier = Modifier.clickable(
                 onClick = {
-                    chattyColors.toggleTheme()
-                }
-            ) {
-                Column(
-                    modifier = Modifier.size(60.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.dark_mode),
-                        contentDescription = null, tint = MaterialTheme.chattyColors.iconColor
-                    )
-                    HeightSpacer(value = 4.dp)
-                    Text(
-                        text = if (chattyColors.isLight) "暗黑模式" else "明亮模式",
-                        fontSize = 15.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.chattyColors.textColor
-                    )
-                }
-            }
-        }
 
-        IconButton(
-            onClick = { }
+                },
+                indication = null,
+                interactionSource = MutableInteractionSource()
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.size(60.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Icon(painter = painterResource(id = R.drawable.logout), contentDescription = null, tint = MaterialTheme.chattyColors.iconColor)
-                HeightSpacer(value = 4.dp)
-                Text(text = "注销", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.chattyColors.textColor)
-            }
+            Icon(Icons.Rounded.Settings, contentDescription = null)
+            Text(text = "设置", fontSize = 15.sp)
+        }
+        Column(
+            modifier = Modifier.clickable(
+                onClick = {
+                      navController.navigate(AppScreen.login) {
+                          popUpTo(AppScreen.main) { inclusive = true }
+                      }
+                },
+                indication = null,
+                interactionSource = MutableInteractionSource()
+            ),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Icon(Icons.Rounded.Logout, contentDescription = null)
+            Text(text = "注销", fontSize = 15.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

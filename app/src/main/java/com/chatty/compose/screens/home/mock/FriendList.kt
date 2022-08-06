@@ -1,4 +1,4 @@
-package com.chatty.compose.screens.chatty.mock
+package com.chatty.compose.screens.home.mock
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -7,7 +7,6 @@ import androidx.compose.runtime.setValue
 import com.chatty.compose.R
 import com.chatty.compose.bean.MessageItemData
 import com.chatty.compose.bean.UserProfileData
-import com.chatty.compose.screens.chatty.FriendMessageItem
 
 val friends = listOf(
     UserProfileData(R.drawable.ava1, "John", "I miss you", gender = "男", uid = "1024"),

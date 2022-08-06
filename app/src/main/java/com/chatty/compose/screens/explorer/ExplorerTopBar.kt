@@ -1,10 +1,10 @@
 package com.chatty.compose.screens.explorer
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +28,7 @@ fun ExplorerTopBar(
             .fillMaxWidth()
             .alpha(alpha),
         color = MaterialTheme.chattyColors.backgroundColor,
-        elevation = 14.dp
+        shadowElevation = 14.dp
     ) {
         Box {
             CenterRow(
@@ -40,7 +40,7 @@ fun ExplorerTopBar(
             ) {
                 CircleShapeImage(size = 30.dp, painter = painterResource(id = R.drawable.ava4), contentScale = ContentScale.Crop)
                 WidthSpacer(6.dp)
-                Text(text = "探索新鲜事中", style = MaterialTheme.typography.h6, color = MaterialTheme.chattyColors.textColor)
+                Text(text = "探索新鲜事中", style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.chattyColors.textColor)
             }
             Divider(Modifier.fillMaxWidth().align(Alignment.BottomCenter), color = Color(0xFF0079D3), thickness = 2.dp)
         }

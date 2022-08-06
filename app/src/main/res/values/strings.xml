@@ -13,4 +13,8 @@
     <string name="author_me">me</string>
     <string name="now">8:30 PM</string>
 
+    <string name="message">消息</string>
+    <string name="contract">通讯录</string>
+    <string name="explore">发现</string>
+
 </resources>
