@@ -1,6 +1,7 @@
 package com.chatty.compose.screens.drawer
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,11 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.chatty.compose.R
-import com.chatty.compose.ui.components.AppScreen
-import com.chatty.compose.ui.components.HeightSpacer
-import com.chatty.compose.ui.components.TopBar
-import com.chatty.compose.ui.components.WidthSpacer
-import com.chatty.compose.ui.theme.chattyColors
+import com.chatty.compose.ui.components.*
 import com.chatty.compose.ui.theme.green
 import com.chatty.compose.ui.utils.LocalNavController
 
@@ -36,9 +33,9 @@ fun Demo() {
 
 @Composable
 fun PersonalProfileEditor(attr: String) {
-        var isQRCode = (attr == "qrcode")
-        var isGender = (attr == "gender")
-        var title = when (attr) {
+        val isQRCode = (attr == "qrcode")
+        val isGender = (attr == "gender")
+        val title = when (attr) {
             "age" -> "输入年龄"
             "phone" -> "输入电话号"
             "email" -> "输入电子邮箱"
@@ -46,13 +43,23 @@ fun PersonalProfileEditor(attr: String) {
             else -> "展示二维码"
         }
     val navController = LocalNavController.current
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         TopBar(
             start = {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(Icons.Rounded.ArrowBack, null, tint = MaterialTheme.chattyColors.iconColor)
+                IconButton(
+                    onClick = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    Icon(
+                        Icons.Rounded.ArrowBack,
+                        null,
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
                 }
             },
             center =  {
@@ -60,7 +67,7 @@ fun PersonalProfileEditor(attr: String) {
                     text = title,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(start = 20.dp)
                 )
             },
@@ -72,11 +79,11 @@ fun PersonalProfileEditor(attr: String) {
                             containerColor = green
                         ),
                     ) {
-                        Text(text = "完成", color = Color.White)
+                        Text(text = "完成")
                     } 
                 }
             },
-            backgroundColor = Color.White
+            backgroundColor = MaterialTheme.colorScheme.background
         )
         when {
             isGender -> GenderSelector()
@@ -92,7 +99,7 @@ fun ProfileInputField() {
     var inputText by remember {
         mutableStateOf("")
     }
-    var focusRequester = remember {
+    val focusRequester = remember {
         FocusRequester()
     }
     OutlinedTextField(
@@ -120,7 +127,7 @@ fun QRCodeDisplay() {
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Image(painter = painterResource(id = R.drawable.qrcode), contentDescription = "qr_code")
             HeightSpacer(value = 5.dp)
-            Text(text = "使用扫一扫添加我")
+            Text(text = "使用扫一扫添加我", color = MaterialTheme.colorScheme.onBackground)
         }
     }
 }
@@ -130,10 +137,9 @@ fun GenderSelector() {
     var selectMale by remember {
         mutableStateOf(false)
     }
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(
+    Column {
+        CenterRow(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
@@ -142,18 +148,18 @@ fun GenderSelector() {
                 .padding(horizontal = 20.dp)
                 .height(80.dp)
         ) {
-            Row {
+            CenterRow {
                 Icon(
                     painter = painterResource(id = R.drawable.male),
                     contentDescription = "male",
                     tint = Color.Blue
                 )
-                WidthSpacer(value = 3.dp)
+                WidthSpacer(value = 6.dp)
                 Text(
                     text = "男",
-                    fontSize = 15.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             if (selectMale) {
@@ -165,9 +171,8 @@ fun GenderSelector() {
             }
         }
         Divider()
-        Row(
+        CenterRow(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable {
@@ -176,18 +181,18 @@ fun GenderSelector() {
                 .padding(horizontal = 20.dp)
                 .height(80.dp)
         ) {
-            Row {
+            CenterRow {
                 Icon(
                     painter = painterResource(id = R.drawable.female),
                     contentDescription = "male",
                     tint = Color(0xffd93a7d)
                 )
-                WidthSpacer(value = 3.dp)
+                WidthSpacer(value = 6.dp)
                 Text(
                     text = "女",
-                    fontSize = 15.sp,
+                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.Black
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             if (!selectMale) {
