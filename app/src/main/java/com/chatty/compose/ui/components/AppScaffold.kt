@@ -48,16 +48,10 @@ fun AppScaffold() {
                 userScrollEnabled = false,
                 contentPadding = it
             ) { page ->
-                BottomScreen.values().forEachIndexed{ index, bottomScreen ->
-                    when (page) {
-                        index -> {
-                            when(bottomScreen) {
-                                BottomScreen.Message -> Home(drawerState)
-                                BottomScreen.Contract -> Contracts()
-                                BottomScreen.Explore -> Explorer()
-                            }
-                        }
-                    }
+                when(BottomScreen.values()[page]) {
+                    BottomScreen.Message -> Home(drawerState)
+                    BottomScreen.Contract -> Contracts()
+                    BottomScreen.Explore -> Explorer()
                 }
             }
         }
